@@ -69,7 +69,6 @@ const factData = [
   "I have never been to court.",
   "You are reading this right now.",
   "Drugz r bad"
-  
 ];
 
 // App State
@@ -78,6 +77,11 @@ let userState = {
   category: "all",
   theme: "auto"
 };
+
+// History queues to prevent repeats within 4 regenerations
+const recentQuotes = [];
+const recentFacts = [];
+const REPEAT_THRESHOLD = 4;
 
 // DOM Elements
 const setupScreen = document.getElementById("setup-screen");
@@ -105,6 +109,31 @@ function getRandomItem(array) {
   return array[Math.floor(Math.random() * array.length)];
 }
 
+/**
+ * Selects a random item from a pool, filtering out items seen in the recent history queue.
+ * Maintains history length up to historyLimit (4).
+ */
+function getUniqueRandomItem(pool, recentArray, keyFn = (item) => item, historyLimit = REPEAT_THRESHOLD) {
+  // Filter out recent items
+  let availableItems = pool.filter(item => !recentArray.includes(keyFn(item)));
+
+  // Fallback if array is smaller than the threshold
+  if (availableItems.length === 0) {
+    availableItems = pool;
+  }
+
+  const selected = getRandomItem(availableItems);
+  const selectedKey = keyFn(selected);
+
+  // Update history buffer
+  recentArray.push(selectedKey);
+  if (recentArray.length > historyLimit) {
+    recentArray.shift();
+  }
+
+  return selected;
+}
+
 function applyTheme(themeValue, currentCategory) {
   let activeTheme = themeValue;
   if (themeValue === "auto") {
@@ -125,8 +154,10 @@ function generateContent() {
   }
 
   const pool = quoteData[selectedCategory] || quoteData.philosophy;
-  const randomQuote = getRandomItem(pool);
-  const randomFact = getRandomItem(factData);
+  
+  // Get unique quote and fact using unique history selection
+  const randomQuote = getUniqueRandomItem(pool, recentQuotes, (q) => `${q.quote}-${q.author}`);
+  const randomFact = getUniqueRandomItem(factData, recentFacts, (f) => f);
 
   // Update DOM Content
   if (quoteText) quoteText.textContent = `"${randomQuote.quote}"`;
