@@ -44,18 +44,24 @@
 
   <!-- Main Screen UI -->
   <div id="main-screen" class="screen flex-col min-h-screen">
-    <!-- Fixed Top Navigation Header with Hamburger on the Left -->
+    <!-- Fixed Top Navigation Header -->
     <header class="top-nav">
-      <div class="nav-left">
+      <!-- Empty left spacer to maintain true center for the title card -->
+      <div class="nav-spacer"></div>
+
+      <!-- Centered Greeting Title -->
+      <div class="header-title">
+        <h2 id="greeting-text" class="text-xl font-bold">Hello, Friend!</h2>
+        <p class="tagline">Here's your daily dose of insight</p>
+      </div>
+
+      <!-- Hamburger Menu Button in Top Right -->
+      <div class="nav-right">
         <button id="hamburger-btn" title="Settings" class="icon-btn">
           <span class="bar"></span>
           <span class="bar"></span>
           <span class="bar"></span>
         </button>
-        <div class="header-title">
-          <h2 id="greeting-text" class="text-lg font-bold">Hello, Friend!</h2>
-          <p class="tagline">Here's your daily dose of insight</p>
-        </div>
       </div>
     </header>
 
