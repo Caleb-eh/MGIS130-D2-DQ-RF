@@ -1,148 +1,255 @@
-// Data sourced from the provided reference URLs
-const quoteData = {
-  philosophy: [
-    { quote: "The unexamined life is not worth living.", author: "Socrates" },
-    { quote: "He who has a why to live can bear almost any how.", author: "Friedrich Nietzsche" },
-    { quote: "We are what we repeatedly do. Excellence, then, is not an act, but a habit.", author: "Aristotle" },
-    { quote: "Liberty consists in doing what one desires.", author: "John Stuart Mill" },
-    { quote: "Life must be understood backward. But it must be lived forward.", author: "Søren Kierkegaard" }
-  ],
-  movie: [
-    { quote: "Frankly, my dear, I don't give a damn.", author: "Gone with the Wind (1939)" },
-    { quote: "Here's looking at you, kid.", author: "Casablanca (1942)" },
-    { quote: "May the Force be with you.", author: "Star Wars (1977)" },
-    { quote: "You talking to me?", author: "Taxi Driver (1976)" },
-    { quote: "There's no place like home.", author: "The Wizard of Oz (1939)" }
-  ],
-  athlete: [
-    { quote: "I hated every minute of training, but I said, 'Don't quit. Suffer now and live the rest of your life as a champion.'", author: "Muhammad Ali" },
-    { quote: "You miss 100% of the shots you don't take.", author: "Wayne Gretzky" },
-    { quote: "I've failed over and over and over again in my life. And that is why I succeed.", author: "Michael Jordan" },
-    { quote: "Gold medals aren't really made of gold. They're made of sweat, determination, and a hard-to-find alloy called guts.", author: "Dan Gable" },
-    { quote: "It's not whether you get knocked down, it's whether you get up.", author: "Vince Lombardi" }
-  ]
+const QUOTES_DATA = {
+    philosopher: [
+        { quote: "Contentment is natural wealth, luxury is artificial poverty.", author: "Socrates" },
+        { quote: "What did you do as a child that made the hours pass like minutes? Herein lies the key to your earthly pursuits.", author: "Carl Jung" },
+        { quote: "When you are content to be simply yourself and don't compare or compete, everyone will respect you.", author: "Lao Tzu" },
+        { quote: "Become what you are.", author: "Friedrich Nietzsche" },
+        { quote: "The privilege of a lifetime is to become who you truly are.", author: "C.G. Jung" },
+        { quote: "Out of suffering have emerged the strongest souls; the most massive characters are seared with scars.", author: "Kahlil Gibran" },
+        { quote: "Happiness consists in realizing it is all a great strange dream.", author: "Jack Kerouac" },
+        { quote: "Nature does not hurry, yet everything is accomplished.", author: "Lao Tzu" },
+        { quote: "Life is a series of natural and spontaneous changes. Don't resist them; that only creates sorrow.", author: "Lao Tzu" },
+        { quote: "Life is not a problem to be solved, but a reality to be experienced.", author: "Søren Kierkegaard" }
+    ],
+    movie: [
+        { quote: "Frankly, my dear, I don't give a damn.", author: "Rhett Butler (Gone with the Wind)" },
+        { quote: "I'm going to make him an offer he can't refuse.", author: "Don Vito Corleone (The Godfather)" },
+        { quote: "Here's looking at you, kid.", author: "Rick Blaine (Casablanca)" },
+        { quote: "May the Force be with you.", author: "Han Solo (Star Wars)" },
+        { quote: "Carpe diem. Seize the day, boys. Make your lives extraordinary.", author: "John Keating (Dead Poets Society)" },
+        { quote: "Mama always said life was like a box of chocolates. You never know what you're gonna get.", author: "Forrest Gump (Forrest Gump)" },
+        { quote: "There's no place like home.", author: "Dorothy Gale (The Wizard of Oz)" },
+        { quote: "You can't handle the truth!", author: "Col. Nathan R. Jessep (A Few Good Men)" },
+        { quote: "I'm king of the world!", author: "Jack Dawson (Titanic)" }
+    ],
+    athlete: [
+        { quote: "You miss 100% of the shots you don't take.", author: "Wayne Gretzky" },
+        { quote: "It's hard to beat a person who never gives up.", author: "Babe Ruth" },
+        { quote: "Make each day your masterpiece.", author: "John Wooden" },
+        { quote: "Champions keep playing until they get it right.", author: "Billie Jean King" },
+        { quote: "The man who has no imagination has no wings.", author: "Muhammad Ali" },
+        { quote: "Talent wins games, but teamwork and intelligence win championships.", author: "Michael Jordan" },
+        { quote: "Tough times don't last. Tough people do.", author: "Robert H. Schuller" },
+        { quote: "Hard work beats talent when talent doesn't work hard.", author: "Tim Notke" },
+        { quote: "Float like a butterfly, sting like a bee.", author: "Muhammad Ali" }
+    ]
 };
 
-const factData = [
-  "A day on Venus is longer than a year on Venus.",
-  "Human teeth are the only part of the body that cannot heal themselves.",
-  "Bananas are radioactive because they contain high levels of potassium.",
-  "Water can boil and freeze at the exact same time under specific lab conditions (the triple point).",
-  "Wombat poop is cube-shaped to prevent it from rolling away.",
-  "Your brain uses roughly 20 percent of your body's total energy."
+const FACTS_DATA = [
+    "A cloud weighs around a million tonnes, floating gracefully in the sky.",
+    "Identical twins don't have the same fingerprints due to micro-environmental factors in the womb.",
+    "Earth's rotation is gradually slowing; 600 million years ago, a day lasted just 21 hours.",
+    "Leftover cooked and cooled pasta contains resistant starch, offering extra health and gut benefits.",
+    "When reading silently, your vocal muscles still activate in a process called subvocalization.",
+    "The fear of long words is called Hippopotomonstrosesquippedaliophobia.",
+    "A comet smells like rotten eggs, urine, burning matches, and almonds.",
+    "Chainsaws were originally invented in the late 18th century by Scottish doctors to assist in childbirth.",
+    "The quietest place on Earth is Microsoft's anechoic chamber, measuring -20.6 decibels.",
+    "Orphaned orcas have been observed by scientists wearing dead salmon as hats for unknown reasons.",
+    "Water itself might not be wet; wetness is defined as a liquid's ability to stick to a solid surface.",
+    "The Universe's average color is an off-white beige shade named 'Cosmic Latte'."
 ];
 
-// App State
-let userState = {
-  name: "",
-  category: "all",
-  theme: "auto"
+const state = {
+    userName: localStorage.getItem('dq_username') || '',
+    category: localStorage.getItem('dq_category') || 'all',
+    theme: localStorage.getItem('dq_theme') || 'philosopher',
+    currentQuote: null,
+    currentFact: ''
 };
 
-// DOM Elements
-const setupScreen = document.getElementById("setup-screen");
-const mainScreen = document.getElementById("main-screen");
-const setupForm = document.getElementById("setup-form");
-const usernameInput = document.getElementById("username");
-const categorySelect = document.getElementById("category");
+const elements = {
+    onboardingScreen: document.getElementById('onboarding-screen'),
+    dashboardScreen: document.getElementById('dashboard-screen'),
+    onboardingForm: document.getElementById('onboarding-form'),
+    usernameInput: document.getElementById('username-input'),
+    userGreeting: document.getElementById('user-greeting'),
+    currentDate: document.getElementById('current-date'),
+    quoteCategoryTag: document.getElementById('quote-category-tag'),
+    quoteText: document.getElementById('quote-text'),
+    quoteAuthor: document.getElementById('quote-author'),
+    factText: document.getElementById('fact-text'),
+    regenerateBtn: document.getElementById('regenerate-btn'),
+    settingsBtn: document.getElementById('settings-btn'),
+    settingsDrawer: document.getElementById('settings-drawer'),
+    closeSettingsBtn: document.getElementById('close-settings-btn'),
+    drawerOverlay: document.getElementById('drawer-overlay'),
+    settingsUsername: document.getElementById('settings-username'),
+    settingsCategory: document.getElementById('settings-category'),
+    saveSettingsBtn: document.getElementById('save-settings-btn'),
+    themeBtns: document.querySelectorAll('.theme-opt-btn'),
+    copyQuoteBtn: document.getElementById('copy-quote-btn'),
+    copyFactBtn: document.getElementById('copy-fact-btn'),
+    toast: document.getElementById('toast')
+};
 
-const greetingText = document.getElementById("greeting-text");
-const quoteText = document.getElementById("quote-text");
-const quoteAuthor = document.getElementById("quote-author");
-const quoteCategoryLabel = document.getElementById("quote-category-label");
-const factText = document.getElementById("fact-text");
-const regenerateBtn = document.getElementById("regenerate-btn");
+function init() {
+    // Set formatted date
+    const options = { weekday: 'long', month: 'short', day: 'numeric' };
+    elements.currentDate.textContent = new Date().toLocaleDateString('en-US', options);
 
-const hamburgerBtn = document.getElementById("hamburger-btn");
-const settingsDrawer = document.getElementById("settings-drawer");
-const closeDrawerBtn = document.getElementById("close-drawer-btn");
-const saveSettingsBtn = document.getElementById("save-settings-btn");
-const settingsName = document.getElementById("settings-name");
-const settingsCategory = document.getElementById("settings-category");
-const settingsTheme = document.getElementById("settings-theme");
+    // Check existing onboarding status
+    if (state.userName) {
+        showDashboard();
+    } else {
+        showOnboarding();
+    }
 
-// Helpers
+    applyTheme(state.theme);
+    setupEventListeners();
+}
+
+function applyTheme(themeName) {
+    state.theme = themeName;
+    document.body.className = `theme-${themeName}`;
+    localStorage.setItem('dq_theme', themeName);
+
+    // Update Theme buttons active state
+    elements.themeBtns.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.theme === themeName);
+    });
+}
+
 function getRandomItem(array) {
-  return array[Math.floor(Math.random() * array.length)];
+    return array[Math.floor(Math.random() * array.length)];
 }
 
-function applyTheme(themeValue, currentCategory) {
-  let activeTheme = themeValue;
-  if (themeValue === "auto") {
-    activeTheme = currentCategory === "all" ? "all" : currentCategory;
-  }
-  document.body.className = `theme-${activeTheme}`;
+function getRandomQuote(category) {
+    let cat = category;
+    if (cat === 'all') {
+        const categories = ['philosopher', 'movie', 'athlete'];
+        cat = getRandomItem(categories);
+    }
+    const pool = QUOTES_DATA[cat] || QUOTES_DATA.philosopher;
+    return { ...getRandomItem(pool), catType: cat };
 }
 
-function generateContent() {
-  // Select quote pool
-  let selectedCategory = userState.category;
-  if (selectedCategory === "all") {
-    const categories = ["philosophy", "movie", "athlete"];
-    selectedCategory = getRandomItem(categories);
-  }
+function generateNewContent() {
+    state.currentQuote = getRandomQuote(state.category);
+    state.currentFact = getRandomItem(FACTS_DATA);
 
-  const pool = quoteData[selectedCategory];
-  const randomQuote = getRandomItem(pool);
-  const randomFact = getRandomItem(factData);
+    // Update UI Content
+    elements.quoteText.textContent = `"${state.currentQuote.quote}"`;
+    elements.quoteAuthor.textContent = `— ${state.currentQuote.author}`;
+    
+    const catLabels = { philosopher: 'Philosophy', movie: 'Cinema', athlete: 'Athletics' };
+    const catIcons = { philosopher: 'fa-scroll', movie: 'fa-film', athlete: 'fa-trophy' };
+    
+    elements.quoteCategoryTag.innerHTML = `<i class="fa-solid ${catIcons[state.currentQuote.catType]}"></i> ${catLabels[state.currentQuote.catType]}`;
+    elements.factText.textContent = state.currentFact;
 
-  // Update DOM Content
-  quoteText.textContent = `"${randomQuote.quote}"`;
-  quoteAuthor.textContent = `— ${randomQuote.author}`;
-  quoteCategoryLabel.textContent = `${selectedCategory} Quote`;
-  factText.textContent = randomFact;
-
-  // Apply theme if set to auto
-  applyTheme(userState.theme, selectedCategory);
+    // Automatically synchronize theme with chosen quote category if category is specific
+    if (state.category !== 'all') {
+        applyTheme(state.category);
+    }
 }
 
-function triggerAnimation() {
-  const container = document.querySelector(".content-container");
-  container.classList.remove("animate-in");
-  // Force Reflow to restart animation
-  void container.offsetWidth; 
-  container.classList.add("animate-in");
+function showDashboard() {
+    elements.userGreeting.textContent = `Good day, ${state.userName}`;
+    generateNewContent();
+
+    elements.onboardingScreen.classList.add('hidden');
+    elements.dashboardScreen.classList.remove('hidden');
+    
+    // Re-trigger entrance animations
+    document.querySelectorAll('#dashboard-screen .fade-up').forEach(el => {
+        el.style.animation = 'none';
+        el.offsetHeight; // Reflow trigger
+        el.style.animation = null;
+    });
 }
 
-// Event Listeners
-setupForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  userState.name = usernameInput.value.trim() || "Friend";
-  userState.category = categorySelect.value;
+function showOnboarding() {
+    elements.onboardingScreen.classList.remove('hidden');
+    elements.dashboardScreen.classList.add('hidden');
+}
 
-  greetingText.textContent = `Hello, ${userState.name}!`;
+function showToast(message) {
+    elements.toast.textContent = message;
+    elements.toast.classList.remove('hidden');
+    setTimeout(() => {
+        elements.toast.classList.add('hidden');
+    }, 2500);
+}
 
-  setupScreen.classList.remove("active");
-  mainScreen.classList.add("active");
+function copyToClipboard(text) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+        document.execCommand('copy');
+        showToast('Copied to clipboard!');
+    } catch (err) {
+        showToast('Failed to copy');
+    }
+    document.body.removeChild(textarea);
+}
 
-  generateContent();
-});
+function setupEventListeners() {
+    // Onboarding Submission
+    elements.onboardingForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = elements.usernameInput.value.trim();
+        const category = elements.onboardingForm.querySelector('input[name="category"]:checked').value;
 
-regenerateBtn.addEventListener("click", () => {
-  generateContent();
-  triggerAnimation();
-});
+        if (name) {
+            state.userName = name;
+            state.category = category;
+            localStorage.setItem('dq_username', name);
+            localStorage.setItem('dq_category', category);
+            
+            showDashboard();
+        }
+    });
 
-// Drawer functionality
-hamburgerBtn.addEventListener("click", () => {
-  settingsName.value = userState.name;
-  settingsCategory.value = userState.category;
-  settingsTheme.value = userState.theme;
-  settingsDrawer.classList.add("open");
-});
+    // Regenerate Pair Button
+    elements.regenerateBtn.addEventListener('click', () => {
+        generateNewContent();
+    });
 
-closeDrawerBtn.addEventListener("click", () => {
-  settingsDrawer.classList.remove("open");
-});
+    // Settings Drawer Open/Close
+    elements.settingsBtn.addEventListener('click', () => {
+        elements.settingsUsername.value = state.userName;
+        elements.settingsCategory.value = state.category;
+        elements.settingsDrawer.classList.remove('hidden');
+    });
 
-saveSettingsBtn.addEventListener("click", () => {
-  userState.name = settingsName.value.trim() || userState.name;
-  userState.category = settingsCategory.value;
-  userState.theme = settingsTheme.value;
+    const closeDrawer = () => elements.settingsDrawer.classList.add('hidden');
+    elements.closeSettingsBtn.addEventListener('click', closeDrawer);
+    elements.drawerOverlay.addEventListener('click', closeDrawer);
 
-  greetingText.textContent = `Hello, ${userState.name}!`;
-  generateContent();
-  triggerAnimation();
+    // Save Settings
+    elements.saveSettingsBtn.addEventListener('click', () => {
+        const newName = elements.settingsUsername.value.trim();
+        if (newName) {
+            state.userName = newName;
+            state.category = elements.settingsCategory.value;
+            
+            localStorage.setItem('dq_username', state.userName);
+            localStorage.setItem('dq_category', state.category);
+            
+            elements.userGreeting.textContent = `Good day, ${state.userName}`;
+            generateNewContent();
+            closeDrawer();
+            showToast('Preferences updated!');
+        }
+    });
 
-  settingsDrawer.classList.remove("open");
-});
+    // Theme Swatch Selector inside Settings Drawer
+    elements.themeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const theme = btn.dataset.theme;
+            applyTheme(theme);
+        });
+    });
+
+    // Copy Quote & Fact Buttons
+    elements.copyQuoteBtn.addEventListener('click', () => {
+        copyToClipboard(`"${state.currentQuote.quote}" — ${state.currentQuote.author}`);
+    });
+
+    elements.copyFactBtn.addEventListener('click', () => {
+        copyToClipboard(state.currentFact);
+    });
+}
