@@ -7,16 +7,18 @@ const quoteData = {
     { quote: "Liberty consists in doing what one desires.", author: "John Stuart Mill" },
     { quote: "Life must be understood backward. But it must be lived forward.", author: "Søren Kierkegaard" },
     { quote: "Euuhhhhh, ooohh, ahhhhhhh", author: "Sun Tzu" },
+    { quote: "Cornballs never make it very far in life.", author: "Potato Head" }
     { quote: "Cornballs never make it very far in life.", author: "Potato Head" },
     { quote: "If you try to lift a heavy stone, you will find out how heavy the stone is.", author: "Barnaby the Wise" },
-    { quote: "Do not fear the dark; fear the table leg when walking in the dark.", author: "Ancient Couch-Walker Proverb" },
+    { quote: "Do not fear the dark; fear the evil things that definitely exist when walking in the dark.", author: "Ancient Sleep-Poo/Walker Proverb" },
     { quote: "Before you criticize someone, walk a mile in their shoes. That way, when you criticize them, you're a mile away and you have their shoes.", author: "Professor Wandering" },
     { quote: "Confidence is 10% knowing what you are doing and 90% walking very fast while holding a clipboard.", author: "Dr. Arthur Vance" },
-    { quote: "A soup without salt is just sad hot water.", author: "Baron Von Noodleberg" },
+    { quote: "A soup without salt is just sad hot chunk water.", author: "Baron Von Noodleberg" },
     { quote: "If a door is closed, open it. That is how doors work.", author: "Sir Reginald Flapjack III" },
     { quote: "Never trust a squirrel with a secret; they hide everything in the dirt.", author: "Archduke Snortington" },
-    { quote: "The early bird gets the worm, but the sleepy bird gets to stay in bed.", author: "Professor McSnoozington" },
-    { quote: "To be or not to be isn't the question. The question is: who ate my leftover lasagna?", author: "Garth Burlap, Philosopher at Large" }
+    { quote: "The early bird gets the worm, but the sleepy bird gets to stay in bed. And that, my fellows, is better.", author: "Professor McSnoozington" },
+    { quote: "To be or not to be isn't the question. The question is: who ate the rest of my Limited Edition Prignles Miller Lite Beer Cheese Burger Potato Crisps?", author: "Garth Burlap, Philosopher at Large" }
+
   ],
   movie: [
     { quote: "Frankly, my dear, I don't give a damn.", author: "Gone with the Wind (1939)" },
@@ -24,15 +26,17 @@ const quoteData = {
     { quote: "May the Force be with you.", author: "Star Wars (1977)" },
     { quote: "You talking to me?", author: "Taxi Driver (1976)" },
     { quote: "There's no place like home.", author: "The Wizard of Oz (1939)" },
+    { quote: "What is this? A center for ants?! How can we be expected to teach children to learn how to read if they can't even fit inside the building?", author: "Tom Bomb (2026)" }
     { quote: "What is this? A center for ants?! How can we be expected to teach children to learn how to read if they can't even fit inside the building?", author: "Tom Bomb (2026)" },
-    { quote: "I didn't come all this way just to let a rogue toaster control the space station!", author: "Galactic Reckoning (2025)" },
-    { quote: "Listen to me closely: if the penguin asks for a napkin, you RUN.", author: "Agent Flip (2018)" },
-    { quote: "Sir, this isn't a laser sword, it's a very shiny pool noodle.", author: "Space Cadets 3 (2021)" },
-    { quote: "Hold onto your socks, we're entering the hyper-cheesy dimension!", author: "Captain Cheddar (2024)" },
-    { quote: "I've fought space dragons, but I've never seen a hamster with a microchip this angry.", author: "Detective Barnaby Wiggles (2023)" },
-    { quote: "You can't arrest me, officer! I'm legally a potato in three territories!", author: "Lord Gigglesworth in 'Wild Chase' (2022)" },
+    { quote: "Float like a lily pad, sting like a really angry bee", author: "Cars (2006)" },
+    { quote: "If you're going hard enough left, you'll find yourself turning left.", author: "Also Cars (2006)" },
+    { quote: "Thank you! Or should I say, NO thank you? Because in opposite world, maybe that really means thank you!", author: "Cars again (2006)" },
+    { quote: "I rit my rants, raggy", author: "Scooby Doo (???)" },
+    { quote: "I've fought space dragons, but I've never seen an American President with a brain this chuddy.", author: "Detective Barnaby Wiggles (2023)" },
+    { quote: "You can't arrest me, officer! I just crossed state lines which means your dumb laws don't apply here, so you better back off.", author: "Lord Gigglesworth in 'Wild Chase' (2022)" },
     { quote: "Put down the spatula! That pancake is a load-bearing breakfast item!", author: "Chef Bartholomew Bounce (2025)" },
-    { quote: "We came for the treasure, but we stayed because the ghost gave us complimentary waffles.", author: "Commander Biscuit (2020)" }
+    { quote: "We came for the treasure, but we stayed because the ghost was really nice, he gave us warm milk and actually sat me down and talked me through my recent divorce and really helped me out because that's been really hard on me. I don't know, man, it's just been really hard lately, but this ghost really provided something to me that I didn't know I needed. he helped me more than he knows.", author: "Commander Biscuit (2020)" }
+
   ],
   athlete: [
     { quote: "I hated every minute of training, but I said, 'Don't quit. Suffer now and live the rest of your life as a champion.'", author: "Muhammad Ali" },
@@ -40,15 +44,15 @@ const quoteData = {
     { quote: "I've failed over and over and over again in my life. And that is why I succeed.", author: "Michael Jordan" },
     { quote: "Gold medals aren't really made of gold. They're made of sweat, determination, and a hard-to-find alloy called guts.", author: "Dan Gable" },
     { quote: "It's not whether you get knocked down, it's whether you get up.", author: "Vince Lombardi" },
+    { quote: "When asked if the extra shots after knocking out his opponent were necessary - They were super necessary.", author: "Jorge Masvidal" }
     { quote: "When asked if the extra shots after knocking out his opponent were necessary - They were super necessary.", author: "Jorge Masvidal" },
-    { quote: "I run fast because if I stop moving, the existential dread catches up to me.", author: "Sprint Master Greg" },
+    { quote: "I run fast because if I stop moving, the mysterious evil entity that has been chasing me since I was 5 and a half years old catches up to me.", author: "Sprint Master Greg" },
     { quote: "Pain is just weakness leaving the body, but cramps are just your legs being rude.", author: "Marathon Manny" },
-    { quote: "My secret technique? I pretend the basketball is a hot potato and I really don't want to get burned.", author: "Dunkin' Dave" },
-    { quote: "I don't play for the trophies; I play for the post-game snack table.", author: "Coach Chuck" },
-    { quote: "I stretch before every game so I can run away from my problems twice as fast.", author: "Speedy Gonzales McTickle" },
-    { quote: "Winning is 20% stamina and 80% pulling your socks up high enough to intimidate the enemy.", author: "Biff 'Tubby' Thompson" },
-    { quote: "If you fall 7 times, get up 8 times. If you fall 9 times, check if your shoelaces are tied together.", author: "Skip O'Hoolihan" },
-    { quote: "Nobody remembers who came in second place, unless second place brought free juice boxes.", author: "Captain Zippy Noodle" }
+    { quote: "My secret technique? I pretend the basketball is a precious little baby boy and the only safe place for it is the basketball hoop, which I imagine is a soft liite baby boy bed. So I throw it in.", author: "Dunkin' Dave" },
+    { quote: "I don't play for the trophies; I play for the post-game showers with the boys.", author: "Coach Chuck" },
+    { quote: "Get off your high horse", author: "Wade Clubb" },
+    { quote: "Rappers who use auto-tune VS. Rappers who don't", author: "Theo Wolfe" }
+
   ]
 };
 
