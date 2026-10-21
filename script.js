@@ -243,13 +243,4 @@ function setupEventListeners() {
             applyTheme(theme);
         });
     });
-
-    // Copy Quote & Fact Buttons
-    elements.copyQuoteBtn.addEventListener('click', () => {
-        copyToClipboard(`"${state.currentQuote.quote}" — ${state.currentQuote.author}`);
-    });
-
-    elements.copyFactBtn.addEventListener('click', () => {
-        copyToClipboard(state.currentFact);
-    });
 }
