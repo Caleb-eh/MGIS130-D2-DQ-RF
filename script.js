@@ -5,21 +5,25 @@ const quoteData = {
     { quote: "He who has a why to live can bear almost any how.", author: "Friedrich Nietzsche" },
     { quote: "We are what we repeatedly do. Excellence, then, is not an act, but a habit.", author: "Aristotle" },
     { quote: "Liberty consists in doing what one desires.", author: "John Stuart Mill" },
-    { quote: "Life must be understood backward. But it must be lived forward.", author: "Søren Kierkegaard" }
+    { quote: "Life must be understood backward. But it must be lived forward.", author: "Søren Kierkegaard" },
+    { quote: "Euuhhhhh, ooohh, ahhhhhhh", author: "Sun Tzu" },
+    { quote: "Cornballs never make it very far in life.", author: "Potato Head" }
   ],
   movie: [
     { quote: "Frankly, my dear, I don't give a damn.", author: "Gone with the Wind (1939)" },
     { quote: "Here's looking at you, kid.", author: "Casablanca (1942)" },
     { quote: "May the Force be with you.", author: "Star Wars (1977)" },
     { quote: "You talking to me?", author: "Taxi Driver (1976)" },
-    { quote: "There's no place like home.", author: "The Wizard of Oz (1939)" }
+    { quote: "There's no place like home.", author: "The Wizard of Oz (1939)" },
+    { quote: "What is this? A center for ants?! How can we be expected to teach children to learn how to read if they can't even fit inside the building?", author: "Tom Bomb (2026)" }
   ],
   athlete: [
     { quote: "I hated every minute of training, but I said, 'Don't quit. Suffer now and live the rest of your life as a champion.'", author: "Muhammad Ali" },
     { quote: "You miss 100% of the shots you don't take.", author: "Wayne Gretzky" },
     { quote: "I've failed over and over and over again in my life. And that is why I succeed.", author: "Michael Jordan" },
     { quote: "Gold medals aren't really made of gold. They're made of sweat, determination, and a hard-to-find alloy called guts.", author: "Dan Gable" },
-    { quote: "It's not whether you get knocked down, it's whether you get up.", author: "Vince Lombardi" }
+    { quote: "It's not whether you get knocked down, it's whether you get up.", author: "Vince Lombardi" },
+    { quote: "_When asked if the extra shots after knocking out his opponent were necessary_ - Super necessary.", author: "Jorge Masvidal" }
   ]
 };
 
