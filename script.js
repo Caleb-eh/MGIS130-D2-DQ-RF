@@ -23,7 +23,7 @@ const quoteData = {
     { quote: "I've failed over and over and over again in my life. And that is why I succeed.", author: "Michael Jordan" },
     { quote: "Gold medals aren't really made of gold. They're made of sweat, determination, and a hard-to-find alloy called guts.", author: "Dan Gable" },
     { quote: "It's not whether you get knocked down, it's whether you get up.", author: "Vince Lombardi" },
-    { quote: "_When asked if the extra shots after knocking out his opponent were necessary_ - Super necessary.", author: "Jorge Masvidal" }
+    { quote: "When asked if the extra shots after knocking out his opponent were necessary - They were super necessary.", author: "Jorge Masvidal" }
   ]
 };
 
