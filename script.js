@@ -7,7 +7,6 @@ const quoteData = {
     { quote: "Liberty consists in doing what one desires.", author: "John Stuart Mill" },
     { quote: "Life must be understood backward. But it must be lived forward.", author: "Søren Kierkegaard" },
     { quote: "Euuhhhhh, ooohh, ahhhhhhh", author: "Sun Tzu" },
-    { quote: "Cornballs never make it very far in life.", author: "Potato Head" }
     { quote: "Cornballs never make it very far in life.", author: "Potato Head" },
     { quote: "If you try to lift a heavy stone, you will find out how heavy the stone is.", author: "Barnaby the Wise" },
     { quote: "Do not fear the dark; fear the evil things that definitely exist when walking in the dark.", author: "Ancient Sleep-Poo/Walker Proverb" },
@@ -26,7 +25,6 @@ const quoteData = {
     { quote: "May the Force be with you.", author: "Star Wars (1977)" },
     { quote: "You talking to me?", author: "Taxi Driver (1976)" },
     { quote: "There's no place like home.", author: "The Wizard of Oz (1939)" },
-    { quote: "What is this? A center for ants?! How can we be expected to teach children to learn how to read if they can't even fit inside the building?", author: "Tom Bomb (2026)" }
     { quote: "What is this? A center for ants?! How can we be expected to teach children to learn how to read if they can't even fit inside the building?", author: "Tom Bomb (2026)" },
     { quote: "Float like a lily pad, sting like a really angry bee", author: "Cars (2006)" },
     { quote: "If you're going hard enough left, you'll find yourself turning left.", author: "Also Cars (2006)" },
@@ -44,7 +42,6 @@ const quoteData = {
     { quote: "I've failed over and over and over again in my life. And that is why I succeed.", author: "Michael Jordan" },
     { quote: "Gold medals aren't really made of gold. They're made of sweat, determination, and a hard-to-find alloy called guts.", author: "Dan Gable" },
     { quote: "It's not whether you get knocked down, it's whether you get up.", author: "Vince Lombardi" },
-    { quote: "When asked if the extra shots after knocking out his opponent were necessary - They were super necessary.", author: "Jorge Masvidal" }
     { quote: "When asked if the extra shots after knocking out his opponent were necessary - They were super necessary.", author: "Jorge Masvidal" },
     { quote: "I run fast because if I stop moving, the mysterious evil entity that has been chasing me since I was 5 and a half years old catches up to me.", author: "Sprint Master Greg" },
     { quote: "Pain is just weakness leaving the body, but cramps are just your legs being rude.", author: "Marathon Manny" },
