@@ -69,7 +69,6 @@ const settingsName = document.getElementById("settings-name");
 const settingsCategory = document.getElementById("settings-category");
 const settingsTheme = document.getElementById("settings-theme");
 
-// Helpers
 function getRandomItem(array) {
   return array[Math.floor(Math.random() * array.length)];
 }
@@ -79,7 +78,10 @@ function applyTheme(themeValue, currentCategory) {
   if (themeValue === "auto") {
     activeTheme = currentCategory === "all" ? "all" : currentCategory;
   }
-  document.body.className = `theme-${activeTheme}`;
+  
+  // Clean old themes
+  document.body.classList.remove('theme-philosophy', 'theme-movie', 'theme-athlete', 'theme-all', 'theme-auto');
+  document.body.classList.add(`theme-${activeTheme}`);
 }
 
 function generateContent() {
@@ -90,67 +92,104 @@ function generateContent() {
     selectedCategory = getRandomItem(categories);
   }
 
-  const pool = quoteData[selectedCategory];
+  const pool = quoteData[selectedCategory] || quoteData.philosophy;
   const randomQuote = getRandomItem(pool);
   const randomFact = getRandomItem(factData);
 
   // Update DOM Content
-  quoteText.textContent = `"${randomQuote.quote}"`;
-  quoteAuthor.textContent = `— ${randomQuote.author}`;
-  quoteCategoryLabel.textContent = `${selectedCategory} Quote`;
-  factText.textContent = randomFact;
+  if (quoteText) quoteText.textContent = `"${randomQuote.quote}"`;
+  if (quoteAuthor) quoteAuthor.textContent = `— ${randomQuote.author}`;
+  if (quoteCategoryLabel) quoteCategoryLabel.textContent = `${selectedCategory.toUpperCase()} Quote`;
+  if (factText) factText.textContent = randomFact;
 
-  // Apply theme if set to auto
+  // Apply dynamic theme
   applyTheme(userState.theme, selectedCategory);
 }
 
 function triggerAnimation() {
   const container = document.querySelector(".content-container");
+  if (!container) return;
   container.classList.remove("animate-in");
-  // Force Reflow to restart animation
+  // Force Reflow to restart CSS animation
   void container.offsetWidth; 
   container.classList.add("animate-in");
 }
 
-// Event Listeners
-setupForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  userState.name = usernameInput.value.trim() || "Friend";
-  userState.category = categorySelect.value;
+// Form Submission Handler
+if (setupForm) {
+  setupForm.addEventListener("submit", (e) => {
+    // Prevent default form POST/GET browser refresh
+    e.preventDefault();
+    e.stopPropagation();
 
-  greetingText.textContent = `Hello, ${userState.name}!`;
+    userState.name = usernameInput ? usernameInput.value.trim() || "Friend" : "Friend";
+    userState.category = categorySelect ? categorySelect.value : "all";
 
-  setupScreen.classList.remove("active");
-  mainScreen.classList.add("active");
+    if (greetingText) greetingText.textContent = `Hello, ${userState.name}!`;
 
-  generateContent();
-});
+    // Hide setup screen & show main screen
+    if (setupScreen) {
+      setupScreen.classList.remove("active");
+      setupScreen.style.display = "none";
+    }
+    if (mainScreen) {
+      mainScreen.classList.add("active");
+      mainScreen.style.display = "flex";
+    }
 
-regenerateBtn.addEventListener("click", () => {
-  generateContent();
-  triggerAnimation();
-});
+    generateContent();
+    triggerAnimation();
 
-// Drawer functionality
-hamburgerBtn.addEventListener("click", () => {
-  settingsName.value = userState.name;
-  settingsCategory.value = userState.category;
-  settingsTheme.value = userState.theme;
-  settingsDrawer.classList.add("open");
-});
+    return false;
+  });
+}
 
-closeDrawerBtn.addEventListener("click", () => {
-  settingsDrawer.classList.remove("open");
-});
+// Spark New Thought Button
+if (regenerateBtn) {
+  regenerateBtn.addEventListener("click", () => {
+    generateContent();
+    triggerAnimation();
+  });
+}
 
-saveSettingsBtn.addEventListener("click", () => {
-  userState.name = settingsName.value.trim() || userState.name;
-  userState.category = settingsCategory.value;
-  userState.theme = settingsTheme.value;
+// Drawer Settings Open
+if (hamburgerBtn) {
+  hamburgerBtn.addEventListener("click", () => {
+    if (settingsName) settingsName.value = userState.name;
+    if (settingsCategory) settingsCategory.value = userState.category;
+    if (settingsTheme) settingsTheme.value = userState.theme;
+    
+    if (settingsDrawer) {
+      settingsDrawer.classList.remove("translate-x-full");
+      settingsDrawer.classList.add("open");
+    }
+  });
+}
 
-  greetingText.textContent = `Hello, ${userState.name}!`;
-  generateContent();
-  triggerAnimation();
+// Drawer Settings Close
+if (closeDrawerBtn) {
+  closeDrawerBtn.addEventListener("click", () => {
+    if (settingsDrawer) {
+      settingsDrawer.classList.add("translate-x-full");
+      settingsDrawer.classList.remove("open");
+    }
+  });
+}
 
-  settingsDrawer.classList.remove("open");
-});
+// Save Settings Button
+if (saveSettingsBtn) {
+  saveSettingsBtn.addEventListener("click", () => {
+    if (settingsName) userState.name = settingsName.value.trim() || userState.name;
+    if (settingsCategory) userState.category = settingsCategory.value;
+    if (settingsTheme) userState.theme = settingsTheme.value;
+
+    if (greetingText) greetingText.textContent = `Hello, ${userState.name}!`;
+    generateContent();
+    triggerAnimation();
+
+    if (settingsDrawer) {
+      settingsDrawer.classList.add("translate-x-full");
+      settingsDrawer.classList.remove("open");
+    }
+  });
+}
