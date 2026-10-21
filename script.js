@@ -37,7 +37,35 @@ const factData = [
   "Sometimes when I wake up, I have to pee.",
   "Twitter is called X now.",
   "Last year, winter happened around November.",
-  "One time I ate a banana, and it tasted okay. i dropped it"
+  "One time I ate a banana, and it tasted okay. i dropped it",
+  "Blue is better than red.",
+  "Nobody actually likes sparkling water.",
+  "Sometimes, a dog bark",
+  "I drew a realistic pickle and it tasted like one too. It was a real pickle actually, I just put it on a piece of paper and took a picture of it.",
+  "Who is Michael Jackson? I don't recognize that name",
+  "That one Michael Jackson thing isn't even a fact; it's just a question. THIS is a fact.",
+  "When it rains, it pours. Sometimes.",
+  "When I don't eat, I get hungry.",
+  "Wombat poop is a cube? Actually? What kind of function is that? Not rolling away? Why wouldn't you want your poop to roll away? You wanna keep it? I wouldn't want to keep it. I want it gone.",
+  "Pizza is spelt P-I-Z-Z-A. I think.",
+  "Bread was invented years ago.",
+  "Birds can fly most of the time.",
+  "Pigs cannot fly.",
+  "A door's primary function is to open and close.",
+  "Celery is 95% fucking terrible",
+  "I don't remember the last time I forgot.",
+  "The sun is very hot.",
+  "You can't drink something that is not liquid.",
+  "When two people love each other very much...",
+  "Bazinga! Oh shoot, this is the fact tab, not the quote tab... also that's from a TV show... double doofus",
+  "Star Wars is not real (I didn't know that).",
+  "Crap, I forgot what the fact was.",
+  "Getting eaten alive probably hurts.",
+  "One time I got robbed, it made me sad. They took my favourite outlet cover.",
+  "I have never been to court.",
+  "You are reading this right now.",
+  "Drugz r bad"
+  
 ];
 
 // App State
