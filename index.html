@@ -1,113 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Daily Quote & Random Fact</title>
-  <link rel="stylesheet" href="style.css" />
-  <!-- Google Fonts for classy typography -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Spark - Quotes & Fun Facts Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;1,400&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="theme-all">
+<body class="theme-philosophy min-h-screen flex flex-col justify-between">
 
-  <!-- Setup Modal Screen -->
-  <div id="setup-screen" class="screen active">
-    <div class="card setup-card animate-in">
-      <h2>Welcome</h2>
-      <p class="subtitle">Customize your daily inspiration experience.</p>
-      
-      <form id="setup-form">
+  <!-- Setup Screen -->
+  <div id="setup-screen" class="screen active fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div class="card setup-card w-full max-w-md shadow-2xl animate-in">
+      <h2>Daily Spark</h2>
+      <p class="subtitle">Get inspired with curated quotes & mind-blowing fun facts tailored for you.</p>
+
+      <form id="setup-form" class="space-y-4 text-left">
         <div class="form-group">
-          <label for="username">What is your name?</label>
-          <input type="text" id="username" placeholder="Enter your name" required autocomplete="off" />
+          <label for="username">Your Name</label>
+          <input type="text" id="username" placeholder="e.g. Alex" autocomplete="off">
         </div>
 
         <div class="form-group">
-          <label for="category">Choose Quote Category</label>
+          <label for="category">Preferred Quote Category</label>
           <select id="category">
-            <option value="all">All Categories</option>
-            <option value="philosophy">Philosopher Quotes</option>
-            <option value="movie">Movie Quotes</option>
-            <option value="athlete">Athlete Quotes</option>
+            <option value="all">🌟 All Categories (Random)</option>
+            <option value="philosophy">🧠 Philosophy & Wisdom</option>
+            <option value="movie">🎬 Iconic Movie Lines</option>
+            <option value="athlete">🏆 Athletic Greatness</option>
           </select>
         </div>
 
-        <button type="submit" class="btn primary-btn">Get Started</button>
+        <button type="submit" id="start-btn" class="btn primary-btn">
+          <span>Start Exploring</span>
+        </button>
       </form>
     </div>
   </div>
 
-  <!-- Main Dashboard Screen -->
-  <div id="main-screen" class="screen">
-    <!-- Navigation / Header -->
+  <!-- Main Screen UI -->
+  <div id="main-screen" class="screen flex-col min-h-screen">
+    <!-- Fixed Top Navigation Header with Hamburger on the Left -->
     <header class="top-nav">
-      <button id="hamburger-btn" class="icon-btn" aria-label="Open Settings">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </button>
+      <div class="nav-left">
+        <button id="hamburger-btn" title="Settings" class="icon-btn">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+        <div class="header-title">
+          <h2 id="greeting-text" class="text-lg font-bold">Hello, Friend!</h2>
+          <p class="tagline">Here's your daily dose of insight</p>
+        </div>
+      </div>
     </header>
 
-    <!-- Content Area -->
+    <!-- Main Content Container -->
     <main class="content-container animate-in">
-      <h1 id="greeting-text">Hello!</h1>
-      <p class="tagline">Here is your daily dose of wisdom and knowledge.</p>
 
       <!-- Quote Card -->
       <div class="card quote-card">
-        <span class="card-label" id="quote-category-label">Quote</span>
-        <blockquote id="quote-text">"Loading quote..."</blockquote>
-        <p id="quote-author" class="author">— Author</p>
+        <span id="quote-category-label" class="card-label">Philosophy Quote</span>
+        <blockquote>
+          <p id="quote-text">"The unexamined life is not worth living."</p>
+        </blockquote>
+        <p id="quote-author" class="author">— Socrates</p>
       </div>
 
-      <!-- Fact Card -->
+      <!-- Fun Fact Card -->
       <div class="card fact-card">
-        <span class="card-label">Random Fact</span>
-        <p id="fact-text">Loading fact...</p>
+        <span class="card-label">Did You Know?</span>
+        <p id="fact-text">A day on Venus is longer than a year on Venus.</p>
       </div>
 
-      <!-- Action Button -->
-      <button id="regenerate-btn" class="btn secondary-btn">Regenerate New Pair</button>
+      <!-- Action Controls -->
+      <div class="actions">
+        <button id="regenerate-btn" class="btn primary-btn">
+          <span>Spark New Thought</span>
+        </button>
+      </div>
+
     </main>
-  </div>
 
-  <!-- Settings Drawer / Modal -->
-  <div id="settings-drawer" class="drawer">
-    <div class="drawer-content">
-      <div class="drawer-header">
-        <h3>Settings</h3>
-        <button id="close-drawer-btn" class="close-btn">&times;</button>
-      </div>
-      <div class="drawer-body">
+    <!-- Settings Drawer -->
+    <div id="settings-drawer" class="drawer">
+      <div class="drawer-content">
+        <div class="drawer-header">
+          <h3>Settings</h3>
+          <button id="close-drawer-btn" class="close-btn">&times;</button>
+        </div>
+
         <div class="form-group">
-          <label for="settings-name">Name</label>
-          <input type="text" id="settings-name" />
+          <label for="settings-name">Your Name</label>
+          <input type="text" id="settings-name">
         </div>
 
         <div class="form-group">
           <label for="settings-category">Quote Category</label>
           <select id="settings-category">
-            <option value="all">All Categories</option>
-            <option value="philosophy">Philosopher Quotes</option>
-            <option value="movie">Movie Quotes</option>
-            <option value="athlete">Athlete Quotes</option>
+            <option value="all">🌟 All Categories</option>
+            <option value="philosophy">🧠 Philosophy & Wisdom</option>
+            <option value="movie">🎬 Iconic Movies</option>
+            <option value="athlete">🏆 Athletes & Champions</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label for="settings-theme">Visual Theme</label>
+          <label for="settings-theme">Color Palette Theme</label>
           <select id="settings-theme">
-            <option value="auto">Auto (Match Category)</option>
-            <option value="philosophy">Deep Marble (Philosophy)</option>
-            <option value="movie">Cinematic Dark (Movie)</option>
-            <option value="athlete">Vibrant Energy (Athlete)</option>
-            <option value="all">Minimal Slate (Default)</option>
+            <option value="auto">✨ Auto Dynamic (Matches Category)</option>
+            <option value="philosophy">📜 Philosophy (Marble & Gold)</option>
+            <option value="movie">🎬 Movie (Cinematic Dark)</option>
+            <option value="athlete">⚡ Athlete (High Contrast Cyan)</option>
           </select>
         </div>
 
-        <button id="save-settings-btn" class="btn primary-btn">Apply Changes</button>
+        <button id="save-settings-btn" class="btn primary-btn">Save Changes</button>
       </div>
     </div>
   </div>
