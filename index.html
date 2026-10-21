@@ -1,192 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Inspiration & Insights</title>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Teko:wght@500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Custom Styling -->
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daily Quote & Random Fact</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Google Fonts for classy typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;1,400&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
 </head>
-<body class="theme-philosopher">
-    <div class="bg-decoration">
-        <div class="glow-orb orb-1"></div>
-        <div class="glow-orb orb-2"></div>
-    </div>
+<body class="theme-all">
 
-    <header class="app-header">
-        <div class="logo">
-            <i class="fa-solid fa-compass logo-icon"></i>
-            <span class="logo-text">Daily Insights</span>
+  <!-- Setup Modal Screen -->
+  <div id="setup-screen" class="screen active">
+    <div class="card setup-card animate-in">
+      <h2>Welcome</h2>
+      <p class="subtitle">Customize your daily inspiration experience.</p>
+      
+      <form id="setup-form">
+        <div class="form-group">
+          <label for="username">What is your name?</label>
+          <input type="text" id="username" placeholder="Enter your name" required autocomplete="off" />
         </div>
-        <button id="settings-btn" class="icon-btn" aria-label="Open Settings">
-            <i class="fa-solid fa-bars"></i>
-        </button>
+
+        <div class="form-group">
+          <label for="category">Choose Quote Category</label>
+          <select id="category">
+            <option value="all">All Categories</option>
+            <option value="philosophy">Philosopher Quotes</option>
+            <option value="movie">Movie Quotes</option>
+            <option value="athlete">Athlete Quotes</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn primary-btn">Get Started</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Main Dashboard Screen -->
+  <div id="main-screen" class="screen">
+    <!-- Navigation / Header -->
+    <header class="top-nav">
+      <button id="hamburger-btn" class="icon-btn" aria-label="Open Settings">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
     </header>
 
-    <section id="onboarding-screen" class="screen active">
-        <div class="glass-card onboarding-card fade-up">
-            <div class="badge-icon">
-                <i class="fa-solid fa-quote-left"></i>
-            </div>
-            <h2>Welcome to Your Daily Sanctuary</h2>
-            <p class="subtitle">Tailor your daily dose of wisdom and surprising facts.</p>
-            
-            <form id="onboarding-form">
-                <div class="input-group">
-                    <label for="username-input">What should we call you?</label>
-                    <input type="text" id="username-input" placeholder="Enter your name..." required autocomplete="off" maxlength="30">
-                </div>
+    <!-- Content Area -->
+    <main class="content-container animate-in">
+      <h1 id="greeting-text">Hello!</h1>
+      <p class="tagline">Here is your daily dose of wisdom and knowledge.</p>
 
-                <div class="input-group">
-                    <label>Select Quote Preference</label>
-                    <div class="category-selector">
-                        <label class="cat-option">
-                            <input type="radio" name="category" value="all" checked>
-                            <span class="cat-card">
-                                <i class="fa-solid fa-infinity"></i>
-                                <span>All Mix</span>
-                            </span>
-                        </label>
-                        <label class="cat-option">
-                            <input type="radio" name="category" value="philosopher">
-                            <span class="cat-card">
-                                <i class="fa-solid fa-scroll"></i>
-                                <span>Philosophers</span>
-                            </span>
-                        </label>
-                        <label class="cat-option">
-                            <input type="radio" name="category" value="movie">
-                            <span class="cat-card">
-                                <i class="fa-solid fa-film"></i>
-                                <span>Movies</span>
-                            </span>
-                        </label>
-                        <label class="cat-option">
-                            <input type="radio" name="category" value="athlete">
-                            <span class="cat-card">
-                                <i class="fa-solid fa-trophy"></i>
-                                <span>Athletes</span>
-                            </span>
-                        </label>
-                    </div>
-                </div>
+      <!-- Quote Card -->
+      <div class="card quote-card">
+        <span class="card-label" id="quote-category-label">Quote</span>
+        <blockquote id="quote-text">"Loading quote..."</blockquote>
+        <p id="quote-author" class="author">— Author</p>
+      </div>
 
-                <button type="submit" class="btn primary-btn">
-                    <span>Begin Journey</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </button>
-            </form>
-        </div>
-    </section>
+      <!-- Fact Card -->
+      <div class="card fact-card">
+        <span class="card-label">Random Fact</span>
+        <p id="fact-text">Loading fact...</p>
+      </div>
 
-    <main id="dashboard-screen" class="screen hidden">
-        <div class="container">
-            <div class="greeting-bar fade-up">
-                <p class="date-display" id="current-date">Wednesday, Oct 21</p>
-                <h1 id="user-greeting">Good day, Traveler</h1>
-            </div>
-
-            <div class="cards-grid">
-                <!-- Quote Card -->
-                <article class="glass-card quote-card fade-up" style="animation-delay: 0.15s;">
-                    <div class="card-header">
-                        <span class="card-tag" id="quote-category-tag"><i class="fa-solid fa-book"></i> Philosophy</span>
-                        <button class="icon-btn mini-btn copy-btn" id="copy-quote-btn" title="Copy Quote">
-                            <i class="fa-regular fa-copy"></i>
-                        </button>
-                    </div>
-                    <div class="quote-content">
-                        <i class="fa-solid fa-quote-left quote-mark"></i>
-                        <blockquote id="quote-text">"Contentment is natural wealth, luxury is artificial poverty."</blockquote>
-                        <p class="quote-author" id="quote-author">— Socrates</p>
-                    </div>
-                </article>
-
-                <!-- Fact Card -->
-                <article class="glass-card fact-card fade-up" style="animation-delay: 0.3s;">
-                    <div class="card-header">
-                        <span class="card-tag"><i class="fa-solid fa-atom"></i> Did You Know?</span>
-                        <button class="icon-btn mini-btn copy-btn" id="copy-fact-btn" title="Copy Fact">
-                            <i class="fa-regular fa-copy"></i>
-                        </button>
-                    </div>
-                    <div class="fact-content">
-                        <div class="fact-icon-wrap">
-                            <i class="fa-solid fa-lightbulb"></i>
-                        </div>
-                        <p id="fact-text">A cloud weighs around a million tonnes despite floating gracefully in the sky.</p>
-                    </div>
-                </article>
-            </div>
-
-            <!-- Action Bar -->
-            <div class="actions-wrapper fade-up" style="animation-delay: 0.45s;">
-                <button id="regenerate-btn" class="btn primary-btn glow-effect">
-                    <i class="fa-solid fa-arrows-rotate"></i>
-                    <span>Generate New Pair</span>
-                </button>
-            </div>
-        </div>
+      <!-- Action Button -->
+      <button id="regenerate-btn" class="btn secondary-btn">Regenerate New Pair</button>
     </main>
+  </div>
 
-    <div id="settings-drawer" class="drawer hidden">
-        <div class="drawer-overlay" id="drawer-overlay"></div>
-        <div class="drawer-content">
-            <div class="drawer-header">
-                <h3><i class="fa-solid fa-sliders"></i> Preferences</h3>
-                <button id="close-settings-btn" class="icon-btn"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div class="drawer-body">
-                <div class="input-group">
-                    <label for="settings-username">Your Name</label>
-                    <input type="text" id="settings-username" autocomplete="off">
-                </div>
-
-                <div class="input-group">
-                    <label>Quote Category Preference</label>
-                    <select id="settings-category" class="custom-select">
-                        <option value="all">All Categories Mix</option>
-                        <option value="philosopher">Philosopher Quotes</option>
-                        <option value="movie">Movie Quotes</option>
-                        <option value="athlete">Athlete Quotes</option>
-                    </select>
-                </div>
-
-                <div class="input-group">
-                    <label>Active Theme Style</label>
-                    <div class="theme-picker">
-                        <button class="theme-opt-btn" data-theme="philosopher">
-                            <span class="swatch philosopher-swatch"></span>
-                            <span>Philosopher (Classic Sepia)</span>
-                        </button>
-                        <button class="theme-opt-btn" data-theme="movie">
-                            <span class="swatch movie-swatch"></span>
-                            <span>Movie (Cinematic Gold)</span>
-                        </button>
-                        <button class="theme-opt-btn" data-theme="athlete">
-                            <span class="swatch athlete-swatch"></span>
-                            <span>Athlete (Electric Neon)</span>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="drawer-actions">
-                    <button id="save-settings-btn" class="btn primary-btn w-full">Save Changes</button>
-                </div>
-            </div>
+  <!-- Settings Drawer / Modal -->
+  <div id="settings-drawer" class="drawer">
+    <div class="drawer-content">
+      <div class="drawer-header">
+        <h3>Settings</h3>
+        <button id="close-drawer-btn" class="close-btn">&times;</button>
+      </div>
+      <div class="drawer-body">
+        <div class="form-group">
+          <label for="settings-name">Name</label>
+          <input type="text" id="settings-name" />
         </div>
+
+        <div class="form-group">
+          <label for="settings-category">Quote Category</label>
+          <select id="settings-category">
+            <option value="all">All Categories</option>
+            <option value="philosophy">Philosopher Quotes</option>
+            <option value="movie">Movie Quotes</option>
+            <option value="athlete">Athlete Quotes</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="settings-theme">Visual Theme</label>
+          <select id="settings-theme">
+            <option value="auto">Auto (Match Category)</option>
+            <option value="philosophy">Deep Marble (Philosophy)</option>
+            <option value="movie">Cinematic Dark (Movie)</option>
+            <option value="athlete">Vibrant Energy (Athlete)</option>
+            <option value="all">Minimal Slate (Default)</option>
+          </select>
+        </div>
+
+        <button id="save-settings-btn" class="btn primary-btn">Apply Changes</button>
+      </div>
     </div>
+  </div>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="toast hidden">Copied to clipboard!</div>
-
-    <!-- Script Import -->
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
