@@ -29,14 +29,14 @@ const factData = [
   "Bananas are radioactive because they contain high levels of potassium.",
   "Water can boil and freeze at the exact same time under specific lab conditions (the triple point).",
   "Wombat poop is cube-shaped to prevent it from rolling away.",
-  "Your brain uses roughly 20 percent of your body's total energy."
-  "Ty sits next to Caleb in this class."
-  "Gus was wearing a white sweater when I wrote this. I don't know what it said, though."
-  "The quote above me is dumb."
-  "One day I will meet John Lennon in person."
-  "Sometimes when I wake up, I have to pee."
-  "Twitter is called X now."
-  "Last year, winter happened around November."
+  "Your brain uses roughly 20 percent of your body's total energy.",
+  "Ty sits next to Caleb in this class.",
+  "Gus was wearing a white sweater when I wrote this. I don't know what it said, though.",
+  "The quote above me is dumb.",
+  "One day I will meet John Lennon in person.",
+  "Sometimes when I wake up, I have to pee.",
+  "Twitter is called X now.",
+  "Last year, winter happened around November.",
   "One time I ate a banana, and it tasted okay. i dropped it"
 ];
 
