@@ -150,7 +150,7 @@ const settingsName = document.getElementById("settings-name");
 const settingsCategory = document.getElementById("settings-category");
 const settingsTheme = document.getElementById("settings-theme");
 
-// Helper function to get time-of-day specific greeting and warm message
+// Helper function to get time-of-day specific greeting
 function getTimeBasedGreeting(name) {
   const currentHour = new Date().getHours();
   
@@ -177,7 +177,7 @@ function getTimeBasedGreeting(name) {
   }
 }
 
-// Function to update the header greeting and subtext
+// Function to update header greeting
 function updateGreetingHeader() {
   const name = userState.name || "Friend";
   const { title, tagline } = getTimeBasedGreeting(name);
@@ -292,6 +292,7 @@ if (setupForm) {
 
     if (setupScreen) {
       setupScreen.classList.remove("active");
+      setupScreen.style.display = "none";
     }
 
     generateContent();
