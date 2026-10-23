@@ -62,7 +62,7 @@ const quoteData = {
     { quote: "I've got all I need, and that's alright by me.", author: "Darius Rucker – 'Alright'" },
     { quote: "Carry on my wayward son, there'll be peace when you are done.", author: "Kansas – 'Carry On Wayward Son'" },
     { quote: "Wherever you are's where I want to be.", author: "Chris Stapleton – 'Starting Over'" },
-    { quote: "If you've got a dream, chase it, 'cause the dream won't chase you back.", author: "Cody Johnson – ''Til You Can't'" },
+    { quote: "If you've got a dream, chase it, 'cause the dream won't chase you back.", author: "Cody Johnson – '\'Til You Can\'t'" },
     { quote: "It just takes some time, little girl, you're in the middle of the ride, everything'll be just fine.", author: "Jimmy Eat World – 'The Middle'" },
     { quote: "When all the parts of the puzzle start to look like they fit, then I must remember, there'll be days like this.", author: "Van Morrison – 'Days Like This'" },
     { quote: "Maybe a reason why all the doors are closed, so you could open one that leads you to the perfect road.", author: "Katy Perry – 'Firework'" }
@@ -98,7 +98,7 @@ const factData = [
   "Birds can fly most of the time.",
   "Pigs cannot fly.",
   "A door's primary function is to open and close.",
-  "Celery is 95% fucking terrible",
+  "Celery is 95% terrible",
   "I don't remember the last time I forgot.",
   "The sun is very hot.",
   "You can't drink something that is not liquid.",
@@ -143,6 +143,7 @@ const regenerateBtn = document.getElementById("regenerate-btn");
 
 const hamburgerBtn = document.getElementById("hamburger-btn");
 const settingsDrawer = document.getElementById("settings-drawer");
+const drawerBackdrop = document.getElementById("drawer-backdrop");
 const closeDrawerBtn = document.getElementById("close-drawer-btn");
 const saveSettingsBtn = document.getElementById("save-settings-btn");
 const settingsName = document.getElementById("settings-name");
@@ -191,19 +192,16 @@ function updateGreetingHeader() {
 function updateDateTime() {
   const now = new Date();
   
-  // Format Date: e.g. "Friday, Oct 23, 2026"
   const dateOptions = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
   if (liveDate) {
     liveDate.textContent = now.toLocaleDateString(undefined, dateOptions);
   }
   
-  // Format Time: e.g. "3:04:05 PM"
   const timeOptions = { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true };
   if (liveTime) {
     liveTime.textContent = now.toLocaleTimeString(undefined, timeOptions);
   }
 
-  // Update greeting smoothly if the hour boundary changes
   updateGreetingHeader();
 }
 
@@ -236,13 +234,14 @@ function getUniqueRandomItem(pool, recentArray, keyFn = (item) => item, historyL
 function applyTheme(themeValue, currentCategory) {
   let activeTheme = themeValue;
   if (themeValue === "auto") {
-    activeTheme = currentCategory === "all" ? "philosophy" : (currentCategory === "lyrics" ? "cyberpunk" : currentCategory);
+    activeTheme = currentCategory === "all" ? "philosophy" : currentCategory;
   }
   
   document.body.classList.remove(
     'theme-philosophy', 
     'theme-movie', 
     'theme-athlete', 
+    'theme-lyrics',
     'theme-cyberpunk', 
     'theme-forest', 
     'theme-sunset', 
@@ -267,14 +266,10 @@ function generateContent() {
 
   if (quoteText) quoteText.textContent = `"${randomQuote.quote}"`;
   if (quoteAuthor) quoteAuthor.textContent = `— ${randomQuote.author}`;
-  if (quoteCategoryLabel) quoteCategoryLabel.textContent = `${selectedCategory.toUpperCase()} Quote`;
+  if (quoteCategoryLabel) quoteCategoryLabel.textContent = `${selectedCategory.toUpperCase()} QUOTE`;
   if (factText) factText.textContent = randomFact;
 
   applyTheme(userState.theme, selectedCategory);
-
-  if (typeof lucide !== "undefined" && lucide.createIcons) {
-    lucide.createIcons();
-  }
 }
 
 function triggerAnimation() {
@@ -289,7 +284,6 @@ function triggerAnimation() {
 if (setupForm) {
   setupForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    e.stopPropagation();
 
     userState.name = usernameInput ? usernameInput.value.trim() || "Friend" : "Friend";
     userState.category = categorySelect ? categorySelect.value : "all";
@@ -298,17 +292,10 @@ if (setupForm) {
 
     if (setupScreen) {
       setupScreen.classList.remove("active");
-      setupScreen.style.display = "none";
-    }
-    if (mainScreen) {
-      mainScreen.classList.add("active");
-      mainScreen.style.display = "flex";
     }
 
     generateContent();
     triggerAnimation();
-
-    return false;
   });
 }
 
@@ -320,29 +307,24 @@ if (regenerateBtn) {
   });
 }
 
-// Drawer Settings Open
-if (hamburgerBtn) {
-  hamburgerBtn.addEventListener("click", () => {
-    if (settingsName) settingsName.value = userState.name;
-    if (settingsCategory) settingsCategory.value = userState.category;
-    if (settingsTheme) settingsTheme.value = userState.theme;
-    
-    if (settingsDrawer) {
-      settingsDrawer.classList.remove("translate-x-full");
-      settingsDrawer.classList.add("open");
-    }
-  });
+// Drawer Toggle Controls
+function openDrawer() {
+  if (settingsName) settingsName.value = userState.name;
+  if (settingsCategory) settingsCategory.value = userState.category;
+  if (settingsTheme) settingsTheme.value = userState.theme;
+
+  if (settingsDrawer) settingsDrawer.classList.add("open");
+  if (drawerBackdrop) drawerBackdrop.classList.add("active");
 }
 
-// Drawer Settings Close
-if (closeDrawerBtn) {
-  closeDrawerBtn.addEventListener("click", () => {
-    if (settingsDrawer) {
-      settingsDrawer.classList.add("translate-x-full");
-      settingsDrawer.classList.remove("open");
-    }
-  });
+function closeDrawer() {
+  if (settingsDrawer) settingsDrawer.classList.remove("open");
+  if (drawerBackdrop) drawerBackdrop.classList.remove("active");
 }
+
+if (hamburgerBtn) hamburgerBtn.addEventListener("click", openDrawer);
+if (closeDrawerBtn) closeDrawerBtn.addEventListener("click", closeDrawer);
+if (drawerBackdrop) drawerBackdrop.addEventListener("click", closeDrawer);
 
 // Save Settings Button
 if (saveSettingsBtn) {
@@ -354,10 +336,6 @@ if (saveSettingsBtn) {
     updateGreetingHeader();
     generateContent();
     triggerAnimation();
-
-    if (settingsDrawer) {
-      settingsDrawer.classList.add("translate-x-full");
-      settingsDrawer.classList.remove("open");
-    }
+    closeDrawer();
   });
 }
