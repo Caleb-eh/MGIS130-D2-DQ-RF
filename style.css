@@ -52,6 +52,58 @@ body.theme-athlete {
 --font-heading: 'Space Grotesk', sans-serif;
 }
 
+/* Theme: Cyberpunk (Vibrant Neon Magenta & Dark Obsidian) */
+body.theme-cyberpunk {
+--bg-color: #0d0e15;
+--card-bg: #161824;
+--input-bg: #10121d;
+--text-main: #00f0ff;
+--text-muted: #7082a0;
+--accent: #ff007f;
+--accent-hover: #d6006b;
+--border-color: #2a2e45;
+--font-heading: 'Rajdhani', sans-serif;
+}
+
+/* Theme: Emerald Forest (Deep Pine & Soft Gold/Mint) */
+body.theme-forest {
+--bg-color: #0b1d17;
+--card-bg: #142e26;
+--input-bg: #0f241d;
+--text-main: #e2f1ed;
+--text-muted: #7a9e93;
+--accent: #2a9d8f;
+--accent-hover: #218377;
+--border-color: #23473c;
+--font-heading: 'Cinzel', serif;
+}
+
+/* Theme: Sunset Serenade (Warm Plum & Coral Dusk) */
+body.theme-sunset {
+--bg-color: #1a0f1c;
+--card-bg: #29182d;
+--input-bg: #201223;
+--text-main: #fceade;
+--text-muted: #aa889c;
+--accent: #e07a5f;
+--accent-hover: #c86348;
+--border-color: #422648;
+--font-heading: 'Playfair Display', serif;
+}
+
+/* Theme: Nordic Frost (Cool Slate & Crisp Glacial Cyan) */
+body.theme-nordic {
+--bg-color: #0f172a;
+--card-bg: #1e293b;
+--input-bg: #172033;
+--text-main: #f1f5f9;
+--text-muted: #64748b;
+--accent: #38bdf8;
+--accent-hover: #0284c7;
+--border-color: #334155;
+--font-heading: 'Space Grotesk', sans-serif;
+}
+
 /* Global Reset */
 
 {
@@ -215,7 +267,11 @@ color: #ffffff;
 
 body.theme-athlete .primary-btn,
 body.theme-movie .primary-btn,
-body.theme-philosophy .primary-btn {
+body.theme-philosophy .primary-btn,
+body.theme-cyberpunk .primary-btn,
+body.theme-forest .primary-btn,
+body.theme-sunset .primary-btn,
+body.theme-nordic .primary-btn {
 color: #0f1115;
 }
 
