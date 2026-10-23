@@ -62,7 +62,7 @@ const quoteData = {
     { quote: "I've got all I need, and that's alright by me.", author: "Darius Rucker – 'Alright'" },
     { quote: "Carry on my wayward son, there'll be peace when you are done.", author: "Kansas – 'Carry On Wayward Son'" },
     { quote: "Wherever you are's where I want to be.", author: "Chris Stapleton – 'Starting Over'" },
-    { quote: "If you've got a dream, chase it, 'cause the dream won't chase you back.", author: "Cody Johnson – '\'Til You Can\'t'" },
+    { quote: "If you've got a dream, chase it, 'cause the dream won't chase you back.", author: "Cody Johnson – 'Til You Can't'" },
     { quote: "It just takes some time, little girl, you're in the middle of the ride, everything'll be just fine.", author: "Jimmy Eat World – 'The Middle'" },
     { quote: "When all the parts of the puzzle start to look like they fit, then I must remember, there'll be days like this.", author: "Van Morrison – 'Days Like This'" },
     { quote: "Maybe a reason why all the doors are closed, so you could open one that leads you to the perfect road.", author: "Katy Perry – 'Firework'" }
