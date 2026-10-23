@@ -464,7 +464,7 @@ pointer-events: auto;
 .drawer {
 position: fixed;
 top: 0;
-right: -500px; /* Increased offset ensures the drawer and its box shadows are completely hidden off-screen /
+right: -500px; /* Offset to completely hide drawer shadow off-screen /
 width: 100%;
 max-width: 400px;
 height: 100vh;
@@ -475,10 +475,10 @@ z-index: 100;
 padding: 28px;
 display: flex;
 flex-direction: column;
-transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s ease;
 box-shadow: -10px 0 40px rgba(0, 0, 0, 0.7);
 overflow-y: auto;
-visibility: hidden; / Extra safety to prevent lingering focus or visual bleed when closed */
+visibility: hidden; / Prevents keyboard focus & visual bleed when closed */
 }
 
 .drawer.open {
@@ -508,6 +508,11 @@ color: #ffffff;
 font-size: 1.8rem;
 cursor: pointer;
 line-height: 1;
+transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+color: var(--accent);
 }
 
 .form-group {
