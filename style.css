@@ -1,84 +1,5 @@
-/* ==========================================================================
-CSS Variables & Theme Definitions
-========================================================================== */
-:root {
---bg-color: #f4f5f7;
---card-bg: #ffffff;
---text-main: #1a1a1a;
---text-muted: #666666;
---accent: #4a5568;
---accent-hover: #2d3748;
---border-color: #e2e8f0;
---font-heading: 'Cinzel', serif;
---font-body: 'Inter', system-ui, -apple-system, sans-serif;
---shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
---glass-border: rgba(0, 0, 0, 0.08);
-}
-
-/* Theme: Philosophy (Classy Marble & Gold Accent) */
-body.theme-philosophy {
---bg-color: #f7f5f0;
---card-bg: #fcfbfa;
---text-main: #2b2621;
---text-muted: #736b63;
---accent: #8c6d3b;
---accent-hover: #6e542c;
---border-color: #e8e2d8;
---font-heading: 'Playfair Display', serif;
---glass-border: rgba(140, 109, 59, 0.15);
-}
-
-/* Theme: Movie (Cinematic Dark & Soft Gold) */
-body.theme-movie {
---bg-color: #0f1115;
---card-bg: #181b20;
---text-main: #f0f0f0;
---text-muted: #9fa6b2;
---accent: #e5a93c;
---accent-hover: #c48e2e;
---border-color: #2a2e37;
---font-heading: 'Cinzel', serif;
---glass-border: rgba(229, 169, 60, 0.15);
-}
-
-/* Theme: Athlete (High Contrast & Modern Cyan/Blue) */
-body.theme-athlete {
---bg-color: #0b132b;
---card-bg: #1c2541;
---text-main: #ffffff;
---text-muted: #8d99ae;
---accent: #48cae4;
---accent-hover: #00b4d8;
---border-color: #2b3a67;
---font-heading: 'Space Grotesk', sans-serif;
---glass-border: rgba(72, 202, 228, 0.2);
-}
-
-/* ==========================================================================
-Global Reset & Base Layout
-========================================================================== */
-
-{
-box-sizing: border-box;
-margin: 0;
-padding: 0;
-transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-body {
-font-family: var(--font-body);
-background-color: var(--bg-color);
-color: var(--text-main);
-min-height: 100vh;
-display: flex;
-justify-content: center;
-align-items: center;
-overflow-x: hidden;
-position: relative;
-line-height: 1.5;
-}
-
-/* ==========================================================================
+/* ... existing code ... /
+/ ==========================================================================
 Screen Containers
 ========================================================================== */
 .screen {
@@ -90,7 +11,11 @@ margin: 0 auto;
 }
 
 .screen.active {
-display: block;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+min-height: calc(100vh - 48px);
 }
 
 /* ==========================================================================
@@ -104,6 +29,7 @@ padding: 32px;
 box-shadow: var(--shadow);
 margin-bottom: 24px;
 position: relative;
+width: 100%;
 }
 
 .card-label {
@@ -127,6 +53,12 @@ border-top: 4px solid var(--accent);
 border-radius: 16px;
 padding: 40px 32px;
 box-shadow: var(--shadow);
+width: 100%;
+max-width: 500px;
+margin: 0 auto;
+display: flex;
+flex-direction: column;
+align-items: center;
 }
 
 .setup-card h2 {
@@ -135,6 +67,7 @@ font-size: 2.2rem;
 margin-bottom: 8px;
 color: var(--text-main);
 letter-spacing: -0.5px;
+text-align: center;
 }
 
 .subtitle {
@@ -142,6 +75,7 @@ color: var(--text-muted);
 margin-bottom: 32px;
 font-size: 0.95rem;
 line-height: 1.5;
+text-align: center;
 }
 
 /* ==========================================================================
@@ -149,7 +83,11 @@ Form Elements
 ========================================================================== */
 .form-group {
 margin-bottom: 20px;
-text-align: left;
+text-align: center;
+width: 100%;
+display: flex;
+flex-direction: column;
+align-items: center;
 }
 
 label {
@@ -160,10 +98,13 @@ margin-bottom: 8px;
 color: var(--text-muted);
 text-transform: uppercase;
 letter-spacing: 0.5px;
+text-align: center;
+width: 100%;
 }
 
 input, select {
 width: 100%;
+max-width: 360px;
 padding: 12px 16px;
 border-radius: 10px;
 border: 1px solid var(--border-color);
@@ -174,257 +115,23 @@ font-size: 0.95rem;
 outline: none;
 appearance: none;
 -webkit-appearance: none;
+text-align: center;
+text-align-last: center;
 }
 
 select {
 background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23888888%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
 background-repeat: no-repeat;
-background-position: right 14px top 50%;
+background-position: right 16px top 50%;
 background-size: 10px auto;
 padding-right: 36px;
 }
 
-input:focus, select:focus {
-border-color: var(--accent);
-box-shadow: 0 0 0 3px rgba(74, 85, 104, 0.15);
-}
-
-body.theme-athlete input:focus, body.theme-athlete select:focus {
-box-shadow: 0 0 0 3px rgba(72, 202, 228, 0.2);
-}
-
-body.theme-movie input:focus, body.theme-movie select:focus {
-box-shadow: 0 0 0 3px rgba(229, 169, 60, 0.2);
-}
-
 /* ==========================================================================
 Buttons
-========================================================================== */
+========================================================================== /
 .btn {
 width: 100%;
-padding: 14px 20px;
-border-radius: 10px;
-border: none;
-font-size: 0.95rem;
-font-weight: 600;
-cursor: pointer;
-display: inline-flex;
-justify-content: center;
-align-items: center;
-gap: 8px;
-transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
-}
-
-.primary-btn {
-background-color: var(--accent);
-color: #ffffff;
-}
-
-body.theme-athlete .primary-btn,
-body.theme-movie .primary-btn {
-color: #0b132b;
-}
-
-.primary-btn:hover {
-background-color: var(--accent-hover);
-transform: translateY(-1px);
-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-}
-
-.secondary-btn {
-background: transparent;
-border: 1px solid var(--border-color);
-color: var(--text-main);
-}
-
-.secondary-btn:hover {
-border-color: var(--accent);
-color: var(--accent);
-background-color: rgba(0, 0, 0, 0.02);
-}
-
-/* ==========================================================================
-Main Dashboard Header
-========================================================================== */
-.top-nav {
-display: flex;
-justify-content: space-between;
-align-items: center;
-margin-bottom: 24px;
-}
-
-.icon-btn {
-background: var(--card-bg);
-border: 1px solid var(--border-color);
-border-radius: 10px;
-cursor: pointer;
-padding: 8px 10px;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-gap: 4px;
-width: 40px;
-height: 40px;
-}
-
-.icon-btn:hover {
-border-color: var(--accent);
-}
-
-.icon-btn .bar {
-width: 20px;
-height: 2px;
-background-color: var(--text-main);
-border-radius: 2px;
-}
-
-/* ==========================================================================
-Typography & Content Blocks
-========================================================================== */
-h1 {
-font-family: var(--font-heading);
-font-size: 2.2rem;
-margin-bottom: 6px;
-letter-spacing: -0.5px;
-}
-
-.tagline {
-color: var(--text-muted);
-margin-bottom: 28px;
-font-size: 0.95rem;
-}
-
-blockquote {
-font-family: var(--font-heading);
-font-size: 1.3rem;
-line-height: 1.6;
-font-style: italic;
-margin-bottom: 16px;
-}
-
-.author {
-text-align: right;
-color: var(--text-muted);
-font-size: 0.9rem;
-font-weight: 600;
-}
-
-.fact-card p {
-font-size: 1.05rem;
-line-height: 1.6;
-}
-
-/* ==========================================================================
-Animations
-========================================================================== */
-.animate-in {
-animation: riseAndFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes riseAndFade {
-from {
-opacity: 0;
-transform: translateY(20px);
-}
-to {
-opacity: 1;
-transform: translateY(0);
-}
-}
-
-/* ==========================================================================
-Sidebar Drawer Menu & Formatting
-========================================================================== */
-.drawer-backdrop {
-position: fixed;
-top: 0;
-left: 0;
-width: 100vw;
-height: 100vh;
-background: rgba(0, 0, 0, 0.4);
-backdrop-filter: blur(2px);
-opacity: 0;
-visibility: hidden;
-transition: opacity 0.3s ease, visibility 0.3s ease;
-z-index: 99;
-}
-
-.drawer-backdrop.open {
-opacity: 1;
-visibility: visible;
-}
-
-.drawer {
-position: fixed;
-top: 0;
-right: -100%;
-width: 100%;
 max-width: 360px;
-height: 100%;
-background: var(--card-bg);
-border-left: 1px solid var(--border-color);
-box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
-transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-z-index: 100;
-display: flex;
-flex-direction: column;
-box-sizing: border-box;
-}
-
-.drawer.open {
-right: 0;
-}
-
-.drawer-content {
-display: flex;
-flex-direction: column;
-height: 100%;
-padding: 24px;
-}
-
-.drawer-header {
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding-bottom: 16px;
-margin-bottom: 20px;
-border-bottom: 1px solid var(--border-color);
-}
-
-.drawer-header h3 {
-font-family: var(--font-heading);
-font-size: 1.4rem;
-color: var(--text-main);
-}
-
-.close-btn {
-background: transparent;
-border: none;
-font-size: 1.6rem;
-line-height: 1;
-color: var(--text-muted);
-cursor: pointer;
-padding: 4px 8px;
-border-radius: 6px;
-}
-
-.close-btn:hover {
-color: var(--text-main);
-background-color: var(--bg-color);
-}
-
-.drawer-body {
-flex: 1;
-overflow-y: auto;
-display: flex;
-flex-direction: column;
-gap: 16px;
-padding-right: 4px;
-}
-
-.drawer-footer {
-margin-top: auto;
-padding-top: 20px;
-border-top: 1px solid var(--border-color);
-}
+padding: 14px 20px;
+/ ... existing code ... */
