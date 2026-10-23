@@ -10,431 +10,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Rajdhani:wght@600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
   
-  <style>
-    /* Base Theme Variables & Resets */
-    :root {
-      --bg-color: #0b132b;
-      --card-bg: rgba(28, 37, 65, 0.75);
-      --input-bg: #141b33;
-      --text-main: #ffffff;
-      --text-muted: #8d99ae;
-      --accent: #48cae4;
-      --accent-hover: #00b4d8;
-      --border-color: rgba(255, 255, 255, 0.12);
-      --font-heading: 'Inter', sans-serif;
-      --font-body: 'Inter', sans-serif;
-    }
-
-    /* Dynamic Category Themes */
-    body.theme-philosophy {
-      --bg-color: #120e0a;
-      --card-bg: rgba(36, 26, 18, 0.8);
-      --input-bg: #211710;
-      --text-main: #f5ebe0;
-      --text-muted: #d5bdaf;
-      --accent: #e63946;
-      --accent-hover: #c1121f;
-      --border-color: rgba(230, 57, 70, 0.25);
-      --font-heading: 'Cinzel', serif;
-    }
-
-    body.theme-movie {
-      --bg-color: #1a080c;
-      --card-bg: rgba(45, 12, 19, 0.8);
-      --input-bg: #2b0b12;
-      --text-main: #fff0f3;
-      --text-muted: #ffb3c1;
-      --accent: #ff4d6d;
-      --accent-hover: #c9184a;
-      --border-color: rgba(255, 77, 109, 0.25);
-      --font-heading: 'Playfair Display', serif;
-    }
-
-    body.theme-athlete {
-      --bg-color: #0b132b;
-      --card-bg: rgba(28, 37, 65, 0.8);
-      --input-bg: #141b33;
-      --text-main: #ffffff;
-      --text-muted: #8d99ae;
-      --accent: #48cae4;
-      --accent-hover: #00b4d8;
-      --border-color: rgba(72, 202, 228, 0.25);
-      --font-heading: 'Space Grotesk', sans-serif;
-    }
-
-    /* Dedicated Theme for Song Lyrics */
-    body.theme-lyrics {
-      --bg-color: #12091f;
-      --card-bg: rgba(31, 18, 53, 0.85);
-      --input-bg: #170d29;
-      --text-main: #f3e8ff;
-      --text-muted: #a78bfa;
-      --accent: #c084fc;
-      --accent-hover: #a855f7;
-      --border-color: rgba(192, 132, 252, 0.3);
-      --font-heading: 'Rajdhani', sans-serif;
-    }
-
-    body.theme-cyberpunk {
-      --bg-color: #0d0e15;
-      --card-bg: rgba(22, 24, 36, 0.85);
-      --input-bg: #10121d;
-      --text-main: #00f0ff;
-      --text-muted: #7082a0;
-      --accent: #ff007f;
-      --accent-hover: #d6006b;
-      --border-color: rgba(0, 240, 255, 0.25);
-      --font-heading: 'Rajdhani', sans-serif;
-    }
-
-    body.theme-forest {
-      --bg-color: #0b1d17;
-      --card-bg: rgba(20, 46, 38, 0.8);
-      --input-bg: #0f241d;
-      --text-main: #e2f1ed;
-      --text-muted: #7a9e93;
-      --accent: #2a9d8f;
-      --accent-hover: #218377;
-      --border-color: rgba(42, 157, 143, 0.25);
-      --font-heading: 'Cinzel', serif;
-    }
-
-    body.theme-sunset {
-      --bg-color: #1a0f1c;
-      --card-bg: rgba(41, 24, 45, 0.8);
-      --input-bg: #201223;
-      --text-main: #fceade;
-      --text-muted: #aa889c;
-      --accent: #e07a5f;
-      --accent-hover: #c86348;
-      --border-color: rgba(224, 122, 95, 0.25);
-      --font-heading: 'Playfair Display', serif;
-    }
-
-    body.theme-nordic {
-      --bg-color: #0f172a;
-      --card-bg: rgba(30, 41, 59, 0.8);
-      --input-bg: #172033;
-      --text-main: #f1f5f9;
-      --text-muted: #64748b;
-      --accent: #38bdf8;
-      --accent-hover: #0284c7;
-      --border-color: rgba(56, 189, 248, 0.25);
-      --font-heading: 'Space Grotesk', sans-serif;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease;
-    }
-
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      font-family: var(--font-body);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      overflow-x: hidden;
-      padding: 20px;
-    }
-
-    /* Modal Setup Overlay */
-    .setup-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(12px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      padding: 20px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-
-    .setup-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .setup-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 20px;
-      padding: 40px;
-      max-width: 480px;
-      width: 100%;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-    }
-
-    .brand-title {
-      font-family: var(--font-heading);
-      font-size: 2.2rem;
-      margin-bottom: 10px;
-      color: var(--text-main);
-    }
-
-    .subtitle {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      margin-bottom: 30px;
-      line-height: 1.5;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-      text-align: left;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-    }
-
-    .form-group input, .form-group select {
-      width: 100%;
-      padding: 12px 16px;
-      background: var(--input-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      color: var(--text-main);
-      font-size: 1rem;
-      outline: none;
-    }
-
-    .form-group input:focus, .form-group select:focus {
-      border-color: var(--accent);
-    }
-
-    /* Buttons */
-    .btn {
-      padding: 14px 28px;
-      border-radius: 12px;
-      border: none;
-      font-weight: 600;
-      font-size: 1rem;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s ease;
-    }
-
-    .primary-btn {
-      background: var(--accent);
-      color: #000000;
-    }
-
-    .primary-btn:hover {
-      background: var(--accent-hover);
-      transform: translateY(-2px);
-    }
-
-    .w-full {
-      width: 100%;
-    }
-
-    /* Main Screen Layout */
-    .main-screen {
-      width: 100%;
-      max-width: 720px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .top-nav {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      margin-bottom: 30px;
-      text-align: center;
-    }
-
-    .header-center {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .greeting-heading {
-      font-family: var(--font-heading);
-      font-size: 1.8rem;
-    }
-
-    .datetime-widget {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .tagline {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
-    .hamburger-btn {
-      position: absolute;
-      right: 0;
-      top: 0;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      padding: 8px;
-    }
-
-    .hamburger-btn .bar {
-      width: 24px;
-      height: 2px;
-      background-color: var(--text-main);
-      border-radius: 2px;
-    }
-
-    /* Main Content Wrapper & Cards */
-    .content-wrapper {
-      width: 100%;
-    }
-
-    .content-container {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      width: 100%;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      backdrop-filter: blur(12px);
-      border-radius: 18px;
-      padding: 30px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    }
-
-    .card-label {
-      font-size: 0.75rem;
-      letter-spacing: 1.5px;
-      font-weight: 700;
-      color: var(--accent);
-      margin-bottom: 14px;
-      display: block;
-    }
-
-    .quote-body p {
-      font-family: var(--font-heading);
-      font-size: 1.4rem;
-      line-height: 1.5;
-      margin-bottom: 16px;
-    }
-
-    .author {
-      font-size: 1rem;
-      color: var(--text-muted);
-      text-align: right;
-      font-style: italic;
-    }
-
-    .fact-card p {
-      font-size: 1.1rem;
-      line-height: 1.5;
-    }
-
-    .actions {
-      display: flex;
-      justify-content: center;
-      margin-top: 10px;
-    }
-
-    /* Settings Slide-out Drawer */
-    .drawer {
-      position: fixed;
-      top: 0;
-      right: 0;
-      width: 320px;
-      height: 100%;
-      background: var(--bg-color);
-      border-left: 1px solid var(--border-color);
-      z-index: 1100;
-      padding: 30px 20px;
-      transform: translateX(100%);
-      transition: transform 0.3s ease-in-out;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .drawer.open {
-      transform: translateX(0);
-    }
-
-    .drawer-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-    }
-
-    .close-btn {
-      background: none;
-      border: none;
-      color: var(--text-main);
-      font-size: 1.8rem;
-      cursor: pointer;
-    }
-
-    .drawer-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.6);
-      z-index: 1050;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-
-    .drawer-backdrop.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    /* Animations */
-    .animate-in {
-      animation: fadeIn 0.4s ease forwards;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-  </style>
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body class="theme-philosophy">
+
+  <!-- Dynamic Aesthetic Overlay for Visual Depth -->
+  <div class="bg-overlay"></div>
+
+  <!-- Toast Notification System -->
+  <div id="toast" class="toast-message" role="alert" aria-live="polite">Copied to clipboard!</div>
 
   <!-- Setup / Onboarding Modal Overlay -->
   <div id="setup-screen" class="setup-overlay active">
@@ -473,15 +58,18 @@
     <header class="top-nav">
       <div class="header-center">
         <h2 id="greeting-text" class="greeting-heading">Good afternoon, Friend!</h2>
+        
+        <!-- Live Clock & Calendar Date Widget -->
         <div id="datetime-widget" class="datetime-widget">
           <span id="live-date">Fri, Oct 23, 2026</span>
           <span class="dot-separator">•</span>
           <span id="live-time">5:21:00 PM</span>
         </div>
+        
         <p class="tagline">Here's your daily dose of insight</p>
       </div>
 
-      <!-- Hamburger Button -->
+      <!-- Hamburger Button for Settings -->
       <button id="hamburger-btn" aria-label="Open Settings" class="hamburger-btn">
         <span class="bar"></span>
         <span class="bar"></span>
@@ -489,13 +77,20 @@
       </button>
     </header>
 
-    <!-- Main Card Content -->
+    <!-- Main Content Wrapper & Cards -->
     <main class="content-wrapper">
       <div class="content-container animate-in">
 
         <!-- Quote Card -->
-        <article class="card quote-card">
-          <span id="quote-category-label" class="card-label">PHILOSOPHY QUOTE</span>
+        <article class="card quote-card" id="quote-card-element">
+          <div class="card-header-row">
+            <span id="quote-category-label" class="card-label">PHILOSOPHY QUOTE</span>
+            <div class="card-actions-mini">
+              <button id="favorite-quote-btn" class="icon-btn" title="Save to Favorites" aria-label="Favorite quote">❤️</button>
+              <button id="copy-quote-btn" class="icon-btn" title="Copy Quote" aria-label="Copy quote">📋</button>
+              <button id="speak-quote-btn" class="icon-btn" title="Read Aloud" aria-label="Read quote aloud">🔊</button>
+            </div>
+          </div>
           <blockquote class="quote-body">
             <p id="quote-text">"The unexamined life is not worth living."</p>
           </blockquote>
@@ -504,16 +99,24 @@
 
         <!-- Fun Fact Card -->
         <article class="card fact-card">
-          <span class="card-label">DID YOU KNOW?</span>
+          <div class="card-header-row">
+            <span class="card-label">DID YOU KNOW?</span>
+            <div class="card-actions-mini">
+              <button id="copy-fact-btn" class="icon-btn" title="Copy Fact" aria-label="Copy fact">📋</button>
+              <button id="speak-fact-btn" class="icon-btn" title="Read Aloud" aria-label="Read fact aloud">🔊</button>
+            </div>
+          </div>
           <p id="fact-text">A day on Venus is longer than a year on Venus.</p>
         </article>
 
-        <!-- Action Controls -->
+        <!-- Main Action Controls -->
         <div class="actions">
           <button id="regenerate-btn" class="btn primary-btn">
             <span>Spark New Thought</span>
           </button>
         </div>
+
+        <p class="keyboard-hint">Tip: Press <kbd>Space</kbd> to generate a new spark</p>
 
       </div>
     </main>
@@ -523,7 +126,7 @@
   <!-- Settings Slide-out Drawer -->
   <aside id="settings-drawer" class="drawer">
     <div class="drawer-header">
-      <h3>Settings</h3>
+      <h3>Settings & Preferences</h3>
       <button id="close-drawer-btn" class="close-btn" aria-label="Close Settings">&times;</button>
     </div>
 
@@ -559,338 +162,22 @@
         </select>
       </div>
 
-      <button id="save-settings-btn" class="btn primary-btn w-full">Save Changes</button>
+      <!-- Saved Favorites List Section -->
+      <div class="favorites-section">
+        <h4>Saved Quotes (<span id="fav-count">0</span>)</h4>
+        <div id="favorites-list" class="favorites-list">
+          <p class="empty-fav-text">No saved quotes yet. Click the ❤️ icon on any quote card!</p>
+        </div>
+      </div>
+
+      <button id="save-settings-btn" class="btn primary-btn w-full mt-20">Save Changes</button>
     </div>
   </aside>
 
   <!-- Overlay Backdrop for Drawer -->
   <div id="drawer-backdrop" class="drawer-backdrop"></div>
 
-  <!-- App Script -->
-  <script>
-    const quoteData = {
-      philosophy: [
-        { quote: "The unexamined life is not worth living.", author: "Socrates" },
-        { quote: "He who is not satisfied with a little, is satisfied with nothing.", author: "Epictetus" },
-        { quote: "He who has a why to live can bear almost any how.", author: "Friedrich Nietzsche" },
-        { quote: "We are what we repeatedly do. Excellence, then, is not an act, but a habit.", author: "Aristotle" },
-        { quote: "Liberty consists in doing what one desires.", author: "John Stuart Mill" },
-        { quote: "Life must be understood backward. But it must be lived forward.", author: "Søren Kierkegaard" },
-        { quote: "Euuhhhhh, ooohh, ahhhhhhh", author: "Sun Tzu" },
-        { quote: "Cornballs never make it very far in life.", author: "Potato Head" },
-        { quote: "If you try to lift a heavy stone, you will find out how heavy the stone is.", author: "Barnaby the Wise" },
-        { quote: "Do not fear the dark; fear the evil things that definitely exist when walking in the dark.", author: "Ancient Sleep-Poo/Walker Proverb" },
-        { quote: "Before you criticize someone, walk a mile in their shoes. That way, when you criticize them, you're a mile away and you have their shoes.", author: "Professor Wandering" },
-        { quote: "Confidence is 10% knowing what you are doing and 90% walking very fast while holding a clipboard.", author: "Dr. Arthur Vance" },
-        { quote: "A soup without salt is just sad hot chunk water.", author: "Baron Von Noodleberg" },
-        { quote: "If a door is closed, open it. That is how doors work.", author: "Sir Reginald Flapjack III" },
-        { quote: "Never trust a squirrel with a secret; they hide everything in the dirt.", author: "Archduke Snortington" },
-        { quote: "The early bird gets the worm, but the sleepy bird gets to stay in bed. And that, my fellows, is better.", author: "Professor McSnoozington" },
-        { quote: "To be or not to be isn't the question. The question is: who ate the rest of my Limited Edition Prignles Miller Lite Beer Cheese Burger Potato Crisps?", author: "Garth Burlap, Philosopher at Large" }
-      ],
-      movie: [
-        { quote: "Frankly, my dear, I don't give a damn.", author: "Gone with the Wind (1939)" },
-        { quote: "Here's looking at you, kid.", author: "Casablanca (1942)" },
-        { quote: "May the Force be with you.", author: "Star Wars (1977)" },
-        { quote: "You talking to me?", author: "Taxi Driver (1976)" },
-        { quote: "There's no place like home.", author: "The Wizard of Oz (1939)" },
-        { quote: "What is this? A center for ants?! How can we be expected to teach children to learn how to read if they can't even fit inside the building?", author: "Tom Bomb (2026)" },
-        { quote: "Float like a lily pad, sting like a really angry bee", author: "Cars (2006)" },
-        { quote: "If you're going hard enough left, you'll find yourself turning left.", author: "Also Cars (2006)" },
-        { quote: "Thank you! Or should I say, NO thank you? Because in opposite world, maybe that really means thank you!", author: "Cars again (2006)" },
-        { quote: "I rit my rants, raggy", author: "Scooby Doo (???)" },
-        { quote: "You can't arrest me, officer! I just crossed state lines which means your dumb laws don't apply here, so you better back off.", author: "Lord Gigglesworth in 'Wild Chase' (2022)" },
-        { quote: "Put down the spatula! That pancake is a load-bearing breakfast item!", author: "Chef Bartholomew Bounce (2025)" },
-        { quote: "We came for the treasure, but we stayed because the ghost was really nice, he gave us warm milk and actually sat me down and talked me through my recent divorce and really helped me out because that's been really hard on me. I don't know, man, it's just been really hard lately, but this ghost really provided something to me that I didn't know I needed. he helped me more than he knows.", author: "Commander Biscuit (2020)" }
-      ],
-      athlete: [
-        { quote: "I hated every minute of training, but I said, 'Don't quit. Suffer now and live the rest of your life as a champion.'", author: "Muhammad Ali" },
-        { quote: "You miss 100% of the shots you don't take.", author: "Wayne Gretzky" },
-        { quote: "I've failed over and over and over again in my life. And that is why I succeed.", author: "Michael Jordan" },
-        { quote: "Gold medals aren't really made of gold. They're made of sweat, determination, and a hard-to-find alloy called guts.", author: "Dan Gable" },
-        { quote: "It's not whether you get knocked down, it's whether you get up.", author: "Vince Lombardi" },
-        { quote: "When asked if the extra shots after knocking out his opponent were necessary - They were super necessary.", author: "Jorge Masvidal" },
-        { quote: "I run fast because if I stop moving, the mysterious evil entity that has been chasing me since I was 5 and a half years old catches up to me.", author: "Sprint Master Greg" },
-        { quote: "Pain is just weakness leaving the body, but cramps are just your legs being rude.", author: "Marathon Manny" },
-        { quote: "My secret technique? I pretend the basketball is a precious little baby boy and the only safe place for it is the basketball hoop, which I imagine is a soft liite baby boy bed. So I throw it in.", author: "Dunkin' Dave" },
-        { quote: "I don't play for the trophies; I play for the post-game showers with the boys.", author: "Coach Chuck" },
-        { quote: "Get off your high horse", author: "Wade Clubb" },
-        { quote: "Rappers who use auto-tune VS. Rappers who don't", author: "Theo Wolfe" }
-      ],
-      lyrics: [
-        { quote: "We may lose, we may win, but we will never be here again.", author: "Eagles - 'Take It Easy'" },
-        { quote: "You may say I'm a dreamer, but I'm not the only one.", author: "John Lennon – 'Imagine'" },
-        { quote: "If I leave here tomorrow, would you still remember me?", author: "Lynyrd Skynyrd - 'Free Bird'" },
-        { quote: "Don't stop believin', hold on to that feelin'.", author: "Journey – 'Don't Stop Believin''" },
-        { quote: "Today is where your book begins, the rest is still unwritten.", author: "Natasha Bedingfield – 'Unwritten'" },
-        { quote: "It's my life, it's now or never. I ain't gonna live forever.", author: "Bon Jovi – 'It's My Life'" },
-        { quote: "But if you never try, you'll never know, just what you're worth", author: "Coldplay – 'Fix You'" },
-        { quote: "Every little thing is gonna be alright.", author: "Bob Marley – 'Three Little Birds'" },
-        { quote: "They say nothing lasts forever, but they ain't seen us together.", author: "Luke Combs – 'Forever After All'" },
-        { quote: "Sometimes I wish that I could freeze the picture, and save it from the funny tricks of time.", author: "ABBA – 'Slipping Through My Fingers'" },
-        { quote: "I've got all I need, and that's alright by me.", author: "Darius Rucker – 'Alright'" },
-        { quote: "Carry on my wayward son, there'll be peace when you are done.", author: "Kansas – 'Carry On Wayward Son'" },
-        { quote: "Wherever you are's where I want to be.", author: "Chris Stapleton – 'Starting Over'" },
-        { quote: "If you've got a dream, chase it, 'cause the dream won't chase you back.", author: "Cody Johnson – 'Til You Can't'" },
-        { quote: "It just takes some time, little girl, you're in the middle of the ride, everything'll be just fine.", author: "Jimmy Eat World – 'The Middle'" },
-        { quote: "When all the parts of the puzzle start to look like they fit, then I must remember, there'll be days like this.", author: "Van Morrison – 'Days Like This'" },
-        { quote: "Maybe a reason why all the doors are closed, so you could open one that leads you to the perfect road.", author: "Katy Perry – 'Firework'" }
-      ]
-    };
-
-    const factData = [
-      "A day on Venus is longer than a year on Venus.",
-      "Human teeth are the only part of the body that cannot heal themselves.",
-      "Bananas are radioactive because they contain high levels of potassium.",
-      "Water can boil and freeze at the exact same time under specific lab conditions (the triple point).",
-      "Wombat poop is cube-shaped to prevent it from rolling away.",
-      "Your brain uses roughly 20 percent of your body's total energy.",
-      "Ty sits next to Caleb in this class.",
-      "Gus was wearing a white sweater when I wrote this. I don't know what it said, though.",
-      "The quote above me is dumb.",
-      "One day I will meet John Lennon in person.",
-      "Sometimes when I wake up, I have to pee.",
-      "Twitter is called X now.",
-      "Last year, winter happened around November.",
-      "One time I ate a banana. i dropped it",
-      "Blue is better than red.",
-      "Nobody actually likes sparkling water.",
-      "Sometimes, a dog bark",
-      "I drew a realistic pickle and it tasted like one too. It was a real pickle actually, I just put it on a piece of paper and took a picture of it.",
-      "Who is Michael Jackson? I don't recognize that name",
-      "That one Michael Jackson thing isn't even a fact; it's just a question. THIS is a fact.",
-      "When it rains, it pours. Sometimes.",
-      "When I don't eat, I get hungry.",
-      "Wombat poop is a cube? Actually? What kind of function is that? Not rolling away? Why wouldn't you want your poop to roll away? You wanna keep it? I wouldn't want to keep it. I want it gone.",
-      "Pizza is spelt P-I-Z-Z-A. I think.",
-      "Bread was invented years ago.",
-      "Birds can fly most of the time.",
-      "Pigs cannot fly.",
-      "A door's primary function is to open and close.",
-      "Celery is 95% terrible",
-      "I don't remember the last time I forgot.",
-      "The sun is very hot.",
-      "You can't drink something that is not liquid.",
-      "When two people love each other very much...",
-      "Bazinga! Oh shoot, this is the fact tab, not the quote tab... also that's from a TV show... double doofus",
-      "Star Wars is not real (I didn't know that).",
-      "Crap, I forgot what the fact was.",
-      "Getting eaten alive probably hurts.",
-      "One time I got robbed, it made me sad. They took my favourite floorboard.",
-      "I have never been to court.",
-      "You are reading this right now.",
-      "Drugz r bad"
-    ];
-
-    let userState = {
-      name: "",
-      category: "all",
-      theme: "auto"
-    };
-
-    const recentQuotes = [];
-    const recentFacts = [];
-    const REPEAT_THRESHOLD = 4;
-
-    const setupScreen = document.getElementById("setup-screen");
-    const setupForm = document.getElementById("setup-form");
-    const usernameInput = document.getElementById("username");
-    const categorySelect = document.getElementById("category");
-
-    const greetingText = document.getElementById("greeting-text");
-    const liveDate = document.getElementById("live-date");
-    const liveTime = document.getElementById("live-time");
-    const quoteText = document.getElementById("quote-text");
-    const quoteAuthor = document.getElementById("quote-author");
-    const quoteCategoryLabel = document.getElementById("quote-category-label");
-    const factText = document.getElementById("fact-text");
-    const regenerateBtn = document.getElementById("regenerate-btn");
-
-    const hamburgerBtn = document.getElementById("hamburger-btn");
-    const settingsDrawer = document.getElementById("settings-drawer");
-    const drawerBackdrop = document.getElementById("drawer-backdrop");
-    const closeDrawerBtn = document.getElementById("close-drawer-btn");
-    const saveSettingsBtn = document.getElementById("save-settings-btn");
-    const settingsName = document.getElementById("settings-name");
-    const settingsCategory = document.getElementById("settings-category");
-    const settingsTheme = document.getElementById("settings-theme");
-
-    function getTimeBasedGreeting(name) {
-      const currentHour = new Date().getHours();
-      
-      if (currentHour >= 5 && currentHour < 12) {
-        return {
-          title: `Good morning, ${name}!`,
-          tagline: "I hope your morning is treating you well and your day starts on a bright note."
-        };
-      } else if (currentHour >= 12 && currentHour < 17) {
-        return {
-          title: `Good afternoon, ${name}!`,
-          tagline: "I hope your afternoon is treating you well and keeping you inspired."
-        };
-      } else if (currentHour >= 17 && currentHour < 22) {
-        return {
-          title: `Good evening, ${name}!`,
-          tagline: "I hope your evening is treating you well as you unwind and relax."
-        };
-      } else {
-        return {
-          title: `Good night, ${name}!`,
-          tagline: "I hope your night is treating you well and brings you restful peace."
-        };
-      }
-    }
-
-    function updateGreetingHeader() {
-      const name = userState.name || "Friend";
-      const { title, tagline } = getTimeBasedGreeting(name);
-      
-      if (greetingText) greetingText.textContent = title;
-      
-      const taglineEl = document.querySelector(".tagline");
-      if (taglineEl) taglineEl.textContent = tagline;
-    }
-
-    function updateDateTime() {
-      const now = new Date();
-      const dateOptions = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
-      if (liveDate) liveDate.textContent = now.toLocaleDateString(undefined, dateOptions);
-      
-      const timeOptions = { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true };
-      if (liveTime) liveTime.textContent = now.toLocaleTimeString(undefined, timeOptions);
-
-      updateGreetingHeader();
-    }
-
-    updateDateTime();
-    setInterval(updateDateTime, 1000);
-
-    function getRandomItem(array) {
-      return array[Math.floor(Math.random() * array.length)];
-    }
-
-    function getUniqueRandomItem(pool, recentArray, keyFn = (item) => item, historyLimit = REPEAT_THRESHOLD) {
-      let availableItems = pool.filter(item => !recentArray.includes(keyFn(item)));
-
-      if (availableItems.length === 0) {
-        availableItems = pool;
-      }
-
-      const selected = getRandomItem(availableItems);
-      const selectedKey = keyFn(selected);
-
-      recentArray.push(selectedKey);
-      if (recentArray.length > historyLimit) {
-        recentArray.shift();
-      }
-
-      return selected;
-    }
-
-    function applyTheme(themeValue, currentCategory) {
-      let activeTheme = themeValue;
-      if (themeValue === "auto") {
-        activeTheme = currentCategory === "all" ? "philosophy" : currentCategory;
-      }
-      
-      document.body.classList.remove(
-        'theme-philosophy', 
-        'theme-movie', 
-        'theme-athlete', 
-        'theme-lyrics',
-        'theme-cyberpunk', 
-        'theme-forest', 
-        'theme-sunset', 
-        'theme-nordic', 
-        'theme-all', 
-        'theme-auto'
-      );
-      document.body.classList.add(`theme-${activeTheme}`);
-    }
-
-    function generateContent() {
-      let selectedCategory = userState.category;
-      if (selectedCategory === "all") {
-        const categories = ["philosophy", "movie", "athlete", "lyrics"];
-        selectedCategory = getRandomItem(categories);
-      }
-
-      const pool = quoteData[selectedCategory] || quoteData.philosophy;
-      
-      const randomQuote = getUniqueRandomItem(pool, recentQuotes, (q) => `${q.quote}-${q.author}`);
-      const randomFact = getUniqueRandomItem(factData, recentFacts, (f) => f);
-
-      if (quoteText) quoteText.textContent = `"${randomQuote.quote}"`;
-      if (quoteAuthor) quoteAuthor.textContent = `— ${randomQuote.author}`;
-      if (quoteCategoryLabel) quoteCategoryLabel.textContent = `${selectedCategory.toUpperCase()} QUOTE`;
-      if (factText) factText.textContent = randomFact;
-
-      applyTheme(userState.theme, selectedCategory);
-    }
-
-    function triggerAnimation() {
-      const container = document.querySelector(".content-container");
-      if (!container) return;
-      container.classList.remove("animate-in");
-      void container.offsetWidth; 
-      container.classList.add("animate-in");
-    }
-
-    if (setupForm) {
-      setupForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-
-        userState.name = usernameInput ? usernameInput.value.trim() || "Friend" : "Friend";
-        userState.category = categorySelect ? categorySelect.value : "all";
-
-        updateGreetingHeader();
-
-        if (setupScreen) {
-          setupScreen.classList.remove("active");
-        }
-
-        generateContent();
-        triggerAnimation();
-      });
-    }
-
-    if (regenerateBtn) {
-      regenerateBtn.addEventListener("click", () => {
-        generateContent();
-        triggerAnimation();
-      });
-    }
-
-    function openDrawer() {
-      if (settingsName) settingsName.value = userState.name;
-      if (settingsCategory) settingsCategory.value = userState.category;
-      if (settingsTheme) settingsTheme.value = userState.theme;
-
-      if (settingsDrawer) settingsDrawer.classList.add("open");
-      if (drawerBackdrop) drawerBackdrop.classList.add("active");
-    }
-
-    function closeDrawer() {
-      if (settingsDrawer) settingsDrawer.classList.remove("open");
-      if (drawerBackdrop) drawerBackdrop.classList.remove("active");
-    }
-
-    if (hamburgerBtn) hamburgerBtn.addEventListener("click", openDrawer);
-    if (closeDrawerBtn) closeDrawerBtn.addEventListener("click", closeDrawer);
-    if (drawerBackdrop) drawerBackdrop.addEventListener("click", closeDrawer);
-
-    if (saveSettingsBtn) {
-      saveSettingsBtn.addEventListener("click", () => {
-        if (settingsName) userState.name = settingsName.value.trim() || userState.name;
-        if (settingsCategory) userState.category = settingsCategory.value;
-        if (settingsTheme) userState.theme = settingsTheme.value;
-
-        updateGreetingHeader();
-        generateContent();
-        triggerAnimation();
-        closeDrawer();
-      });
-    }
-  </script>
+  <!-- External App Script -->
+  <script src="script.js"></script>
 </body>
 </html>
