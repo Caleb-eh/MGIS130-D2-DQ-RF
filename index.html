@@ -7,7 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Space+Grotesk:wght@500;700&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -49,9 +49,14 @@
       <!-- Empty left spacer to maintain true center for the title card -->
       <div class="nav-spacer"></div>
 
-      <!-- Centered Greeting Title -->
+      <!-- Centered Greeting Title & Date/Time Display -->
       <div class="header-title">
         <h2 id="greeting-text" class="text-xl font-bold">Hello, Friend!</h2>
+        <div id="datetime-widget" class="datetime-widget">
+          <span id="live-date" class="date-text"></span>
+          <span class="dot-separator">•</span>
+          <span id="live-time" class="time-text"></span>
+        </div>
         <p class="tagline">Here's your daily dose of insight</p>
       </div>
 
