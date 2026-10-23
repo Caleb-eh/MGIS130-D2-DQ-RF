@@ -1,4 +1,6 @@
-/* CSS Variables & Theme Definitions */
+/* ==========================================================================
+CSS Variables & Theme Definitions
+========================================================================== */
 :root {
 --bg-color: #f4f5f7;
 --card-bg: #ffffff;
@@ -8,8 +10,8 @@
 --accent-hover: #2d3748;
 --border-color: #e2e8f0;
 --font-heading: 'Cinzel', serif;
---font-body: 'Inter', sans-serif;
---shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+--font-body: 'Inter', system-ui, -apple-system, sans-serif;
+--shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
 --glass-border: rgba(0, 0, 0, 0.08);
 }
 
@@ -52,13 +54,15 @@ body.theme-athlete {
 --glass-border: rgba(72, 202, 228, 0.2);
 }
 
-/* Global Reset (Fixed syntax error from '-' to '*') */
+/* ==========================================================================
+Global Reset & Base Layout
+========================================================================== */
 
 {
 box-sizing: border-box;
 margin: 0;
 padding: 0;
-transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.3s ease;
+transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 body {
@@ -71,14 +75,17 @@ justify-content: center;
 align-items: center;
 overflow-x: hidden;
 position: relative;
+line-height: 1.5;
 }
 
-/* Screen Visibility & Transitions */
+/* ==========================================================================
+Screen Containers
+========================================================================== */
 .screen {
 display: none;
 width: 100%;
-max-width: 680px;
-padding: 24px;
+max-width: 640px;
+padding: 24px 16px;
 margin: 0 auto;
 }
 
@@ -86,49 +93,46 @@ margin: 0 auto;
 display: block;
 }
 
-/* Card Styling */
+/* ==========================================================================
+Cards (Main UI Components)
+========================================================================== */
 .card {
 background: var(--card-bg);
 border: 1px solid var(--border-color);
-border-radius: 20px;
-padding: 36px;
+border-radius: 16px;
+padding: 32px;
 box-shadow: var(--shadow);
 margin-bottom: 24px;
-backdrop-filter: blur(8px);
+position: relative;
 }
 
 .card-label {
 display: inline-block;
 font-size: 0.75rem;
 text-transform: uppercase;
-letter-spacing: 2px;
+letter-spacing: 1.5px;
 color: var(--accent);
-margin-bottom: 14px;
+margin-bottom: 12px;
 font-weight: 700;
 }
 
-/* Setup Screen / Opening Screen (Aligned with Main Theme Aesthetic) */
+/* ==========================================================================
+Setup Screen / Opening Screen Formatting
+========================================================================== */
 .setup-card {
 text-align: center;
-border: 1px solid var(--glass-border);
-position: relative;
-overflow: hidden;
-}
-
-.setup-card::before {
-content: '';
-position: absolute;
-top: 0;
-left: 0;
-right: 0;
-height: 4px;
-background: var(--accent);
+background: var(--card-bg);
+border: 1px solid var(--border-color);
+border-top: 4px solid var(--accent);
+border-radius: 16px;
+padding: 40px 32px;
+box-shadow: var(--shadow);
 }
 
 .setup-card h2 {
 font-family: var(--font-heading);
-font-size: 2.25rem;
-margin-bottom: 10px;
+font-size: 2.2rem;
+margin-bottom: 8px;
 color: var(--text-main);
 letter-spacing: -0.5px;
 }
@@ -140,9 +144,11 @@ font-size: 0.95rem;
 line-height: 1.5;
 }
 
-/* Form Controls */
+/* ==========================================================================
+Form Elements
+========================================================================== */
 .form-group {
-margin-bottom: 22px;
+margin-bottom: 20px;
 text-align: left;
 }
 
@@ -152,18 +158,19 @@ font-size: 0.85rem;
 font-weight: 600;
 margin-bottom: 8px;
 color: var(--text-muted);
+text-transform: uppercase;
 letter-spacing: 0.5px;
 }
 
 input, select {
 width: 100%;
-padding: 14px 18px;
+padding: 12px 16px;
 border-radius: 10px;
 border: 1px solid var(--border-color);
 background-color: var(--bg-color);
 color: var(--text-main);
 font-family: var(--font-body);
-font-size: 1rem;
+font-size: 0.95rem;
 outline: none;
 appearance: none;
 -webkit-appearance: none;
@@ -172,9 +179,9 @@ appearance: none;
 select {
 background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23888888%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
 background-repeat: no-repeat;
-background-position: right 16px top 50%;
-background-size: 12px auto;
-padding-right: 40px;
+background-position: right 14px top 50%;
+background-size: 10px auto;
+padding-right: 36px;
 }
 
 input:focus, select:focus {
@@ -190,26 +197,27 @@ body.theme-movie input:focus, body.theme-movie select:focus {
 box-shadow: 0 0 0 3px rgba(229, 169, 60, 0.2);
 }
 
-/* Buttons */
+/* ==========================================================================
+Buttons
+========================================================================== */
 .btn {
 width: 100%;
 padding: 14px 20px;
 border-radius: 10px;
 border: none;
-font-size: 1rem;
+font-size: 0.95rem;
 font-weight: 600;
 cursor: pointer;
 display: inline-flex;
 justify-content: center;
 align-items: center;
 gap: 8px;
-transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
 }
 
 .primary-btn {
 background-color: var(--accent);
 color: #ffffff;
-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 body.theme-athlete .primary-btn,
@@ -219,12 +227,8 @@ color: #0b132b;
 
 .primary-btn:hover {
 background-color: var(--accent-hover);
-transform: translateY(-2px);
-box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-}
-
-.primary-btn:active {
-transform: translateY(0);
+transform: translateY(-1px);
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .secondary-btn {
@@ -239,12 +243,14 @@ color: var(--accent);
 background-color: rgba(0, 0, 0, 0.02);
 }
 
-/* Main Dashboard Header */
+/* ==========================================================================
+Main Dashboard Header
+========================================================================== */
 .top-nav {
 display: flex;
 justify-content: space-between;
 align-items: center;
-margin-bottom: 20px;
+margin-bottom: 24px;
 }
 
 .icon-btn {
@@ -252,20 +258,18 @@ background: var(--card-bg);
 border: 1px solid var(--border-color);
 border-radius: 10px;
 cursor: pointer;
-padding: 10px;
+padding: 8px 10px;
 display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-gap: 5px;
-width: 42px;
-height: 42px;
-transition: border-color 0.2s ease, transform 0.2s ease;
+gap: 4px;
+width: 40px;
+height: 40px;
 }
 
 .icon-btn:hover {
 border-color: var(--accent);
-transform: scale(1.03);
 }
 
 .icon-btn .bar {
@@ -275,7 +279,9 @@ background-color: var(--text-main);
 border-radius: 2px;
 }
 
-/* Main Typography */
+/* ==========================================================================
+Typography & Content Blocks
+========================================================================== */
 h1 {
 font-family: var(--font-heading);
 font-size: 2.2rem;
@@ -291,7 +297,7 @@ font-size: 0.95rem;
 
 blockquote {
 font-family: var(--font-heading);
-font-size: 1.35rem;
+font-size: 1.3rem;
 line-height: 1.6;
 font-style: italic;
 margin-bottom: 16px;
@@ -305,19 +311,21 @@ font-weight: 600;
 }
 
 .fact-card p {
-font-size: 1.1rem;
+font-size: 1.05rem;
 line-height: 1.6;
 }
 
-/* Animation: Rise and Fade In */
+/* ==========================================================================
+Animations
+========================================================================== */
 .animate-in {
-animation: riseAndFade 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+animation: riseAndFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes riseAndFade {
 from {
 opacity: 0;
-transform: translateY(24px);
+transform: translateY(20px);
 }
 to {
 opacity: 1;
@@ -325,7 +333,9 @@ transform: translateY(0);
 }
 }
 
-/* Settings Drawer / Sidebar Menu Formatting Fixes */
+/* ==========================================================================
+Sidebar Drawer Menu & Formatting
+========================================================================== */
 .drawer-backdrop {
 position: fixed;
 top: 0;
@@ -333,7 +343,7 @@ left: 0;
 width: 100vw;
 height: 100vh;
 background: rgba(0, 0, 0, 0.4);
-backdrop-filter: blur(4px);
+backdrop-filter: blur(2px);
 opacity: 0;
 visibility: hidden;
 transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -350,16 +360,16 @@ position: fixed;
 top: 0;
 right: -100%;
 width: 100%;
-max-width: 380px;
+max-width: 360px;
 height: 100%;
 background: var(--card-bg);
 border-left: 1px solid var(--border-color);
-box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
-transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
+transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 z-index: 100;
 display: flex;
 flex-direction: column;
-overflow-y: auto;
+box-sizing: border-box;
 }
 
 .drawer.open {
@@ -367,37 +377,36 @@ right: 0;
 }
 
 .drawer-content {
-padding: 32px 28px;
 display: flex;
 flex-direction: column;
 height: 100%;
+padding: 24px;
 }
 
 .drawer-header {
 display: flex;
 justify-content: space-between;
 align-items: center;
-margin-bottom: 28px;
 padding-bottom: 16px;
+margin-bottom: 20px;
 border-bottom: 1px solid var(--border-color);
 }
 
 .drawer-header h3 {
 font-family: var(--font-heading);
-font-size: 1.5rem;
+font-size: 1.4rem;
 color: var(--text-main);
 }
 
 .close-btn {
-background: none;
+background: transparent;
 border: none;
-font-size: 1.8rem;
+font-size: 1.6rem;
 line-height: 1;
 color: var(--text-muted);
 cursor: pointer;
 padding: 4px 8px;
 border-radius: 6px;
-transition: color 0.2s ease, background-color 0.2s ease;
 }
 
 .close-btn:hover {
@@ -405,16 +414,17 @@ color: var(--text-main);
 background-color: var(--bg-color);
 }
 
-/* Sidebar Menu Navigation Items & Form Layout */
 .drawer-body {
 flex: 1;
+overflow-y: auto;
 display: flex;
 flex-direction: column;
-gap: 20px;
+gap: 16px;
+padding-right: 4px;
 }
 
 .drawer-footer {
-margin-top: 24px;
-padding-top: 16px;
+margin-top: auto;
+padding-top: 20px;
 border-top: 1px solid var(--border-color);
 }
