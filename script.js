@@ -49,14 +49,23 @@ const quoteData = {
     { quote: "Rappers who use auto-tune VS. Rappers who don't", author: "Theo Wolfe" }
   ],
   lyrics: [
-    { quote: "It's a new dawn, it's a new day, it's a new life for me, and I'm feeling good.", author: "Nina Simone – 'Feeling Good'" },
+    { quote: "We may lose, we may win, but we will never be here again.", author: "Eagles - 'Take It Easy'" },
     { quote: "You may say I'm a dreamer, but I'm not the only one.", author: "John Lennon – 'Imagine'" },
-    { quote: "We are all stars, and we deserve to twinkle.", author: "Marilyn Monroe" },
+    { quote: "If I leave here tomorrow, would you still remember me?", author: "Lynyrd Skynyrd - 'Free Bird'" },
     { quote: "Don't stop believin', hold on to that feelin'.", author: "Journey – 'Don't Stop Believin''" },
-    { quote: "The rest is still unwritten.", author: "Natasha Bedingfield – 'Unwritten'" },
+    { quote: "Today is where your book begins, the rest is still unwritten.", author: "Natasha Bedingfield – 'Unwritten'" },
     { quote: "It's my life, it's now or never. I ain't gonna live forever.", author: "Bon Jovi – 'It's My Life'" },
-    { quote: "Work it, make it, do it, makes us harder, better, faster, stronger.", author: "Daft Punk – 'Harder, Better, Faster, Stronger'" },
-    { quote: "Every little thing is gonna be alright.", author: "Bob Marley – 'Three Little Birds'" }
+    { quote: "But if you never try, you'll never know, just what you're worth", author: "Coldplay – 'Fix You'" },
+    { quote: "Every little thing is gonna be alright.", author: "Bob Marley – 'Three Little Birds'" },
+    { quote: "They say nothing lasts forever, but they ain't seen us together.", author: "Luke Combs – 'Forever After All'" },
+    { quote: "Sometimes I wish that I could freeze the picture, and save it from the funny tricks of time.", author: "ABBA – 'Slipping Through My Fingers'" },
+    { quote: "I've got all I need, and that's alright by me.", author: "Darius Rucker – 'Alright'" },
+    { quote: "Carry on my wayward son, there'll be peace when you are done.", author: "Kansas – 'Carry On Wayward Son'" },
+    { quote: "Wherever you are's where I want to be.", author: "Chris Stapleton – 'Starting Over'" },
+    { quote: "If you've got a dream, chase it, 'cause the dream won't chase you back.", author: "Cody Johnson – ''Til You Can't'" },
+    { quote: "It just takes some time, little girl, you're in the middle of the ride, everything'll be just fine.", author: "Jimmy Eat World – 'The Middle'" },
+    { quote: "When all the parts of the puzzle start to look like they fit, then I must remember, there'll be days like this.", author: "Van Morrison – 'Days Like This'" },
+    { quote: "Maybe a reason why all the doors are closed, so you could open one that leads you to the perfect road.", author: "Katy Perry – 'Firework'" }
   ]
 };
 
@@ -74,7 +83,7 @@ const factData = [
   "Sometimes when I wake up, I have to pee.",
   "Twitter is called X now.",
   "Last year, winter happened around November.",
-  "One time I ate a banana, and it tasted okay. i dropped it",
+  "One time I ate a banana. i dropped it",
   "Blue is better than red.",
   "Nobody actually likes sparkling water.",
   "Sometimes, a dog bark",
@@ -98,7 +107,7 @@ const factData = [
   "Star Wars is not real (I didn't know that).",
   "Crap, I forgot what the fact was.",
   "Getting eaten alive probably hurts.",
-  "One time I got robbed, it made me sad. They took my favourite outlet cover.",
+  "One time I got robbed, it made me sad. They took my favourite floorboard.",
   "I have never been to court.",
   "You are reading this right now.",
   "Drugz r bad"
