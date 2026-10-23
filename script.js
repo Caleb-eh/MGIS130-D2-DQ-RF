@@ -130,6 +130,44 @@ const settingsName = document.getElementById("settings-name");
 const settingsCategory = document.getElementById("settings-category");
 const settingsTheme = document.getElementById("settings-theme");
 
+// Helper function to get time-of-day specific greeting and warm message
+function getTimeBasedGreeting(name) {
+  const currentHour = new Date().getHours();
+  
+  if (currentHour >= 5 && currentHour < 12) {
+    return {
+      title: `Good morning, ${name}!`,
+      tagline: "I hope your morning is treating you well and your day starts on a bright note."
+    };
+  } else if (currentHour >= 12 && currentHour < 17) {
+    return {
+      title: `Good afternoon, ${name}!`,
+      tagline: "I hope your afternoon is treating you well and keeping you inspired."
+    };
+  } else if (currentHour >= 17 && currentHour < 22) {
+    return {
+      title: `Good evening, ${name}!`,
+      tagline: "I hope your evening is treating you well as you unwind and relax."
+    };
+  } else {
+    return {
+      title: `Good night, ${name}!`,
+      tagline: "I hope your night is treating you well and brings you restful peace."
+    };
+  }
+}
+
+// Function to update the header greeting and subtext
+function updateGreetingHeader() {
+  const name = userState.name || "Friend";
+  const { title, tagline } = getTimeBasedGreeting(name);
+  
+  if (greetingText) greetingText.textContent = title;
+  
+  const taglineEl = document.querySelector(".tagline");
+  if (taglineEl) taglineEl.textContent = tagline;
+}
+
 // Live Date and Time Updater Function
 function updateDateTime() {
   const now = new Date();
@@ -145,6 +183,9 @@ function updateDateTime() {
   if (liveTime) {
     liveTime.textContent = now.toLocaleTimeString(undefined, timeOptions);
   }
+
+  // Update greeting smoothly if the hour boundary changes
+  updateGreetingHeader();
 }
 
 // Start live clock update loop
@@ -224,7 +265,7 @@ if (setupForm) {
     userState.name = usernameInput ? usernameInput.value.trim() || "Friend" : "Friend";
     userState.category = categorySelect ? categorySelect.value : "all";
 
-    if (greetingText) greetingText.textContent = `Hello, ${userState.name}!`;
+    updateGreetingHeader();
 
     if (setupScreen) {
       setupScreen.classList.remove("active");
@@ -281,7 +322,7 @@ if (saveSettingsBtn) {
     if (settingsCategory) userState.category = settingsCategory.value;
     if (settingsTheme) userState.theme = settingsTheme.value;
 
-    if (greetingText) greetingText.textContent = `Hello, ${userState.name}!`;
+    updateGreetingHeader();
     generateContent();
     triggerAnimation();
 
