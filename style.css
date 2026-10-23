@@ -464,7 +464,7 @@ pointer-events: auto;
 .drawer {
 position: fixed;
 top: 0;
-right: -480px; /* Increased offset ensures the drawer and its box shadows are completely hidden off-screen /
+right: -550px; /* Increased offset ensures the drawer and its box shadows are completely hidden off-screen /
 width: 100%;
 max-width: 400px;
 height: 100vh;
