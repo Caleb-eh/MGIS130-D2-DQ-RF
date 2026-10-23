@@ -25,7 +25,7 @@ DAILY SPARK - Master Design Tokens & Core Variables
 Dynamic Theme Variations
 ========================================================================== */
 
-/* Theme: Philosophy & Wisdom (Atmospheric Mountain Peaks & Clouds) */
+/* Theme: Philosophy & Wisdom */
 body.theme-philosophy {
 --bg-primary: #0b1329;
 --bg-secondary: rgba(15, 23, 42, 0.85);
@@ -40,7 +40,7 @@ body.theme-philosophy {
 --shadow-glow: rgba(251, 191, 36, 0.3);
 }
 
-/* Theme: Iconic Movie Lines (Crimson Night) */
+/* Theme: Iconic Movie Lines */
 body.theme-movie {
 --bg-primary: #18080a;
 --bg-secondary: rgba(24, 8, 10, 0.88);
@@ -55,7 +55,7 @@ body.theme-movie {
 --shadow-glow: rgba(239, 68, 68, 0.35);
 }
 
-/* Theme: Athletic Greatness (Electric Cyan) */
+/* Theme: Athletic Greatness */
 body.theme-athlete {
 --bg-primary: #061826;
 --bg-secondary: rgba(6, 24, 38, 0.88);
@@ -70,7 +70,7 @@ body.theme-athlete {
 --shadow-glow: rgba(6, 182, 212, 0.35);
 }
 
-/* Theme: Song Lyrics (Neon Purple) */
+/* Theme: Song Lyrics */
 body.theme-lyrics {
 --bg-primary: #15092b;
 --bg-secondary: rgba(21, 9, 43, 0.88);
@@ -85,7 +85,7 @@ body.theme-lyrics {
 --shadow-glow: rgba(168, 85, 247, 0.35);
 }
 
-/* Theme: Cyberpunk (Neon Pink / Dark Synth) */
+/* Theme: Cyberpunk */
 body.theme-cyberpunk {
 --bg-primary: #0d021a;
 --bg-secondary: rgba(13, 2, 26, 0.88);
@@ -100,7 +100,7 @@ body.theme-cyberpunk {
 --shadow-glow: rgba(236, 72, 153, 0.4);
 }
 
-/* Theme: Emerald Forest (Deep Pine) */
+/* Theme: Emerald Forest */
 body.theme-forest {
 --bg-primary: #061e14;
 --bg-secondary: rgba(6, 30, 20, 0.88);
@@ -115,7 +115,7 @@ body.theme-forest {
 --shadow-glow: rgba(16, 185, 129, 0.35);
 }
 
-/* Theme: Sunset Serenade (Coral Plum) */
+/* Theme: Sunset Serenade */
 body.theme-sunset {
 --bg-primary: #1a0b1c;
 --bg-secondary: rgba(26, 11, 28, 0.88);
@@ -130,7 +130,7 @@ body.theme-sunset {
 --shadow-glow: rgba(244, 63, 94, 0.35);
 }
 
-/* Theme: Nordic Frost (Slate Ice) */
+/* Theme: Nordic Frost */
 body.theme-nordic {
 --bg-primary: #0f172a;
 --bg-secondary: rgba(15, 23, 42, 0.88);
@@ -148,8 +148,7 @@ body.theme-nordic {
 /* ==========================================================================
 Global Reset & Base Layout
 ========================================================================== */
-
-{
+*, *::before, *::after {
 box-sizing: border-box;
 margin: 0;
 padding: 0;
@@ -174,7 +173,7 @@ transition: background-image 0.8s ease-in-out, background-color 0.5s ease;
 position: relative;
 }
 
-/* Dark Ambient Background Gradient Overlay for Depth */
+/* Dark Ambient Overlay */
 .bg-overlay {
 position: fixed;
 inset: 0;
@@ -269,6 +268,7 @@ align-items: center;
 gap: 5px;
 transition: all 0.2s ease;
 backdrop-filter: blur(10px);
+z-index: 10;
 }
 
 .hamburger-btn:hover {
@@ -296,7 +296,6 @@ flex-direction: column;
 gap: 22px;
 }
 
-/* Glassmorphism Card Box with Solid Legibility */
 .card {
 background: var(--bg-card);
 border: 1px solid var(--border-card);
@@ -443,46 +442,55 @@ color: #ffffff;
 }
 
 /* ==========================================================================
-Drawer & Settings Overlay (Completely Off-Screen when Inactive)
+Drawer & Settings Overlay (Fixed Slide-Out Mechanics)
 ========================================================================== */
+
+/* Fullscreen Dim Backdrop */
 .drawer-backdrop {
 position: fixed;
 inset: 0;
-background: rgba(0, 0, 0, 0.7);
+background: rgba(0, 0, 0, 0.65);
 backdrop-filter: blur(4px);
-z-index: 90;
+-webkit-backdrop-filter: blur(4px);
+z-index: 1000;
 opacity: 0;
-pointer-events: none;
-transition: opacity 0.3s ease;
+visibility: hidden;
+transition: opacity 0.35s ease, visibility 0.35s ease;
 }
 
 .drawer-backdrop.active {
 opacity: 1;
-pointer-events: auto;
+visibility: visible;
 }
 
+/* Side Drawer Sliding Panel */
 .drawer {
 position: fixed;
 top: 0;
-right: -500px; /* Offset to completely hide drawer shadow off-screen /
+right: 0;
 width: 100%;
-max-width: 400px;
+max-width: 420px;
 height: 100vh;
-background: rgba(15, 23, 42, 0.96);
-border-left: 1px solid rgba(255, 255, 255, 0.2);
-backdrop-filter: blur(25px);
-z-index: 100;
-padding: 28px;
+height: 100dvh;
+background: rgba(15, 23, 42, 0.98);
+border-left: 1px solid rgba(255, 255, 255, 0.15);
+backdrop-filter: blur(20px);
+-webkit-backdrop-filter: blur(20px);
+z-index: 1001;
+padding: 32px 28px;
 display: flex;
 flex-direction: column;
-transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s ease;
-box-shadow: -10px 0 40px rgba(0, 0, 0, 0.7);
+box-shadow: -12px 0 40px rgba(0, 0, 0, 0.8);
 overflow-y: auto;
-visibility: hidden; / Prevents keyboard focus & visual bleed when closed */
+
+/* Slide transform mechanics (100% off screen when closed) */
+transform: translateX(100%);
+visibility: hidden;
+transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s ease;
 }
 
 .drawer.open {
-right: 0;
+transform: translateX(0);
 visibility: visible;
 }
 
@@ -497,21 +505,29 @@ border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 
 .drawer-header h3 {
 font-family: var(--font-heading);
-font-size: 1.35rem;
+font-size: 1.4rem;
 color: #ffffff;
+font-weight: 700;
 }
 
 .close-btn {
-background: transparent;
-border: none;
+background: rgba(255, 255, 255, 0.08);
+border: 1px solid rgba(255, 255, 255, 0.15);
+border-radius: 10px;
 color: #ffffff;
-font-size: 1.8rem;
+width: 36px;
+height: 36px;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+font-size: 1.4rem;
 cursor: pointer;
 line-height: 1;
-transition: color 0.2s ease;
+transition: all 0.2s ease;
 }
 
 .close-btn:hover {
+background: rgba(255, 255, 255, 0.2);
 color: var(--accent);
 }
 
@@ -519,15 +535,15 @@ color: var(--accent);
 display: flex;
 flex-direction: column;
 gap: 8px;
-margin-bottom: 20px;
+margin-bottom: 22px;
 }
 
 .form-group label {
 font-size: 0.85rem;
 font-weight: 700;
-color: #f1f5f9;
+color: #cbd5e1;
 text-transform: uppercase;
-letter-spacing: 0.05em;
+letter-spacing: 0.06em;
 }
 
 /* High Contrast Input & Select Controls */
@@ -586,6 +602,7 @@ padding-top: 20px;
 font-size: 0.95rem;
 color: #ffffff;
 margin-bottom: 12px;
+font-weight: 600;
 }
 
 .favorites-list {
@@ -625,6 +642,11 @@ border: none;
 color: #f87171;
 font-size: 1.2rem;
 cursor: pointer;
+padding: 4px;
+}
+
+.remove-fav-btn:hover {
+color: #ef4444;
 }
 
 /* ==========================================================================
@@ -635,7 +657,7 @@ position: fixed;
 inset: 0;
 background: rgba(15, 23, 42, 0.92);
 backdrop-filter: blur(15px);
-z-index: 200;
+z-index: 2000;
 display: flex;
 justify-content: center;
 align-items: center;
@@ -690,7 +712,7 @@ border-radius: 30px;
 font-weight: 700;
 font-size: 0.9rem;
 box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-z-index: 300;
+z-index: 3000;
 opacity: 0;
 transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
 }
@@ -700,7 +722,9 @@ transform: translateX(-50%) translateY(0);
 opacity: 1;
 }
 
-/* Animations */
+/* ==========================================================================
+Animations
+========================================================================== */
 .animate-in {
 animation: fadeIn 0.4s ease forwards;
 }
