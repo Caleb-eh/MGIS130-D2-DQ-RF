@@ -17,7 +17,6 @@ const quoteData = {
     { quote: "Never trust a squirrel with a secret; they hide everything in the dirt.", author: "Archduke Snortington" },
     { quote: "The early bird gets the worm, but the sleepy bird gets to stay in bed. And that, my fellows, is better.", author: "Professor McSnoozington" },
     { quote: "To be or not to be isn't the question. The question is: who ate the rest of my Limited Edition Prignles Miller Lite Beer Cheese Burger Potato Crisps?", author: "Garth Burlap, Philosopher at Large" }
-
   ],
   movie: [
     { quote: "Frankly, my dear, I don't give a damn.", author: "Gone with the Wind (1939)" },
@@ -34,7 +33,6 @@ const quoteData = {
     { quote: "You can't arrest me, officer! I just crossed state lines which means your dumb laws don't apply here, so you better back off.", author: "Lord Gigglesworth in 'Wild Chase' (2022)" },
     { quote: "Put down the spatula! That pancake is a load-bearing breakfast item!", author: "Chef Bartholomew Bounce (2025)" },
     { quote: "We came for the treasure, but we stayed because the ghost was really nice, he gave us warm milk and actually sat me down and talked me through my recent divorce and really helped me out because that's been really hard on me. I don't know, man, it's just been really hard lately, but this ghost really provided something to me that I didn't know I needed. he helped me more than he knows.", author: "Commander Biscuit (2020)" }
-
   ],
   athlete: [
     { quote: "I hated every minute of training, but I said, 'Don't quit. Suffer now and live the rest of your life as a champion.'", author: "Muhammad Ali" },
@@ -49,7 +47,6 @@ const quoteData = {
     { quote: "I don't play for the trophies; I play for the post-game showers with the boys.", author: "Coach Chuck" },
     { quote: "Get off your high horse", author: "Wade Clubb" },
     { quote: "Rappers who use auto-tune VS. Rappers who don't", author: "Theo Wolfe" }
-
   ]
 };
 
@@ -117,6 +114,8 @@ const usernameInput = document.getElementById("username");
 const categorySelect = document.getElementById("category");
 
 const greetingText = document.getElementById("greeting-text");
+const liveDate = document.getElementById("live-date");
+const liveTime = document.getElementById("live-time");
 const quoteText = document.getElementById("quote-text");
 const quoteAuthor = document.getElementById("quote-author");
 const quoteCategoryLabel = document.getElementById("quote-category-label");
@@ -130,6 +129,27 @@ const saveSettingsBtn = document.getElementById("save-settings-btn");
 const settingsName = document.getElementById("settings-name");
 const settingsCategory = document.getElementById("settings-category");
 const settingsTheme = document.getElementById("settings-theme");
+
+// Live Date and Time Updater Function
+function updateDateTime() {
+  const now = new Date();
+  
+  // Format Date: e.g. "Friday, Oct 23, 2026"
+  const dateOptions = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
+  if (liveDate) {
+    liveDate.textContent = now.toLocaleDateString(undefined, dateOptions);
+  }
+  
+  // Format Time: e.g. "3:04:05 PM"
+  const timeOptions = { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true };
+  if (liveTime) {
+    liveTime.textContent = now.toLocaleTimeString(undefined, timeOptions);
+  }
+}
+
+// Start live clock update loop
+updateDateTime();
+setInterval(updateDateTime, 1000);
 
 function getRandomItem(array) {
   return array[Math.floor(Math.random() * array.length)];
