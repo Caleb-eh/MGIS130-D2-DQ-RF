@@ -12,6 +12,19 @@ body.theme-athlete {
 --font-heading: 'Space Grotesk', sans-serif;
 }
 
+/* Theme: Lyrics (Vibrant Neon Purple & Electric Magenta) */
+body.theme-lyrics {
+--bg-color: #12091f;
+--card-bg: #1f1235;
+--input-bg: #170d29;
+--text-main: #f3e8ff;
+--text-muted: #a78bfa;
+--accent: #c084fc;
+--accent-hover: #a855f7;
+--border-color: #3b2164;
+--font-heading: 'Rajdhani', sans-serif;
+}
+
 /* Theme: Cyberpunk (Vibrant Neon Magenta & Dark Obsidian) */
 body.theme-cyberpunk {
 --bg-color: #0d0e15;
@@ -64,7 +77,5 @@ body.theme-nordic {
 --font-heading: 'Space Grotesk', sans-serif;
 }
 
-/* Global Reset */
-
-{
-/* ... existing code ... */
+/* Global Reset /
+/ ... existing code ... */
