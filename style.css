@@ -1,4 +1,32 @@
-/* ... existing code ... */
+/* ==========================================
+Global Reset & Root CSS Variables
+========================================== */
+
+:root {
+--bg-primary: #0b0f19;
+--bg-secondary: #161f33;
+--bg-card: #1c2541;
+--text-primary: #f8f9fa;
+--text-secondary: #a0aec0;
+--accent-color: #00b4d8;
+--accent-hover: #90e0ef;
+--border-color: rgba(255, 255, 255, 0.1);
+--shadow-color: rgba(0, 0, 0, 0.35);
+--font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+--radius-sm: 8px;
+--radius-md: 12px;
+--radius-lg: 20px;
+}
+
+/* Athlete Theme Overrides */
+body.theme-athlete {
+--bg-primary: #0a1118;
+--bg-secondary: #121e2b;
+--bg-card: #1c2738;
+--accent-color: #48cae4;
+--accent-hover: #90e0ef;
+}
+
 body.theme-athlete .card {
 background-image: linear-gradient(135deg, rgba(72, 202, 228, 0.08) 0%, rgba(28, 37, 65, 0.95) 100%),
 radial-gradient(circle at 100% 100%, rgba(0, 180, 216, 0.15), transparent 50%);
@@ -10,18 +38,190 @@ radial-gradient(circle at 100% 100%, rgba(0, 180, 216, 0.15), transparent 50%);
 box-sizing: border-box;
 margin: 0;
 padding: 0;
-transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+html, body {
+width: 100%;
+height: 100%;
+overflow-x: hidden;
 }
 
 body {
-/* ... existing code ... */
+font-family: var(--font-family);
+background-color: var(--bg-primary);
+color: var(--text-primary);
+line-height: 1.6;
+display: flex;
+flex-direction: column;
+min-height: 100vh;
+}
+
+/* ==========================================
+Typography & Basic Elements
+========================================== */
+
+h1, h2, h3, h4, h5, h6 {
+color: var(--text-primary);
+font-weight: 700;
+line-height: 1.2;
+margin-bottom: 0.5rem;
+}
+
+p {
+color: var(--text-secondary);
+margin-bottom: 1rem;
+}
+
+a {
+color: var(--accent-color);
+text-decoration: none;
+}
+
+a:hover {
+color: var(--accent-hover);
+text-decoration: underline;
+}
+
+/* ==========================================
+Layout & Container Components
+========================================== */
+
+.app-container {
+width: 100%;
+max-width: 1200px;
+margin: 0 auto;
+padding: 2rem 1.5rem;
+flex: 1 0 auto;
+}
+
+.card {
+background-color: var(--bg-card);
+border: 1px solid var(--border-color);
+border-radius: var(--radius-md);
+padding: 1.5rem;
+box-shadow: 0 8px 24px var(--shadow-color);
+backdrop-filter: blur(10px);
+}
+
+/* Screen Management */
+.screen {
+display: none;
+opacity: 0;
+transform: translateY(15px);
+transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
 .screen.active {
 display: block;
+opacity: 1;
+transform: translateY(0);
 }
 
 #setup-screen.screen.active {
 display: flex;
+flex-direction: column;
+justify-content: center;
+align-content: center;
+min-height: 70vh;
 }
 
-/* Unified Slide Up & Fade In Group Animation /
-/ ... existing code ... */
+/* ==========================================
+Forms & Controls
+========================================== */
+
+.form-group {
+margin-bottom: 1.25rem;
+display: flex;
+flex-direction: column;
+gap: 0.5rem;
+}
+
+label {
+font-size: 0.9rem;
+font-weight: 600;
+color: var(--text-secondary);
+}
+
+input, select, textarea {
+width: 100%;
+padding: 0.75rem 1rem;
+border-radius: var(--radius-sm);
+border: 1px solid var(--border-color);
+background-color: var(--bg-secondary);
+color: var(--text-primary);
+font-size: 1rem;
+outline: none;
+}
+
+input:focus, select:focus, textarea:focus {
+border-color: var(--accent-color);
+box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.25);
+}
+
+.btn {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+padding: 0.75rem 1.5rem;
+border-radius: var(--radius-sm);
+border: none;
+font-size: 1rem;
+font-weight: 600;
+cursor: pointer;
+gap: 0.5rem;
+background-color: var(--accent-color);
+color: #ffffff;
+}
+
+.btn:hover {
+background-color: var(--accent-hover);
+transform: translateY(-2px);
+box-shadow: 0 4px 12px rgba(0, 180, 216, 0.3);
+}
+
+.btn:active {
+transform: translateY(0);
+}
+
+.btn-secondary {
+background-color: transparent;
+border: 1px solid var(--border-color);
+color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+background-color: var(--bg-secondary);
+border-color: var(--text-secondary);
+}
+
+/* ==========================================
+Animations
+========================================== */
+
+@keyframes slideUpFade {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+.animate-slide-up {
+animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Unified Slide Up & Fade In Group Animation */
+.animate-group > * {
+opacity: 0;
+animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-group > *:nth-child(1) { animation-delay: 0.05s; }
+.animate-group > *:nth-child(2) { animation-delay: 0.10s; }
+.animate-group > *:nth-child(3) { animation-delay: 0.15s; }
+.animate-group > *:nth-child(4) { animation-delay: 0.20s; }
+.animate-group > *:nth-child(5) { animation-delay: 0.25s; }
