@@ -10,16 +10,10 @@
 --font-body: 'Inter', sans-serif;
 --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 
-/* Background Textures */
 --texture-pattern: radial-gradient(circle, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
 --texture-size: 20px 20px;
 }
 
-/* ==========================================
-Themes
-========================================== */
-
-/* Theme: Philosophy */
 body.theme-philosophy {
 --bg-color: #f7f5f0;
 --card-bg: #fcfbfa;
@@ -38,7 +32,6 @@ background-image: radial-gradient(ellipse at top left, rgba(255, 255, 255, 0.9),
 repeating-linear-gradient(45deg, rgba(140, 109, 59, 0.015) 0, rgba(140, 109, 59, 0.015) 2px, transparent 0, transparent 8px);
 }
 
-/* Theme: Movie */
 body.theme-movie {
 --bg-color: #0f1115;
 --card-bg: #181b20;
@@ -57,7 +50,6 @@ background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(0, 
 radial-gradient(circle at 50% 0%, rgba(229, 169, 60, 0.06), transparent 70%);
 }
 
-/* Theme: Athlete */
 body.theme-athlete {
 --bg-color: #0b132b;
 --card-bg: #1c2541;
@@ -76,10 +68,6 @@ body.theme-athlete .card {
 background-image: linear-gradient(135deg, rgba(72, 202, 228, 0.08) 0%, rgba(28, 37, 65, 0.95) 100%),
 radial-gradient(circle at 100% 100%, rgba(0, 180, 216, 0.15), transparent 50%);
 }
-
-/* ==========================================
-Global Base Styling
-========================================== */
 
 {
 box-sizing: border-box;
@@ -105,7 +93,6 @@ position: relative;
 overflow-x: hidden;
 }
 
-/* Texture Layer Overlay */
 body::before {
 content: '';
 position: fixed;
@@ -117,7 +104,6 @@ pointer-events: none;
 z-index: 0;
 }
 
-/* Smoky Ambient Background Effects */
 body::after {
 content: '';
 position: fixed;
@@ -157,10 +143,6 @@ radial-gradient(circle at 80% 70%, rgba(232, 226, 216, 0.3) 0%, transparent 50%)
 100% { transform: translate(4%, -2%) rotate(-2deg) scale(0.98); }
 }
 
-/* ==========================================
-Layout & Screen Management
-========================================== */
-
 .screen {
 display: none;
 width: 100%;
@@ -187,7 +169,6 @@ min-height: 100vh;
 justify-content: space-between;
 }
 
-/* Smooth Slide and Fade Animations */
 .animate-in,
 .screen.active {
 animation: groupSlideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -203,10 +184,6 @@ opacity: 1;
 transform: translateY(0);
 }
 }
-
-/* ==========================================
-Cards & Content Containers
-========================================== */
 
 .card {
 background: var(--card-bg);
@@ -231,7 +208,6 @@ margin-bottom: 12px;
 font-weight: 600;
 }
 
-/* Setup Screen Card */
 .setup-card {
 text-align: center;
 width: 100%;
@@ -251,7 +227,6 @@ font-size: 0.95rem;
 line-height: 1.5;
 }
 
-/* Form Controls */
 .form-group {
 margin-bottom: 20px;
 text-align: left;
@@ -282,7 +257,6 @@ border-color: var(--accent);
 box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
 }
 
-/* Buttons */
 .btn {
 width: 100%;
 padding: 14px;
@@ -312,10 +286,6 @@ box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 .primary-btn:active {
 transform: translateY(0);
 }
-
-/* ==========================================
-Main Screen Elements
-========================================== */
 
 .top-nav {
 display: flex;
@@ -349,7 +319,6 @@ font-size: 0.85rem;
 color: var(--text-muted);
 }
 
-/* Hamburger Icon Button */
 .icon-btn {
 background: none;
 border: none;
@@ -397,10 +366,6 @@ line-height: 1.6;
 .actions {
 margin-top: 8px;
 }
-
-/* ==========================================
-Settings Drawer
-========================================== */
 
 .drawer {
 position: fixed;
