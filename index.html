@@ -8,10 +8,371 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Space+Grotesk:wght@500;700&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
   <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Global Reset & Base Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.4s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-color, #0f172a);
+      color: var(--text-main, #f8fafc);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow-x: hidden;
+    }
+
+    /* Theme Variable Definitions */
+    body.theme-philosophy {
+      --bg-color: #12100e;
+      --card-bg: rgba(28, 25, 23, 0.85);
+      --input-bg: #272421;
+      --text-main: #f5f5f4;
+      --text-muted: #a8a29e;
+      --accent: #d97706;
+      --accent-hover: #b45309;
+      --border-color: #44403c;
+      --font-heading: 'Cinzel', serif;
+    }
+
+    body.theme-movie {
+      --bg-color: #0d0d0d;
+      --card-bg: rgba(26, 26, 26, 0.85);
+      --input-bg: #262626;
+      --text-main: #ffffff;
+      --text-muted: #a3a3a3;
+      --accent: #e11d48;
+      --accent-hover: #be123c;
+      --border-color: #404040;
+      --font-heading: 'Playfair Display', serif;
+    }
+
+    body.theme-athlete {
+      --bg-color: #0b132b;
+      --card-bg: rgba(28, 37, 65, 0.85);
+      --input-bg: #141b33;
+      --text-main: #ffffff;
+      --text-muted: #8d99ae;
+      --accent: #48cae4;
+      --accent-hover: #00b4d8;
+      --border-color: #2b3a67;
+      --font-heading: 'Space Grotesk', sans-serif;
+    }
+
+    body.theme-cyberpunk {
+      --bg-color: #0d0e15;
+      --card-bg: rgba(22, 24, 36, 0.85);
+      --input-bg: #10121d;
+      --text-main: #00f0ff;
+      --text-muted: #7082a0;
+      --accent: #ff007f;
+      --accent-hover: #d6006b;
+      --border-color: #2a2e45;
+      --font-heading: 'Rajdhani', sans-serif;
+    }
+
+    body.theme-forest {
+      --bg-color: #0b1d17;
+      --card-bg: rgba(20, 46, 38, 0.85);
+      --input-bg: #0f241d;
+      --text-main: #e2f1ed;
+      --text-muted: #7a9e93;
+      --accent: #2a9d8f;
+      --accent-hover: #218377;
+      --border-color: #23473c;
+      --font-heading: 'Cinzel', serif;
+    }
+
+    body.theme-sunset {
+      --bg-color: #1a0f1c;
+      --card-bg: rgba(41, 24, 45, 0.85);
+      --input-bg: #201223;
+      --text-main: #fceade;
+      --text-muted: #aa889c;
+      --accent: #e07a5f;
+      --accent-hover: #c86348;
+      --border-color: #422648;
+      --font-heading: 'Playfair Display', serif;
+    }
+
+    body.theme-nordic {
+      --bg-color: #0f172a;
+      --card-bg: rgba(30, 41, 59, 0.85);
+      --input-bg: #172033;
+      --text-main: #f1f5f9;
+      --text-muted: #64748b;
+      --accent: #38bdf8;
+      --accent-hover: #0284c7;
+      --border-color: #334155;
+      --font-heading: 'Space Grotesk', sans-serif;
+    }
+
+    /* Screen Visibility */
+    .screen {
+      display: none;
+      width: 100%;
+    }
+    .screen.active {
+      display: flex;
+    }
+
+    /* Top Navigation Header */
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 1.5rem 2rem;
+      width: 100%;
+      max-w: 1200px;
+      margin: 0 auto;
+    }
+
+    .nav-spacer {
+      width: 48px;
+    }
+
+    .header-title {
+      text-align: center;
+      flex-grow: 1;
+    }
+
+    .header-title h2 {
+      font-family: var(--font-heading), sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.25rem;
+    }
+
+    .datetime-widget {
+      font-size: 0.875rem;
+      color: var(--accent);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .tagline {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Hamburger Button */
+    .icon-btn {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      border-radius: 0.5rem;
+      padding: 0.6rem 0.75rem;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: center;
+      justify-content: center;
+    }
+    .icon-btn:hover {
+      border-color: var(--accent);
+    }
+    .icon-btn .bar {
+      width: 18px;
+      height: 2px;
+      background-color: var(--text-main);
+      border-radius: 2px;
+    }
+
+    /* Main Container & Cards */
+    .content-container {
+      max-width: 680px;
+      width: 90%;
+      margin: 1rem auto 3rem auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+
+    .card-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      font-weight: 700;
+      display: block;
+      margin-bottom: 0.75rem;
+    }
+
+    .quote-card blockquote p {
+      font-family: var(--font-heading), serif;
+      font-size: 1.35rem;
+      line-height: 1.6;
+      color: var(--text-main);
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+
+    .quote-card .author {
+      text-align: right;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .fact-card p {
+      font-size: 1.1rem;
+      line-height: 1.5;
+      color: var(--text-main);
+    }
+
+    /* Primary Action Buttons */
+    .actions {
+      display: flex;
+      justify-content: center;
+      margin-top: 0.5rem;
+    }
+
+    .btn {
+      cursor: pointer;
+      padding: 0.85rem 1.75rem;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      font-size: 1rem;
+      border: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .primary-btn {
+      background-color: var(--accent);
+      color: #ffffff;
+      box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.25);
+    }
+    .primary-btn:hover {
+      background-color: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    /* Forms & Inputs */
+    .setup-card {
+      text-align: center;
+    }
+    .setup-card h2 {
+      font-family: var(--font-heading), serif;
+      font-size: 2rem;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+    }
+    .setup-card .subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      background-color: var(--input-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-size: 0.95rem;
+      outline: none;
+    }
+    .form-group input:focus, .form-group select:focus {
+      border-color: var(--accent);
+    }
+
+    /* Drawer Styles */
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      max-width: 360px;
+      background-color: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border-left: 1px solid var(--border-color);
+      z-index: 100;
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      padding: 2rem;
+      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+    }
+    .drawer.open {
+      transform: translateX(0);
+    }
+    .drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .drawer-header h3 {
+      font-family: var(--font-heading), sans-serif;
+      font-size: 1.25rem;
+      color: var(--text-main);
+    }
+    .close-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .close-btn:hover {
+      color: var(--text-main);
+    }
+
+    /* Animations */
+    .animate-in {
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
 </head>
-<body class="theme-philosophy min-h-screen flex flex-col justify-between">
+<body class="theme-philosophy">
 
   <!-- Setup Screen -->
   <div id="setup-screen" class="screen active fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -36,7 +397,7 @@
           </select>
         </div>
 
-        <button type="submit" id="start-btn" class="btn primary-btn">
+        <button type="submit" id="start-btn" class="btn primary-btn w-full">
           <span>Start Exploring</span>
         </button>
       </form>
@@ -47,16 +408,15 @@
   <div id="main-screen" class="screen flex-col min-h-screen">
     <!-- Fixed Top Navigation Header -->
     <header class="top-nav">
-      <!-- Empty left spacer to maintain true center for the title card -->
       <div class="nav-spacer"></div>
 
       <!-- Centered Greeting Title & Date/Time Display -->
       <div class="header-title">
-        <h2 id="greeting-text" class="text-xl font-bold">Hello, Friend!</h2>
+        <h2 id="greeting-text">Hello, Friend!</h2>
         <div id="datetime-widget" class="datetime-widget">
-          <span id="live-date" class="date-text"></span>
-          <span class="dot-separator">•</span>
-          <span id="live-time" class="time-text"></span>
+          <span id="live-date"></span>
+          <span>•</span>
+          <span id="live-time"></span>
         </div>
         <p class="tagline">Here's your daily dose of insight</p>
       </div>
@@ -136,11 +496,323 @@
           </select>
         </div>
 
-        <button id="save-settings-btn" class="btn primary-btn">Save Changes</button>
+        <button id="save-settings-btn" class="btn primary-btn w-full mt-4">Save Changes</button>
       </div>
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    const quoteData = {
+      philosophy: [
+        { quote: "The unexamined life is not worth living.", author: "Socrates" },
+        { quote: "He who has a why to live can bear almost any how.", author: "Friedrich Nietzsche" },
+        { quote: "We are what we repeatedly do. Excellence, then, is not an act, but a habit.", author: "Aristotle" },
+        { quote: "Liberty consists in doing what one desires.", author: "John Stuart Mill" },
+        { quote: "Life must be understood backward. But it must be lived forward.", author: "Søren Kierkegaard" },
+        { quote: "Euuhhhhh, ooohh, ahhhhhhh", author: "Sun Tzu" },
+        { quote: "Cornballs never make it very far in life.", author: "Potato Head" },
+        { quote: "If you try to lift a heavy stone, you will find out how heavy the stone is.", author: "Barnaby the Wise" },
+        { quote: "Do not fear the dark; fear the evil things that definitely exist when walking in the dark.", author: "Ancient Sleep-Poo/Walker Proverb" },
+        { quote: "Before you criticize someone, walk a mile in their shoes. That way, when you criticize them, you're a mile away and you have their shoes.", author: "Professor Wandering" },
+        { quote: "Confidence is 10% knowing what you are doing and 90% walking very fast while holding a clipboard.", author: "Dr. Arthur Vance" },
+        { quote: "A soup without salt is just sad hot chunk water.", author: "Baron Von Noodleberg" },
+        { quote: "If a door is closed, open it. That is how doors work.", author: "Sir Reginald Flapjack III" },
+        { quote: "Never trust a squirrel with a secret; they hide everything in the dirt.", author: "Archduke Snortington" },
+        { quote: "The early bird gets the worm, but the sleepy bird gets to stay in bed. And that, my fellows, is better.", author: "Professor McSnoozington" },
+        { quote: "To be or not to be isn't the question. The question is: who ate the rest of my Limited Edition Prignles Miller Lite Beer Cheese Burger Potato Crisps?", author: "Garth Burlap, Philosopher at Large" }
+      ],
+      movie: [
+        { quote: "Frankly, my dear, I don't give a damn.", author: "Gone with the Wind (1939)" },
+        { quote: "Here's looking at you, kid.", author: "Casablanca (1942)" },
+        { quote: "May the Force be with you.", author: "Star Wars (1977)" },
+        { quote: "You talking to me?", author: "Taxi Driver (1976)" },
+        { quote: "There's no place like home.", author: "The Wizard of Oz (1939)" },
+        { quote: "What is this? A center for ants?! How can we be expected to teach children to learn how to read if they can't even fit inside the building?", author: "Tom Bomb (2026)" },
+        { quote: "Float like a lily pad, sting like a really angry bee", author: "Cars (2006)" },
+        { quote: "If you're going hard enough left, you'll find yourself turning left.", author: "Also Cars (2006)" },
+        { quote: "Thank you! Or should I say, NO thank you? Because in opposite world, maybe that really means thank you!", author: "Cars again (2006)" },
+        { quote: "I rit my rants, raggy", author: "Scooby Doo (???)" },
+        { quote: "I've fought space dragons, but I've never seen an American President with a brain this chuddy.", author: "Detective Barnaby Wiggles (2023)" },
+        { quote: "You can't arrest me, officer! I just crossed state lines which means your dumb laws don't apply here, so you better back off.", author: "Lord Gigglesworth in 'Wild Chase' (2022)" },
+        { quote: "Put down the spatula! That pancake is a load-bearing breakfast item!", author: "Chef Bartholomew Bounce (2025)" },
+        { quote: "We came for the treasure, but we stayed because the ghost was really nice, he gave us warm milk and actually sat me down and talked me through my recent divorce and really helped me out because that's been really hard on me. I don't know, man, it's just been really hard lately, but this ghost really provided something to me that I didn't know I needed. he helped me more than he knows.", author: "Commander Biscuit (2020)" }
+      ],
+      athlete: [
+        { quote: "I hated every minute of training, but I said, 'Don't quit. Suffer now and live the rest of your life as a champion.'", author: "Muhammad Ali" },
+        { quote: "You miss 100% of the shots you don't take.", author: "Wayne Gretzky" },
+        { quote: "I've failed over and over and over again in my life. And that is why I succeed.", author: "Michael Jordan" },
+        { quote: "Gold medals aren't really made of gold. They're made of sweat, determination, and a hard-to-find alloy called guts.", author: "Dan Gable" },
+        { quote: "It's not whether you get knocked down, it's whether you get up.", author: "Vince Lombardi" },
+        { quote: "When asked if the extra shots after knocking out his opponent were necessary - They were super necessary.", author: "Jorge Masvidal" },
+        { quote: "I run fast because if I stop moving, the mysterious evil entity that has been chasing me since I was 5 and a half years old catches up to me.", author: "Sprint Master Greg" },
+        { quote: "Pain is just weakness leaving the body, but cramps are just your legs being rude.", author: "Marathon Manny" },
+        { quote: "My secret technique? I pretend the basketball is a precious little baby boy and the only safe place for it is the basketball hoop, which I imagine is a soft liite baby boy bed. So I throw it in.", author: "Dunkin' Dave" },
+        { quote: "I don't play for the trophies; I play for the post-game showers with the boys.", author: "Coach Chuck" },
+        { quote: "Get off your high horse", author: "Wade Clubb" },
+        { quote: "Rappers who use auto-tune VS. Rappers who don't", author: "Theo Wolfe" }
+      ],
+      lyrics: [
+        { quote: "It's a new dawn, it's a new day, it's a new life for me, and I'm feeling good.", author: "Nina Simone – 'Feeling Good'" },
+        { quote: "You may say I'm a dreamer, but I'm not the only one.", author: "John Lennon – 'Imagine'" },
+        { quote: "We are all stars, and we deserve to twinkle.", author: "Marilyn Monroe" },
+        { quote: "Don't stop believin', hold on to that feelin'.", author: "Journey – 'Don't Stop Believin''" },
+        { quote: "The rest is still unwritten.", author: "Natasha Bedingfield – 'Unwritten'" },
+        { quote: "It's my life, it's now or never. I ain't gonna live forever.", author: "Bon Jovi – 'It's My Life'" },
+        { quote: "Work it, make it, do it, makes us harder, better, faster, stronger.", author: "Daft Punk – 'Harder, Better, Faster, Stronger'" },
+        { quote: "Every little thing is gonna be alright.", author: "Bob Marley – 'Three Little Birds'" }
+      ]
+    };
+
+    const factData = [
+      "A day on Venus is longer than a year on Venus.",
+      "Human teeth are the only part of the body that cannot heal themselves.",
+      "Bananas are radioactive because they contain high levels of potassium.",
+      "Water can boil and freeze at the exact same time under specific lab conditions (the triple point).",
+      "Wombat poop is cube-shaped to prevent it from rolling away.",
+      "Your brain uses roughly 20 percent of your body's total energy.",
+      "Ty sits next to Caleb in this class.",
+      "Gus was wearing a white sweater when I wrote this. I don't know what it said, though.",
+      "The quote above me is dumb.",
+      "One day I will meet John Lennon in person.",
+      "Sometimes when I wake up, I have to pee.",
+      "Twitter is called X now.",
+      "Last year, winter happened around November.",
+      "One time I ate a banana, and it tasted okay. i dropped it",
+      "Blue is better than red.",
+      "Nobody actually likes sparkling water.",
+      "Sometimes, a dog bark",
+      "I drew a realistic pickle and it tasted like one too. It was a real pickle actually, I just put it on a piece of paper and took a picture of it.",
+      "Who is Michael Jackson? I don't recognize that name",
+      "That one Michael Jackson thing isn't even a fact; it's just a question. THIS is a fact.",
+      "When it rains, it pours. Sometimes.",
+      "When I don't eat, I get hungry.",
+      "Wombat poop is a cube? Actually? What kind of function is that? Not rolling away? Why wouldn't you want your poop to roll away? You wanna keep it? I wouldn't want to keep it. I want it gone.",
+      "Pizza is spelt P-I-Z-Z-A. I think.",
+      "Bread was invented years ago.",
+      "Birds can fly most of the time.",
+      "Pigs cannot fly.",
+      "A door's primary function is to open and close.",
+      "Celery is 95% terrible",
+      "I don't remember the last time I forgot.",
+      "The sun is very hot.",
+      "You can't drink something that is not liquid.",
+      "When two people love each other very much...",
+      "Bazinga! Oh shoot, this is the fact tab, not the quote tab... also that's from a TV show... double doofus",
+      "Star Wars is not real (I didn't know that).",
+      "Crap, I forgot what the fact was.",
+      "Getting eaten alive probably hurts.",
+      "One time I got robbed, it made me sad. They took my favourite outlet cover.",
+      "I have never been to court.",
+      "You are reading this right now.",
+      "Drugz r bad"
+    ];
+
+    let userState = {
+      name: "",
+      category: "all",
+      theme: "auto"
+    };
+
+    const recentQuotes = [];
+    const recentFacts = [];
+    const REPEAT_THRESHOLD = 4;
+
+    const setupScreen = document.getElementById("setup-screen");
+    const mainScreen = document.getElementById("main-screen");
+    const setupForm = document.getElementById("setup-form");
+    const usernameInput = document.getElementById("username");
+    const categorySelect = document.getElementById("category");
+
+    const greetingText = document.getElementById("greeting-text");
+    const liveDate = document.getElementById("live-date");
+    const liveTime = document.getElementById("live-time");
+    const quoteText = document.getElementById("quote-text");
+    const quoteAuthor = document.getElementById("quote-author");
+    const quoteCategoryLabel = document.getElementById("quote-category-label");
+    const factText = document.getElementById("fact-text");
+    const regenerateBtn = document.getElementById("regenerate-btn");
+
+    const hamburgerBtn = document.getElementById("hamburger-btn");
+    const settingsDrawer = document.getElementById("settings-drawer");
+    const closeDrawerBtn = document.getElementById("close-drawer-btn");
+    const saveSettingsBtn = document.getElementById("save-settings-btn");
+    const settingsName = document.getElementById("settings-name");
+    const settingsCategory = document.getElementById("settings-category");
+    const settingsTheme = document.getElementById("settings-theme");
+
+    function getTimeBasedGreeting(name) {
+      const currentHour = new Date().getHours();
+      if (currentHour >= 5 && currentHour < 12) {
+        return {
+          title: `Good morning, ${name}!`,
+          tagline: "I hope your morning is treating you well and your day starts on a bright note."
+        };
+      } else if (currentHour >= 12 && currentHour < 17) {
+        return {
+          title: `Good afternoon, ${name}!`,
+          tagline: "I hope your afternoon is treating you well and keeping you inspired."
+        };
+      } else if (currentHour >= 17 && currentHour < 22) {
+        return {
+          title: `Good evening, ${name}!`,
+          tagline: "I hope your evening is treating you well as you unwind and relax."
+        };
+      } else {
+        return {
+          title: `Good night, ${name}!`,
+          tagline: "I hope your night is treating you well and brings you restful peace."
+        };
+      }
+    }
+
+    function updateGreetingHeader() {
+      const name = userState.name || "Friend";
+      const { title, tagline } = getTimeBasedGreeting(name);
+      if (greetingText) greetingText.textContent = title;
+      const taglineEl = document.querySelector(".tagline");
+      if (taglineEl) taglineEl.textContent = tagline;
+    }
+
+    function updateDateTime() {
+      const now = new Date();
+      const dateOptions = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
+      if (liveDate) liveDate.textContent = now.toLocaleDateString(undefined, dateOptions);
+      
+      const timeOptions = { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true };
+      if (liveTime) liveTime.textContent = now.toLocaleTimeString(undefined, timeOptions);
+
+      updateGreetingHeader();
+    }
+
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+
+    function getRandomItem(array) {
+      return array[Math.floor(Math.random() * array.length)];
+    }
+
+    function getUniqueRandomItem(pool, recentArray, keyFn = (item) => item, historyLimit = REPEAT_THRESHOLD) {
+      let availableItems = pool.filter(item => !recentArray.includes(keyFn(item)));
+      if (availableItems.length === 0) availableItems = pool;
+
+      const selected = getRandomItem(availableItems);
+      const selectedKey = keyFn(selected);
+
+      recentArray.push(selectedKey);
+      if (recentArray.length > historyLimit) recentArray.shift();
+
+      return selected;
+    }
+
+    function applyTheme(themeValue, currentCategory) {
+      let activeTheme = themeValue;
+      if (themeValue === "auto") {
+        activeTheme = currentCategory === "all" ? "philosophy" : (currentCategory === "lyrics" ? "cyberpunk" : currentCategory);
+      }
+      
+      document.body.classList.remove(
+        'theme-philosophy', 
+        'theme-movie', 
+        'theme-athlete', 
+        'theme-cyberpunk', 
+        'theme-forest', 
+        'theme-sunset', 
+        'theme-nordic'
+      );
+      document.body.classList.add(`theme-${activeTheme}`);
+    }
+
+    function generateContent() {
+      let selectedCategory = userState.category;
+      if (selectedCategory === "all") {
+        const categories = ["philosophy", "movie", "athlete", "lyrics"];
+        selectedCategory = getRandomItem(categories);
+      }
+
+      const pool = quoteData[selectedCategory] || quoteData.philosophy;
+      const randomQuote = getUniqueRandomItem(pool, recentQuotes, (q) => `${q.quote}-${q.author}`);
+      const randomFact = getUniqueRandomItem(factData, recentFacts, (f) => f);
+
+      if (quoteText) quoteText.textContent = `"${randomQuote.quote}"`;
+      if (quoteAuthor) quoteAuthor.textContent = `— ${randomQuote.author}`;
+      if (quoteCategoryLabel) quoteCategoryLabel.textContent = `${selectedCategory.toUpperCase()} Quote`;
+      if (factText) factText.textContent = randomFact;
+
+      applyTheme(userState.theme, selectedCategory);
+    }
+
+    function triggerAnimation() {
+      const container = document.querySelector(".content-container");
+      if (!container) return;
+      container.classList.remove("animate-in");
+      void container.offsetWidth; 
+      container.classList.add("animate-in");
+    }
+
+    if (setupForm) {
+      setupForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        userState.name = usernameInput ? usernameInput.value.trim() || "Friend" : "Friend";
+        userState.category = categorySelect ? categorySelect.value : "all";
+
+        updateGreetingHeader();
+
+        if (setupScreen) {
+          setupScreen.classList.remove("active");
+          setupScreen.style.display = "none";
+        }
+        if (mainScreen) {
+          mainScreen.classList.add("active");
+          mainScreen.style.display = "flex";
+        }
+
+        generateContent();
+        triggerAnimation();
+      });
+    }
+
+    if (regenerateBtn) {
+      regenerateBtn.addEventListener("click", () => {
+        generateContent();
+        triggerAnimation();
+      });
+    }
+
+    if (hamburgerBtn) {
+      hamburgerBtn.addEventListener("click", () => {
+        if (settingsName) settingsName.value = userState.name;
+        if (settingsCategory) settingsCategory.value = userState.category;
+        if (settingsTheme) settingsTheme.value = userState.theme;
+        
+        if (settingsDrawer) {
+          settingsDrawer.classList.add("open");
+        }
+      });
+    }
+
+    if (closeDrawerBtn) {
+      closeDrawerBtn.addEventListener("click", () => {
+        if (settingsDrawer) {
+          settingsDrawer.classList.remove("open");
+        }
+      });
+    }
+
+    if (saveSettingsBtn) {
+      saveSettingsBtn.addEventListener("click", () => {
+        if (settingsName) userState.name = settingsName.value.trim() || userState.name;
+        if (settingsCategory) userState.category = settingsCategory.value;
+        if (settingsTheme) userState.theme = settingsTheme.value;
+
+        updateGreetingHeader();
+        generateContent();
+        triggerAnimation();
+
+        if (settingsDrawer) {
+          settingsDrawer.classList.remove("open");
+        }
+      });
+    }
+  </script>
 </body>
 </html>
