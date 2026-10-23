@@ -47,6 +47,16 @@ const quoteData = {
     { quote: "I don't play for the trophies; I play for the post-game showers with the boys.", author: "Coach Chuck" },
     { quote: "Get off your high horse", author: "Wade Clubb" },
     { quote: "Rappers who use auto-tune VS. Rappers who don't", author: "Theo Wolfe" }
+  ],
+  lyrics: [
+    { quote: "It's a new dawn, it's a new day, it's a new life for me, and I'm feeling good.", author: "Nina Simone – 'Feeling Good'" },
+    { quote: "You may say I'm a dreamer, but I'm not the only one.", author: "John Lennon – 'Imagine'" },
+    { quote: "We are all stars, and we deserve to twinkle.", author: "Marilyn Monroe" },
+    { quote: "Don't stop believin', hold on to that feelin'.", author: "Journey – 'Don't Stop Believin''" },
+    { quote: "The rest is still unwritten.", author: "Natasha Bedingfield – 'Unwritten'" },
+    { quote: "It's my life, it's now or never. I ain't gonna live forever.", author: "Bon Jovi – 'It's My Life'" },
+    { quote: "Work it, make it, do it, makes us harder, better, faster, stronger.", author: "Daft Punk – 'Harder, Better, Faster, Stronger'" },
+    { quote: "Every little thing is gonna be alright.", author: "Bob Marley – 'Three Little Birds'" }
   ]
 };
 
@@ -137,22 +147,22 @@ function getTimeBasedGreeting(name) {
   if (currentHour >= 5 && currentHour < 12) {
     return {
       title: `Good morning, ${name}!`,
-      tagline: "May the morning treat you well and the day start on a bright note."
+      tagline: "I hope your morning is treating you well and your day starts on a bright note."
     };
   } else if (currentHour >= 12 && currentHour < 17) {
     return {
       title: `Good afternoon, ${name}!`,
-      tagline: "Wishing you a beautiful afternoon."
+      tagline: "I hope your afternoon is treating you well and keeping you inspired."
     };
   } else if (currentHour >= 17 && currentHour < 22) {
     return {
       title: `Good evening, ${name}!`,
-      tagline: "Enjoy the evening and take care of yourself."
+      tagline: "I hope your evening is treating you well as you unwind and relax."
     };
   } else {
     return {
       title: `Good night, ${name}!`,
-      tagline: "Hope your day was plentiful, wishing you a restful night."
+      tagline: "I hope your night is treating you well and brings you restful peace."
     };
   }
 }
@@ -217,17 +227,27 @@ function getUniqueRandomItem(pool, recentArray, keyFn = (item) => item, historyL
 function applyTheme(themeValue, currentCategory) {
   let activeTheme = themeValue;
   if (themeValue === "auto") {
-    activeTheme = currentCategory === "all" ? "philosophy" : currentCategory;
+    activeTheme = currentCategory === "all" ? "philosophy" : (currentCategory === "lyrics" ? "cyberpunk" : currentCategory);
   }
   
-  document.body.classList.remove('theme-philosophy', 'theme-movie', 'theme-athlete', 'theme-all', 'theme-auto');
+  document.body.classList.remove(
+    'theme-philosophy', 
+    'theme-movie', 
+    'theme-athlete', 
+    'theme-cyberpunk', 
+    'theme-forest', 
+    'theme-sunset', 
+    'theme-nordic', 
+    'theme-all', 
+    'theme-auto'
+  );
   document.body.classList.add(`theme-${activeTheme}`);
 }
 
 function generateContent() {
   let selectedCategory = userState.category;
   if (selectedCategory === "all") {
-    const categories = ["philosophy", "movie", "athlete"];
+    const categories = ["philosophy", "movie", "athlete", "lyrics"];
     selectedCategory = getRandomItem(categories);
   }
 
