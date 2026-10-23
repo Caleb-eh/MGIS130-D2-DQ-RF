@@ -2,6 +2,7 @@
 const quoteData = {
   philosophy: [
     { quote: "The unexamined life is not worth living.", author: "Socrates" },
+    { quote: "He who is not satisfied with a little, is satisfied with nothing.", author: "Epictetus" },
     { quote: "He who has a why to live can bear almost any how.", author: "Friedrich Nietzsche" },
     { quote: "We are what we repeatedly do. Excellence, then, is not an act, but a habit.", author: "Aristotle" },
     { quote: "Liberty consists in doing what one desires.", author: "John Stuart Mill" },
@@ -29,7 +30,6 @@ const quoteData = {
     { quote: "If you're going hard enough left, you'll find yourself turning left.", author: "Also Cars (2006)" },
     { quote: "Thank you! Or should I say, NO thank you? Because in opposite world, maybe that really means thank you!", author: "Cars again (2006)" },
     { quote: "I rit my rants, raggy", author: "Scooby Doo (???)" },
-    { quote: "I've fought space dragons, but I've never seen an American President with a brain this chuddy.", author: "Detective Barnaby Wiggles (2023)" },
     { quote: "You can't arrest me, officer! I just crossed state lines which means your dumb laws don't apply here, so you better back off.", author: "Lord Gigglesworth in 'Wild Chase' (2022)" },
     { quote: "Put down the spatula! That pancake is a load-bearing breakfast item!", author: "Chef Bartholomew Bounce (2025)" },
     { quote: "We came for the treasure, but we stayed because the ghost was really nice, he gave us warm milk and actually sat me down and talked me through my recent divorce and really helped me out because that's been really hard on me. I don't know, man, it's just been really hard lately, but this ghost really provided something to me that I didn't know I needed. he helped me more than he knows.", author: "Commander Biscuit (2020)" }
