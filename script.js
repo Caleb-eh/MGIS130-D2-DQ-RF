@@ -137,22 +137,22 @@ function getTimeBasedGreeting(name) {
   if (currentHour >= 5 && currentHour < 12) {
     return {
       title: `Good morning, ${name}!`,
-      tagline: "I hope your morning is treating you well and your day starts on a bright note."
+      tagline: "May the morning treat you well and the day start on a bright note."
     };
   } else if (currentHour >= 12 && currentHour < 17) {
     return {
       title: `Good afternoon, ${name}!`,
-      tagline: "I hope your afternoon is treating you well and keeping you inspired."
+      tagline: "Wishing you a beautiful afternoon."
     };
   } else if (currentHour >= 17 && currentHour < 22) {
     return {
       title: `Good evening, ${name}!`,
-      tagline: "I hope your evening is treating you well as you unwind and relax."
+      tagline: "Enjoy the evening and take care of yourself."
     };
   } else {
     return {
       title: `Good night, ${name}!`,
-      tagline: "I hope your night is treating you well and brings you restful peace."
+      tagline: "Hope your day was plentiful, wishing you a restful night."
     };
   }
 }
