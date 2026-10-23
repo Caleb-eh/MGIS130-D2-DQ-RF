@@ -1,4 +1,4 @@
-// Data sourced from the provided reference URLs
+// Data Content Pools
 const quoteData = {
   philosophy: [
     { quote: "The unexamined life is not worth living.", author: "Socrates" },
@@ -17,7 +17,7 @@ const quoteData = {
     { quote: "If a door is closed, open it. That is how doors work.", author: "Sir Reginald Flapjack III" },
     { quote: "Never trust a squirrel with a secret; they hide everything in the dirt.", author: "Archduke Snortington" },
     { quote: "The early bird gets the worm, but the sleepy bird gets to stay in bed. And that, my fellows, is better.", author: "Professor McSnoozington" },
-    { quote: "To be or not to be isn't the question. The question is: who ate the rest of my Limited Edition Prignles Miller Lite Beer Cheese Burger Potato Crisps?", author: "Garth Burlap, Philosopher at Large" }
+    { quote: "To be or not to be isn't the question. The question is: who ate the rest of my Limited Edition Pringles Miller Lite Beer Cheese Burger Potato Crisps?", author: "Garth Burlap, Philosopher at Large" }
   ],
   movie: [
     { quote: "Frankly, my dear, I don't give a damn.", author: "Gone with the Wind (1939)" },
@@ -49,23 +49,23 @@ const quoteData = {
     { quote: "Rappers who use auto-tune VS. Rappers who don't", author: "Theo Wolfe" }
   ],
   lyrics: [
-    { quote: "We may lose, we may win, but we will never be here again.", author: "Eagles - 'Take It Easy'" },
-    { quote: "You may say I'm a dreamer, but I'm not the only one.", author: "John Lennon – 'Imagine'" },
-    { quote: "If I leave here tomorrow, would you still remember me?", author: "Lynyrd Skynyrd - 'Free Bird'" },
-    { quote: "Don't stop believin', hold on to that feelin'.", author: "Journey – 'Don't Stop Believin''" },
-    { quote: "Today is where your book begins, the rest is still unwritten.", author: "Natasha Bedingfield – 'Unwritten'" },
-    { quote: "It's my life, it's now or never. I ain't gonna live forever.", author: "Bon Jovi – 'It's My Life'" },
-    { quote: "But if you never try, you'll never know, just what you're worth", author: "Coldplay – 'Fix You'" },
-    { quote: "Every little thing is gonna be alright.", author: "Bob Marley – 'Three Little Birds'" },
-    { quote: "They say nothing lasts forever, but they ain't seen us together.", author: "Luke Combs – 'Forever After All'" },
-    { quote: "Sometimes I wish that I could freeze the picture, and save it from the funny tricks of time.", author: "ABBA – 'Slipping Through My Fingers'" },
-    { quote: "I've got all I need, and that's alright by me.", author: "Darius Rucker – 'Alright'" },
-    { quote: "Carry on my wayward son, there'll be peace when you are done.", author: "Kansas – 'Carry On Wayward Son'" },
-    { quote: "Wherever you are's where I want to be.", author: "Chris Stapleton – 'Starting Over'" },
-    { quote: "If you've got a dream, chase it, 'cause the dream won't chase you back.", author: "Cody Johnson – 'Til You Can't'" },
-    { quote: "It just takes some time, little girl, you're in the middle of the ride, everything'll be just fine.", author: "Jimmy Eat World – 'The Middle'" },
-    { quote: "When all the parts of the puzzle start to look like they fit, then I must remember, there'll be days like this.", author: "Van Morrison – 'Days Like This'" },
-    { quote: "Maybe a reason why all the doors are closed, so you could open one that leads you to the perfect road.", author: "Katy Perry – 'Firework'" }
+    { quote: "We may lose, we may win, but we will never be here again.", author: "Eagles - \"Take It Easy\"" },
+    { quote: "You may say I'm a dreamer, but I'm not the only one.", author: "John Lennon – \"Imagine\"" },
+    { quote: "If I leave here tomorrow, would you still remember me?", author: "Lynyrd Skynyrd - \"Free Bird\"" },
+    { quote: "Don't stop believin', hold on to that feelin'.", author: "Journey – \"Don't Stop Believin'\"" },
+    { quote: "Today is where your book begins, the rest is still unwritten.", author: "Natasha Bedingfield – \"Unwritten\"" },
+    { quote: "It's my life, it's now or never. I ain't gonna live forever.", author: "Bon Jovi – \"It's My Life\"" },
+    { quote: "But if you never try, you'll never know, just what you're worth", author: "Coldplay – \"Fix You\"" },
+    { quote: "Every little thing is gonna be alright.", author: "Bob Marley – \"Three Little Birds\"" },
+    { quote: "They say nothing lasts forever, but they ain't seen us together.", author: "Luke Combs – \"Forever After All\"" },
+    { quote: "Sometimes I wish that I could freeze the picture, and save it from the funny tricks of time.", author: "ABBA – \"Slipping Through My Fingers\"" },
+    { quote: "I've got all I need, and that's alright by me.", author: "Darius Rucker – \"Alright\"" },
+    { quote: "Carry on my wayward son, there'll be peace when you are done.", author: "Kansas – \"Carry On Wayward Son\"" },
+    { quote: "Wherever you are's where I want to be.", author: "Chris Stapleton – \"Starting Over\"" },
+    { quote: "If you've got a dream, chase it, 'cause the dream won't chase you back.", author: "Cody Johnson – \"'Til You Can't\"" },
+    { quote: "It just takes some time, little girl, you're in the middle of the ride, everything'll be just fine.", author: "Jimmy Eat World – \"The Middle\"" },
+    { quote: "When all the parts of the puzzle start to look like they fit, then I must remember, there'll be days like this.", author: "Van Morrison – \"Days Like This\"" },
+    { quote: "Maybe a reason why all the doors are closed, so you could open one that leads you to the perfect road.", author: "Katy Perry – \"Firework\"" }
   ]
 };
 
@@ -113,21 +113,22 @@ const factData = [
   "Drugz r bad"
 ];
 
-// App State
-let userState = {
+// App State Management with LocalStorage Support
+let userState = JSON.parse(localStorage.getItem('dailySparkUserState')) || {
   name: "",
   category: "all",
   theme: "auto"
 };
 
-// History queues to prevent repeats within 4 regenerations
+let favorites = JSON.parse(localStorage.getItem('dailySparkFavorites')) || [];
+let currentQuoteObj = { quote: "", author: "" };
+
 const recentQuotes = [];
 const recentFacts = [];
 const REPEAT_THRESHOLD = 4;
 
 // DOM Elements
 const setupScreen = document.getElementById("setup-screen");
-const mainScreen = document.getElementById("main-screen");
 const setupForm = document.getElementById("setup-form");
 const usernameInput = document.getElementById("username");
 const categorySelect = document.getElementById("category");
@@ -150,7 +151,25 @@ const settingsName = document.getElementById("settings-name");
 const settingsCategory = document.getElementById("settings-category");
 const settingsTheme = document.getElementById("settings-theme");
 
-// Helper function to get time-of-day specific greeting
+const toast = document.getElementById("toast");
+const favBtn = document.getElementById("favorite-quote-btn");
+const copyQuoteBtn = document.getElementById("copy-quote-btn");
+const speakQuoteBtn = document.getElementById("speak-quote-btn");
+const copyFactBtn = document.getElementById("copy-fact-btn");
+const speakFactBtn = document.getElementById("speak-fact-btn");
+const favCountEl = document.getElementById("fav-count");
+const favoritesList = document.getElementById("favorites-list");
+const quoteCardElement = document.getElementById("quote-card-element");
+
+// Helper: Toast Notifications
+function showToast(msg) {
+  if (!toast) return;
+  toast.textContent = msg;
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 2500);
+}
+
+// Helper: Time Greetings
 function getTimeBasedGreeting(name) {
   const currentHour = new Date().getHours();
   
@@ -177,7 +196,6 @@ function getTimeBasedGreeting(name) {
   }
 }
 
-// Function to update header greeting
 function updateGreetingHeader() {
   const name = userState.name || "Friend";
   const { title, tagline } = getTimeBasedGreeting(name);
@@ -188,24 +206,18 @@ function updateGreetingHeader() {
   if (taglineEl) taglineEl.textContent = tagline;
 }
 
-// Live Date and Time Updater Function
+// Live Clock & Calendar Update
 function updateDateTime() {
   const now = new Date();
-  
   const dateOptions = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
-  if (liveDate) {
-    liveDate.textContent = now.toLocaleDateString(undefined, dateOptions);
-  }
+  if (liveDate) liveDate.textContent = now.toLocaleDateString(undefined, dateOptions);
   
   const timeOptions = { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true };
-  if (liveTime) {
-    liveTime.textContent = now.toLocaleTimeString(undefined, timeOptions);
-  }
+  if (liveTime) liveTime.textContent = now.toLocaleTimeString(undefined, timeOptions);
 
   updateGreetingHeader();
 }
 
-// Start live clock update loop
 updateDateTime();
 setInterval(updateDateTime, 1000);
 
@@ -237,18 +249,7 @@ function applyTheme(themeValue, currentCategory) {
     activeTheme = currentCategory === "all" ? "philosophy" : currentCategory;
   }
   
-  document.body.classList.remove(
-    'theme-philosophy', 
-    'theme-movie', 
-    'theme-athlete', 
-    'theme-lyrics',
-    'theme-cyberpunk', 
-    'theme-forest', 
-    'theme-sunset', 
-    'theme-nordic', 
-    'theme-all', 
-    'theme-auto'
-  );
+  document.body.className = '';
   document.body.classList.add(`theme-${activeTheme}`);
 }
 
@@ -264,11 +265,14 @@ function generateContent() {
   const randomQuote = getUniqueRandomItem(pool, recentQuotes, (q) => `${q.quote}-${q.author}`);
   const randomFact = getUniqueRandomItem(factData, recentFacts, (f) => f);
 
+  currentQuoteObj = randomQuote;
+
   if (quoteText) quoteText.textContent = `"${randomQuote.quote}"`;
   if (quoteAuthor) quoteAuthor.textContent = `— ${randomQuote.author}`;
   if (quoteCategoryLabel) quoteCategoryLabel.textContent = `${selectedCategory.toUpperCase()} QUOTE`;
   if (factText) factText.textContent = randomFact;
 
+  updateFavButtonState();
   applyTheme(userState.theme, selectedCategory);
 }
 
@@ -280,7 +284,108 @@ function triggerAnimation() {
   container.classList.add("animate-in");
 }
 
-// Form Submission Handler
+// Copy Text to Clipboard (IFrame Friendly)
+function copyToClipboard(text) {
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    showToast("Copied to clipboard!");
+  } catch (err) {
+    showToast("Failed to copy text.");
+  }
+
+  document.body.removeChild(textarea);
+}
+
+// Text-To-Speech Reader Function
+function speakText(text) {
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel(); // Stop active speech
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 0.95;
+    window.speechSynthesis.speak(utterance);
+    showToast("Reading aloud...");
+  } else {
+    showToast("Audio reader not supported in browser.");
+  }
+}
+
+// Favorites System
+function isCurrentQuoteFavorite() {
+  return favorites.some(item => item.quote === currentQuoteObj.quote && item.author === currentQuoteObj.author);
+}
+
+function updateFavButtonState() {
+  if (!favBtn) return;
+  if (isCurrentQuoteFavorite()) {
+    favBtn.classList.add("active");
+    favBtn.title = "Remove from Favorites";
+  } else {
+    favBtn.classList.remove("active");
+    favBtn.title = "Save to Favorites";
+  }
+}
+
+function toggleFavorite() {
+  if (isCurrentQuoteFavorite()) {
+    favorites = favorites.filter(item => !(item.quote === currentQuoteObj.quote && item.author === currentQuoteObj.author));
+    showToast("Removed from Favorites");
+  } else {
+    favorites.push(currentQuoteObj);
+    showToast("Saved to Favorites ❤️");
+  }
+
+  localStorage.setItem('dailySparkFavorites', JSON.stringify(favorites));
+  updateFavButtonState();
+  renderFavoritesList();
+}
+
+function renderFavoritesList() {
+  if (!favoritesList || !favCountEl) return;
+  
+  favCountEl.textContent = favorites.length;
+  favoritesList.innerHTML = "";
+
+  if (favorites.length === 0) {
+    favoritesList.innerHTML = `<p class="empty-fav-text">No saved quotes yet. Click the ❤️ icon on any quote card!</p>`;
+    return;
+  }
+
+  favorites.forEach((item, index) => {
+    const div = document.createElement("div");
+    div.className = "fav-item";
+    div.innerHTML = `
+      <div class="fav-item-text">
+        <div>"${item.quote}"</div>
+        <small style="color: var(--text-muted);">— ${item.author}</small>
+      </div>
+      <button class="remove-fav-btn" data-index="${index}" title="Remove">&times;</button>
+    `;
+    favoritesList.appendChild(div);
+  });
+
+  document.querySelectorAll(".remove-fav-btn").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      const index = parseInt(e.target.dataset.index);
+      favorites.splice(index, 1);
+      localStorage.setItem('dailySparkFavorites', JSON.stringify(favorites));
+      updateFavButtonState();
+      renderFavoritesList();
+    });
+  });
+}
+
+// Check initial Onboarding state
+if (userState.name) {
+  if (setupScreen) setupScreen.classList.remove("active");
+  updateGreetingHeader();
+  generateContent();
+}
+
+// Initial Setup Submit
 if (setupForm) {
   setupForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -288,19 +393,43 @@ if (setupForm) {
     userState.name = usernameInput ? usernameInput.value.trim() || "Friend" : "Friend";
     userState.category = categorySelect ? categorySelect.value : "all";
 
+    localStorage.setItem('dailySparkUserState', JSON.stringify(userState));
     updateGreetingHeader();
 
-    if (setupScreen) {
-      setupScreen.classList.remove("active");
-      setupScreen.style.display = "none";
-    }
+    if (setupScreen) setupScreen.classList.remove("active");
 
     generateContent();
     triggerAnimation();
   });
 }
 
-// Spark New Thought Button
+// Event Listeners for Mini Action Buttons
+if (favBtn) favBtn.addEventListener("click", toggleFavorite);
+
+if (copyQuoteBtn) {
+  copyQuoteBtn.addEventListener("click", () => {
+    copyToClipboard(`"${currentQuoteObj.quote}" — ${currentQuoteObj.author}`);
+  });
+}
+
+if (speakQuoteBtn) {
+  speakQuoteBtn.addEventListener("click", () => {
+    speakText(`${currentQuoteObj.quote}. By ${currentQuoteObj.author}`);
+  });
+}
+
+if (copyFactBtn) {
+  copyFactBtn.addEventListener("click", () => {
+    copyToClipboard(factText.textContent);
+  });
+}
+
+if (speakFactBtn) {
+  speakFactBtn.addEventListener("click", () => {
+    speakText(`Did you know? ${factText.textContent}`);
+  });
+}
+
 if (regenerateBtn) {
   regenerateBtn.addEventListener("click", () => {
     generateContent();
@@ -308,11 +437,40 @@ if (regenerateBtn) {
   });
 }
 
-// Drawer Toggle Controls
+// Keyboard Shortcut: Spacebar for New Thought
+document.addEventListener("keydown", (e) => {
+  if (e.code === "Space" && e.target.tagName !== "INPUT" && e.target.tagName !== "SELECT") {
+    e.preventDefault();
+    generateContent();
+    triggerAnimation();
+  }
+});
+
+// Touch Swipe Gesture for Mobile Users
+let touchStartX = 0;
+let touchEndX = 0;
+
+if (quoteCardElement) {
+  quoteCardElement.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, false);
+
+  quoteCardElement.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    if (Math.abs(touchStartX - touchEndX) > 50) {
+      generateContent();
+      triggerAnimation();
+    }
+  }, false);
+}
+
+// Drawer Settings Handler
 function openDrawer() {
   if (settingsName) settingsName.value = userState.name;
   if (settingsCategory) settingsCategory.value = userState.category;
   if (settingsTheme) settingsTheme.value = userState.theme;
+
+  renderFavoritesList();
 
   if (settingsDrawer) settingsDrawer.classList.add("open");
   if (drawerBackdrop) drawerBackdrop.classList.add("active");
@@ -327,12 +485,13 @@ if (hamburgerBtn) hamburgerBtn.addEventListener("click", openDrawer);
 if (closeDrawerBtn) closeDrawerBtn.addEventListener("click", closeDrawer);
 if (drawerBackdrop) drawerBackdrop.addEventListener("click", closeDrawer);
 
-// Save Settings Button
 if (saveSettingsBtn) {
   saveSettingsBtn.addEventListener("click", () => {
     if (settingsName) userState.name = settingsName.value.trim() || userState.name;
     if (settingsCategory) userState.category = settingsCategory.value;
     if (settingsTheme) userState.theme = settingsTheme.value;
+
+    localStorage.setItem('dailySparkUserState', JSON.stringify(userState));
 
     updateGreetingHeader();
     generateContent();
