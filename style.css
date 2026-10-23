@@ -1,13 +1,84 @@
 /* ... existing code ... /
-/ ==========================================================================
-Screen Containers
-========================================================================== */
+/ CSS Variables & Theme Definitions */
+:root {
+--bg-color: #0f172a;
+--card-bg: #1e293b;
+--text-main: #f8fafc;
+--text-muted: #94a3b8;
+--accent: #6366f1;
+--accent-hover: #4f46e5;
+--border-color: #334155;
+--input-bg: #0f172a;
+--font-heading: 'Cinzel', serif;
+--font-body: 'Inter', sans-serif;
+--shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+}
+
+/* Theme: Philosophy (Classy Marble & Gold Accent) */
+body.theme-philosophy {
+--bg-color: #1a1612;
+--card-bg: #26211c;
+--text-main: #f4efe6;
+--text-muted: #a3988c;
+--accent: #c9a227;
+--accent-hover: #a3821ca;
+--border-color: #3d352e;
+--input-bg: #1a1612;
+--font-heading: 'Playfair Display', serif;
+}
+
+/* Theme: Movie (Cinematic Dark & Soft Gold) */
+body.theme-movie {
+--bg-color: #0f1115;
+--card-bg: #181b20;
+--text-main: #f0f0f0;
+--text-muted: #9fa6b2;
+--accent: #e5a93c;
+--accent-hover: #c48e2e;
+--border-color: #2a2e37;
+--input-bg: #0f1115;
+--font-heading: 'Cinzel', serif;
+}
+
+/* Theme: Athlete (High Contrast & Modern Cyan/Blue) */
+body.theme-athlete {
+--bg-color: #0b132b;
+--card-bg: #1c2541;
+--text-main: #ffffff;
+--text-muted: #8d99ae;
+--accent: #48cae4;
+--accent-hover: #00b4d8;
+--border-color: #2b3a67;
+--input-bg: #0b132b;
+--font-heading: 'Space Grotesk', sans-serif;
+}
+
+/* Global Reset */
+
+{
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+
+body {
+font-family: var(--font-body);
+background-color: var(--bg-color);
+color: var(--text-main);
+min-height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+overflow-x: hidden;
+}
+
+/* Screen Visibility */
 .screen {
 display: none;
 width: 100%;
-max-width: 640px;
-padding: 24px 16px;
-margin: 0 auto;
+max-width: 680px;
+padding: 20px;
 }
 
 .screen.active {
@@ -15,46 +86,40 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-min-height: calc(100vh - 48px);
+min-height: calc(100vh - 40px);
 }
 
-/* ==========================================================================
-Cards (Main UI Components)
-========================================================================== */
+/* Card Styling */
 .card {
 background: var(--card-bg);
 border: 1px solid var(--border-color);
-border-radius: 16px;
-padding: 32px;
+border-radius: 20px;
+padding: 36px;
 box-shadow: var(--shadow);
 margin-bottom: 24px;
-position: relative;
-width: 100%;
 }
 
 .card-label {
 display: inline-block;
 font-size: 0.75rem;
 text-transform: uppercase;
-letter-spacing: 1.5px;
+letter-spacing: 2px;
 color: var(--accent);
 margin-bottom: 12px;
-font-weight: 700;
+font-weight: 600;
 }
 
-/* ==========================================================================
-Setup Screen / Opening Screen Formatting
-========================================================================== */
+/* Setup Screen */
 .setup-card {
 text-align: center;
 background: var(--card-bg);
 border: 1px solid var(--border-color);
 border-top: 4px solid var(--accent);
-border-radius: 16px;
-padding: 40px 32px;
+border-radius: 20px;
+padding: 44px 36px;
 box-shadow: var(--shadow);
 width: 100%;
-max-width: 500px;
+max-width: 520px;
 margin: 0 auto;
 display: flex;
 flex-direction: column;
@@ -63,26 +128,24 @@ align-items: center;
 
 .setup-card h2 {
 font-family: var(--font-heading);
-font-size: 2.2rem;
-margin-bottom: 8px;
+font-size: 2.5rem;
+font-weight: 700;
+margin-bottom: 12px;
 color: var(--text-main);
 letter-spacing: -0.5px;
-text-align: center;
 }
 
 .subtitle {
 color: var(--text-muted);
-margin-bottom: 32px;
-font-size: 0.95rem;
-line-height: 1.5;
-text-align: center;
+margin-bottom: 36px;
+font-size: 1.05rem;
+line-height: 1.6;
+max-width: 400px;
 }
 
-/* ==========================================================================
-Form Elements
-========================================================================== */
+/* Form Controls */
 .form-group {
-margin-bottom: 20px;
+margin-bottom: 24px;
 text-align: center;
 width: 100%;
 display: flex;
@@ -93,45 +156,86 @@ align-items: center;
 label {
 display: block;
 font-size: 0.85rem;
-font-weight: 600;
-margin-bottom: 8px;
-color: var(--text-muted);
+font-weight: 700;
+margin-bottom: 10px;
+color: var(--accent);
 text-transform: uppercase;
-letter-spacing: 0.5px;
-text-align: center;
-width: 100%;
+letter-spacing: 1.5px;
 }
 
 input, select {
 width: 100%;
-max-width: 360px;
-padding: 12px 16px;
-border-radius: 10px;
-border: 1px solid var(--border-color);
-background-color: var(--bg-color);
+max-width: 400px;
+padding: 16px 20px;
+border-radius: 12px;
+border: 2px solid var(--border-color);
+background-color: var(--input-bg);
 color: var(--text-main);
 font-family: var(--font-body);
-font-size: 0.95rem;
+font-size: 1.1rem;
+font-weight: 500;
 outline: none;
-appearance: none;
--webkit-appearance: none;
 text-align: center;
 text-align-last: center;
+box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
 }
 
 select {
-background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23888888%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+cursor: pointer;
+background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2394a3b8%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
 background-repeat: no-repeat;
-background-position: right 16px top 50%;
-background-size: 10px auto;
-padding-right: 36px;
+background-position: right 18px top 50%;
+background-size: 12px auto;
+padding-right: 42px;
 }
 
-/* ==========================================================================
-Buttons
-========================================================================== /
+input::placeholder {
+color: var(--text-muted);
+opacity: 0.7;
+}
+
+input:focus, select:focus {
+border-color: var(--accent);
+box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+select option {
+background-color: var(--card-bg);
+color: var(--text-main);
+padding: 12px;
+font-size: 1rem;
+}
+
+/* Buttons */
 .btn {
 width: 100%;
-max-width: 360px;
-padding: 14px 20px;
-/ ... existing code ... */
+max-width: 400px;
+padding: 16px 24px;
+border-radius: 12px;
+border: none;
+font-size: 1.1rem;
+font-weight: 700;
+cursor: pointer;
+letter-spacing: 0.5px;
+transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+margin-top: 8px;
+}
+
+.primary-btn {
+background-color: var(--accent);
+color: #ffffff;
+box-shadow: 0 4px 14px 0 rgba(0,0,0,0.25);
+}
+
+body.theme-athlete .primary-btn,
+body.theme-movie .primary-btn {
+color: #0b132b;
+}
+
+.primary-btn:hover {
+background-color: var(--accent-hover);
+transform: translateY(-2px);
+box-shadow: 0 6px 20px 0 rgba(0,0,0,0.35);
+}
+
+/* ... existing code ... */
