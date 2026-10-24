@@ -1,183 +1,275 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daily Spark - Quotes & Fun Facts Generator</title>
-  
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Rajdhani:wght@600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-  
-  <!-- External CSS -->
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daily Spark - Inspiration & Facts</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="theme-philosophy">
+<body class="theme-philosophy min-h-screen font-sans antialiased">
 
-  <!-- Dynamic Aesthetic Overlay for Visual Depth -->
   <div class="bg-overlay"></div>
 
-  <!-- Toast Notification System -->
-  <div id="toast" class="toast-message" role="alert" aria-live="polite">Copied to clipboard!</div>
-
-  <!-- Setup / Onboarding Modal Overlay -->
-  <div id="setup-screen" class="setup-overlay active">
-    <div class="setup-card animate-in">
-      <h1 class="brand-title">Daily Spark</h1>
-      <p class="subtitle">Get inspired with curated quotes & mind-blowing fun facts tailored for you.</p>
-
-      <form id="setup-form">
-        <div class="form-group">
-          <label for="username">Your Name</label>
-          <input type="text" id="username" placeholder="e.g. Alex" autocomplete="off">
-        </div>
-
-        <div class="form-group">
-          <label for="category">Preferred Quote Category</label>
-          <select id="category">
-            <option value="all">🌟 All Categories (Random)</option>
-            <option value="philosophy">🧠 Philosophy & Wisdom</option>
-            <option value="movie">🎬 Iconic Movie Lines</option>
-            <option value="athlete">🏆 Athletic Greatness</option>
-            <option value="lyrics">🎵 Song Lyrics</option>
-          </select>
-        </div>
-
-        <button type="submit" id="start-btn" class="btn primary-btn w-full">
-          <span>Start Exploring</span>
-        </button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Main View Container -->
-  <div id="main-screen" class="main-screen">
-    
-    <!-- Top Navigation Header -->
+  <!-- MAIN APP CONTAINER -->
+  <main class="main-screen">
     <header class="top-nav">
       <div class="header-center">
-        <h2 id="greeting-text" class="greeting-heading">Good afternoon, Friend!</h2>
-        
-        <!-- Live Clock & Calendar Date Widget -->
-        <div id="datetime-widget" class="datetime-widget">
-          <span id="live-date">Fri, Oct 23, 2026</span>
+        <h1 class="greeting-heading">Daily Spark</h1>
+        <div class="datetime-widget">
+          <span id="current-date">Today</span>
           <span class="dot-separator">•</span>
-          <span id="live-time">5:21:00 PM</span>
+          <span id="current-time">12:00 PM</span>
         </div>
-        
-        <p class="tagline">Here's your daily dose of insight</p>
+        <p class="tagline">Your daily dose of quotes & fascinating trivia</p>
       </div>
 
-      <!-- Hamburger Button for Settings -->
-      <button id="hamburger-btn" aria-label="Open Settings" class="hamburger-btn">
+      <!-- Hamburger Menu Button -->
+      <button id="open-drawer-btn" class="hamburger-btn" aria-label="Open Settings">
         <span class="bar"></span>
         <span class="bar"></span>
         <span class="bar"></span>
       </button>
     </header>
 
-    <!-- Main Content Wrapper & Cards -->
-    <main class="content-wrapper">
-      <div class="content-container animate-in">
+    <!-- CONTENT CARDS -->
+    <section class="content-wrapper">
+      <div class="content-container">
 
-        <!-- Quote Card -->
-        <article class="card quote-card" id="quote-card-element">
+        <!-- QUOTE CARD -->
+        <article class="card animate-in">
           <div class="card-header-row">
-            <span id="quote-category-label" class="card-label">PHILOSOPHY QUOTE</span>
+            <span class="card-label">Quote of the Day</span>
             <div class="card-actions-mini">
-              <button id="favorite-quote-btn" class="icon-btn" title="Save to Favorites" aria-label="Favorite quote">❤️</button>
-              <button id="copy-quote-btn" class="icon-btn" title="Copy Quote" aria-label="Copy quote">📋</button>
-              <button id="speak-quote-btn" class="icon-btn" title="Read Aloud" aria-label="Read quote aloud">🔊</button>
+              <button id="copy-quote-btn" class="icon-btn" title="Copy Quote">
+                <i class="fa-regular fa-copy"></i>
+              </button>
             </div>
           </div>
-          <blockquote class="quote-body">
-            <p id="quote-text">"The unexamined life is not worth living."</p>
-          </blockquote>
-          <p id="quote-author" class="author">— Socrates</p>
+          <div class="quote-body">
+            <p id="quote-text">"Loading quote..."</p>
+          </div>
+          <p id="quote-author" class="author">— Author</p>
         </article>
 
-        <!-- Fun Fact Card -->
-        <article class="card fact-card">
+        <!-- FACT CARD -->
+        <article class="card animate-in">
           <div class="card-header-row">
-            <span class="card-label">DID YOU KNOW?</span>
+            <span class="card-label">Random Fact</span>
             <div class="card-actions-mini">
-              <button id="copy-fact-btn" class="icon-btn" title="Copy Fact" aria-label="Copy fact">📋</button>
-              <button id="speak-fact-btn" class="icon-btn" title="Read Aloud" aria-label="Read fact aloud">🔊</button>
+              <button id="copy-fact-btn" class="icon-btn" title="Copy Fact">
+                <i class="fa-regular fa-copy"></i>
+              </button>
             </div>
           </div>
-          <p id="fact-text">A day on Venus is longer than a year on Venus.</p>
+          <div class="fact-card">
+            <p id="fact-text">Loading random fact...</p>
+          </div>
         </article>
 
-        <!-- Main Action Controls -->
+        <!-- GENERATE BUTTON & HINT -->
         <div class="actions">
-          <button id="regenerate-btn" class="btn primary-btn">
-            <span>Spark New Thought</span>
+          <button id="fetch-new-btn" class="btn primary-btn">
+            <i class="fa-solid fa-arrows-rotate"></i>
+            <span>Get New Spark</span>
           </button>
         </div>
-
-        <p class="keyboard-hint">Tip: Press <kbd>Space</kbd> to generate a new spark</p>
+        <p class="keyboard-hint mt-2">Press <kbd>Spacebar</kbd> to refresh</p>
 
       </div>
-    </main>
+    </section>
+  </main>
 
-  </div>
+  <!-- DRAWER BACKDROP OVERLAY -->
+  <div id="drawer-backdrop" class="drawer-backdrop"></div>
 
-  <!-- Settings Slide-out Drawer -->
+  <!-- SLIDE-OUT SETTINGS DRAWER -->
   <aside id="settings-drawer" class="drawer">
     <div class="drawer-header">
-      <h3>Settings & Preferences</h3>
+      <h3>Preferences</h3>
       <button id="close-drawer-btn" class="close-btn" aria-label="Close Settings">&times;</button>
     </div>
 
-    <div class="drawer-body">
+    <form id="settings-form" onsubmit="event.preventDefault();">
+      <!-- Theme Selection -->
       <div class="form-group">
-        <label for="settings-name">Your Name</label>
-        <input type="text" id="settings-name">
-      </div>
-
-      <div class="form-group">
-        <label for="settings-category">Quote Category</label>
-        <select id="settings-category">
-          <option value="all">🌟 All Categories</option>
-          <option value="philosophy">🧠 Philosophy & Wisdom</option>
-          <option value="movie">🎬 Iconic Movies</option>
-          <option value="athlete">🏆 Athletes & Champions</option>
-          <option value="lyrics">🎵 Song Lyrics</option>
+        <label for="theme-select">App Visual Theme</label>
+        <select id="theme-select">
+          <option value="theme-philosophy">Philosophy & Wisdom</option>
+          <option value="theme-movie">Iconic Movies</option>
+          <option value="theme-athlete">Athletic Greatness</option>
+          <option value="theme-lyrics">Song Lyrics</option>
+          <option value="theme-cyberpunk">Cyberpunk Neon</option>
+          <option value="theme-forest">Emerald Forest</option>
+          <option value="theme-sunset">Sunset Serenade</option>
+          <option value="theme-nordic">Nordic Frost</option>
         </select>
       </div>
 
+      <!-- Quote Category Selection -->
       <div class="form-group">
-        <label for="settings-theme">Color Palette Theme</label>
-        <select id="settings-theme">
-          <option value="auto">✨ Auto Dynamic (Matches Category)</option>
-          <option value="philosophy">📜 Philosophy (Warm Amber)</option>
-          <option value="movie">🎬 Movie (Crimson Night)</option>
-          <option value="athlete">⚡ Athlete (Electric Cyan)</option>
-          <option value="lyrics">🎵 Song Lyrics (Neon Purple)</option>
-          <option value="cyberpunk">🌆 Cyberpunk (Neon Magenta)</option>
-          <option value="forest">🌲 Emerald Forest (Deep Pine)</option>
-          <option value="sunset">🌅 Sunset Serenade (Coral Plum)</option>
-          <option value="nordic">❄️ Nordic Frost (Slate Ice)</option>
+        <label for="category-select">Quote Category API Endpoint</label>
+        <select id="category-select">
+          <option value="philosophy">Philosophy / General</option>
+          <option value="inspirational">Inspirational (ZenQuotes)</option>
+          <option value="history">History Trivia</option>
         </select>
       </div>
 
-      <!-- Saved Favorites List Section -->
-      <div class="favorites-section">
-        <h4>Saved Quotes (<span id="fav-count">0</span>)</h4>
-        <div id="favorites-list" class="favorites-list">
-          <p class="empty-fav-text">No saved quotes yet. Click the ❤️ icon on any quote card!</p>
-        </div>
-      </div>
-
-      <button id="save-settings-btn" class="btn primary-btn w-full mt-20">Save Changes</button>
-    </div>
+      <button id="save-settings-btn" class="btn primary-btn w-full mt-20" type="button">
+        Save Preferences
+      </button>
+    </form>
   </aside>
 
-  <!-- Overlay Backdrop for Drawer -->
-  <div id="drawer-backdrop" class="drawer-backdrop"></div>
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="toast-message">Copied to clipboard!</div>
 
-  <!-- External App Script -->
-  <script src="script.js"></script>
+  <!-- JAVASCRIPT INTEGRATION LOGIC -->
+  <script>
+    // --- API ENDPOINT MAPPINGS ---
+    const API_SOURCES = {
+      dummyJson: 'https://dummyjson.com/quotes/random',
+      zenQuotes: 'https://api.allorigins.win/raw?url=https://zenquotes.io/api/random',
+      uselessFacts: 'https://uselessfacts.jsph.pl/api/v2/facts/random?language=en'
+    };
+
+    // --- FALLBACK LOCAL DATA (In case of network/offline issues) ---
+    const FALLBACK_QUOTES = [
+      { quote: "The only true wisdom is in knowing you know nothing.", author: "Socrates" },
+      { quote: "It always seems impossible until it's done.", author: "Nelson Mandela" },
+      { quote: "Life is what happens when you're busy making other plans.", author: "John Lennon" }
+    ];
+
+    const FALLBACK_FACTS = [
+      "Honey never spoils. Archaeologists have found 3,000-year-old edible honey in Egyptian tombs.",
+      "A day on Venus is longer than a year on Venus.",
+      "Bananas are naturally slightly radioactive because they contain high levels of potassium."
+    ];
+
+    // --- DOM ELEMENTS ---
+    const quoteTextEl = document.getElementById('quote-text');
+    const quoteAuthorEl = document.getElementById('quote-author');
+    const factTextEl = document.getElementById('fact-text');
+    const refreshBtn = document.getElementById('fetch-new-btn');
+    const drawer = document.getElementById('settings-drawer');
+    const backdrop = document.getElementById('drawer-backdrop');
+    const openDrawerBtn = document.getElementById('open-drawer-btn');
+    const closeDrawerBtn = document.getElementById('close-drawer-btn');
+    const saveSettingsBtn = document.getElementById('save-settings-btn');
+    const themeSelect = document.getElementById('theme-select');
+    const toast = document.getElementById('toast');
+
+    // --- FETCH QUOTE VIA PUBLIC API ---
+    async function fetchQuote() {
+      quoteTextEl.textContent = "Fetching quote...";
+      quoteAuthorEl.textContent = "";
+
+      try {
+        const category = document.getElementById('category-select').value;
+        let endpoint = API_SOURCES.dummyJson;
+
+        if (category === 'inspirational') {
+          endpoint = API_SOURCES.zenQuotes;
+        }
+
+        const res = await fetch(endpoint);
+        if (!res.ok) throw new Error("API request failed");
+
+        const data = await res.json();
+
+        if (Array.isArray(data) && data[0]?.q) {
+          // ZenQuotes structure
+          quoteTextEl.textContent = `"${data[0].q}"`;
+          quoteAuthorEl.textContent = `— ${data[0].a}`;
+        } else if (data.quote) {
+          // DummyJSON structure
+          quoteTextEl.textContent = `"${data.quote}"`;
+          quoteAuthorEl.textContent = `— ${data.author}`;
+        }
+      } catch (err) {
+        console.warn("Using fallback quote data:", err);
+        const randomQuote = FALLBACK_QUOTES[Math.floor(Math.random() * FALLBACK_QUOTES.length)];
+        quoteTextEl.textContent = `"${randomQuote.quote}"`;
+        quoteAuthorEl.textContent = `— ${randomQuote.author}`;
+      }
+    }
+
+    // --- FETCH FACT VIA PUBLIC API ---
+    async function fetchFact() {
+      factTextEl.textContent = "Fetching fact...";
+
+      try {
+        const res = await fetch(API_SOURCES.uselessFacts);
+        if (!res.ok) throw new Error("API request failed");
+
+        const data = await res.json();
+        factTextEl.textContent = data.text;
+      } catch (err) {
+        console.warn("Using fallback fact data:", err);
+        const randomFact = FALLBACK_FACTS[Math.floor(Math.random() * FALLBACK_FACTS.length)];
+        factTextEl.textContent = randomFact;
+      }
+    }
+
+    // --- MASTER REFRESH FUNCTION ---
+    function loadNewContent() {
+      fetchQuote();
+      fetchFact();
+    }
+
+    // --- DRAWER CONTROLS ---
+    function openDrawer() {
+      drawer.classList.add('open');
+      backdrop.classList.add('active');
+    }
+
+    function closeDrawer() {
+      drawer.classList.remove('open');
+      backdrop.classList.remove('active');
+    }
+
+    // --- INITIALIZATION & EVENT LISTENERS ---
+    document.addEventListener('DOMContentLoaded', () => {
+      loadNewContent();
+
+      // Refresh Button & Spacebar
+      refreshBtn.addEventListener('click', loadNewContent);
+      document.addEventListener('keydown', (e) => {
+        if (e.code === 'Space' && e.target === document.body) {
+          e.preventDefault();
+          loadNewContent();
+        }
+      });
+
+      // Drawer Events
+      openDrawerBtn.addEventListener('click', openDrawer);
+      closeDrawerBtn.addEventListener('click', closeDrawer);
+      backdrop.addEventListener('click', closeDrawer);
+
+      // Save Preferences
+      saveSettingsBtn.addEventListener('click', () => {
+        const selectedTheme = themeSelect.value;
+        document.body.className = `${selectedTheme} min-h-screen font-sans antialiased`;
+        closeDrawer();
+        showToast("Preferences saved!");
+      });
+
+      // Update Date & Time Display
+      const now = new Date();
+      document.getElementById('current-date').textContent = now.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+      document.getElementById('current-time').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    });
+
+    // Helper Toast Notification
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+  </script>
 </body>
 </html>
