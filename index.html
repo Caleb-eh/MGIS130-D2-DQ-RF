@@ -77,8 +77,12 @@
             <i class="fa-solid fa-arrows-rotate"></i>
             <span>Get New Spark</span>
           </button>
+          <button id="randomize-all-btn" class="btn secondary-btn bg-white/10 hover:bg-white/20 text-white border border-white/20">
+            <i class="fa-solid fa-shuffle"></i>
+            <span>Surprise Me!</span>
+          </button>
         </div>
-        <p class="keyboard-hint mt-2">Press <kbd>Spacebar</kbd> to refresh</p>
+        <p class="keyboard-hint mt-2">Press <kbd>Spacebar</kbd> to refresh • Press <kbd>R</kbd> to randomize everything</p>
 
       </div>
     </section>
@@ -133,10 +137,10 @@
       <div class="form-group">
         <label for="fact-topic-select"><i class="fa-solid fa-lightbulb mr-2"></i>Fact Topic</label>
         <select id="fact-topic-select">
-          <option value="useless">General Trivia & Fun Facts (UselessFacts API)</option>
-          <option value="trivia">Math & Number Trivia (Numbers API)</option>
-          <option value="date">Historical Events & Dates (Numbers API)</option>
-          <option value="year">Year in History Trivia (Numbers API)</option>
+          <option value="useless">General Trivia & Fun Facts</option>
+          <option value="trivia">Math & Number Trivia</option>
+          <option value="date">Historical Events & Dates</option>
+          <option value="year">Year in History Trivia</option>
         </select>
       </div>
 
@@ -275,6 +279,7 @@
     const factTextEl = document.getElementById('fact-text');
     const factCategoryLabelEl = document.getElementById('fact-category-label');
     const refreshBtn = document.getElementById('fetch-new-btn');
+    const randomizeBtn = document.getElementById('randomize-all-btn');
     const drawer = document.getElementById('settings-drawer');
     const backdrop = document.getElementById('drawer-backdrop');
     const openDrawerBtn = document.getElementById('open-drawer-btn');
@@ -434,6 +439,29 @@
       fetchFact();
     }
 
+    // --- RANDOMIZE EVERYTHING (THEMES, CATEGORIES, CONTENT) ---
+    function randomizeEverything() {
+      // Pick random theme
+      const themes = Array.from(themeSelect.options).map(opt => opt.value);
+      const randomTheme = themes[Math.floor(Math.random() * themes.length)];
+      themeSelect.value = randomTheme;
+      document.body.className = `${randomTheme} min-h-screen font-sans antialiased`;
+
+      // Pick random quote subject
+      const quoteCategories = Array.from(categorySelect.options).map(opt => opt.value);
+      const randomCategory = quoteCategories[Math.floor(Math.random() * quoteCategories.length)];
+      categorySelect.value = randomCategory;
+
+      // Pick random fact topic
+      const factTopics = Array.from(factTopicSelect.options).map(opt => opt.value);
+      const randomTopic = factTopics[Math.floor(Math.random() * factTopics.length)];
+      factTopicSelect.value = randomTopic;
+
+      // Fetch new quote & fact with newly picked choices
+      loadNewContent();
+      showToast("Randomized theme, quote, and fact!");
+    }
+
     // --- DRAWER CONTROLS ---
     function openDrawer() {
       drawer.classList.add('open');
@@ -460,10 +488,22 @@
 
       // Refresh Button & Spacebar
       refreshBtn.addEventListener('click', loadNewContent);
+
+      // Randomize Button & Key Listener
+      if (randomizeBtn) {
+        randomizeBtn.addEventListener('click', randomizeEverything);
+      }
+
       document.addEventListener('keydown', (e) => {
-        if (e.code === 'Space' && e.target === document.body) {
+        // Prevent keypresses when typing in input fields
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+
+        if (e.code === 'Space') {
           e.preventDefault();
           loadNewContent();
+        } else if (e.code === 'KeyR') {
+          e.preventDefault();
+          randomizeEverything();
         }
       });
 
