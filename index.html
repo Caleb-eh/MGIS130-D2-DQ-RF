@@ -43,7 +43,7 @@
         <!-- QUOTE CARD -->
         <article class="card animate-in">
           <div class="card-header-row">
-            <span class="card-label">Quote of the Day</span>
+            <span id="quote-category-label" class="card-label">Quote • Wisdom & Philosophy</span>
             <div class="card-actions-mini">
               <button id="copy-quote-btn" class="icon-btn" title="Copy Quote">
                 <i class="fa-regular fa-copy"></i>
@@ -59,7 +59,7 @@
         <!-- FACT CARD -->
         <article class="card animate-in">
           <div class="card-header-row">
-            <span class="card-label">Random Fact</span>
+            <span id="fact-category-label" class="card-label">Fact • General Trivia</span>
             <div class="card-actions-mini">
               <button id="copy-fact-btn" class="icon-btn" title="Copy Fact">
                 <i class="fa-regular fa-copy"></i>
@@ -90,14 +90,14 @@
   <!-- SLIDE-OUT SETTINGS DRAWER -->
   <aside id="settings-drawer" class="drawer">
     <div class="drawer-header">
-      <h3>Preferences</h3>
+      <h3>Preferences & Topics</h3>
       <button id="close-drawer-btn" class="close-btn" aria-label="Close Settings">&times;</button>
     </div>
 
     <form id="settings-form" onsubmit="event.preventDefault();">
       <!-- Theme Selection -->
       <div class="form-group">
-        <label for="theme-select">App Visual Theme</label>
+        <label for="theme-select"><i class="fa-solid fa-palette mr-2"></i>App Visual Theme</label>
         <select id="theme-select">
           <option value="theme-philosophy">Philosophy & Wisdom</option>
           <option value="theme-movie">Iconic Movies</option>
@@ -112,20 +112,34 @@
 
       <!-- Quote Category Selection -->
       <div class="form-group">
-        <label for="category-select">Quote Category API Endpoint</label>
+        <label for="category-select"><i class="fa-solid fa-quote-left mr-2"></i>Quote Subject</label>
         <select id="category-select">
-          <option value="philosophy">Philosophy / General</option>
-          <option value="inspirational">Inspirational (ZenQuotes)</option>
-          <option value="history">History Trivia</option>
+          <option value="philosophy">Wisdom & Philosophy (DummyJSON)</option>
+          <option value="inspirational">Inspirational & Life (ZenQuotes)</option>
+          <option value="technology">Technology & Science (Quotable API)</option>
+          <option value="history">Historical & Classics (Quotable API)</option>
+          <option value="literature">Literature & Poetry (Quotable API)</option>
+          <option value="sports">Athletics & Competition (Quotable API)</option>
+        </select>
+      </div>
+
+      <!-- Fact Topic Selection -->
+      <div class="form-group">
+        <label for="fact-topic-select"><i class="fa-solid fa-lightbulb mr-2"></i>Fact Topic</label>
+        <select id="fact-topic-select">
+          <option value="useless">General Trivia & Fun Facts (UselessFacts)</option>
+          <option value="trivia">Math & Number Trivia (Numbers API)</option>
+          <option value="date">Historical Events & Dates (Numbers API)</option>
+          <option value="year">Year in History Trivia (Numbers API)</option>
         </select>
       </div>
 
       <!-- Greeting Display Mode Option -->
       <div class="form-group">
-        <label for="greeting-style-select">Greeting Mode</label>
+        <label for="greeting-style-select"><i class="fa-solid fa-clock mr-2"></i>Greeting Header</label>
         <select id="greeting-style-select">
           <option value="time-based">Time-of-Day Greeting (Morning/Afternoon/Evening)</option>
-          <option value="holiday-api">Today's Holiday / Observance (Calendarific API)</option>
+          <option value="holiday-api">Today's Holiday / Observance (Nager.Date API)</option>
         </select>
       </div>
 
@@ -140,33 +154,69 @@
 
   <!-- JAVASCRIPT INTEGRATION LOGIC -->
   <script>
-    // --- API ENDPOINT MAPPINGS ---
+    // --- API ENDPOINT MAPPINGS BY SUBJECT/TOPIC ---
+    const QUOTE_ENDPOINTS = {
+      philosophy: 'https://dummyjson.com/quotes/random',
+      inspirational: 'https://api.allorigins.win/raw?url=https://zenquotes.io/api/random',
+      technology: 'https://api.quotable.io/quotes/random?tags=technology',
+      history: 'https://api.quotable.io/quotes/random?tags=history',
+      literature: 'https://api.quotable.io/quotes/random?tags=literature',
+      sports: 'https://api.quotable.io/quotes/random?tags=sports'
+    };
+
+    const FACT_ENDPOINTS = {
+      useless: 'https://uselessfacts.jsph.pl/api/v2/facts/random?language=en',
+      trivia: 'http://numbersapi.com/random/trivia?json',
+      date: 'http://numbersapi.com/random/date?json',
+      year: 'http://numbersapi.com/random/year?json'
+    };
+
     const API_SOURCES = {
-      dummyJson: 'https://dummyjson.com/quotes/random',
-      zenQuotes: 'https://api.allorigins.win/raw?url=https://zenquotes.io/api/random',
-      uselessFacts: 'https://uselessfacts.jsph.pl/api/v2/facts/random?language=en',
-      // Public Holidays API (No key required for general country holiday detection)
       publicHolidays: 'https://date.nager.at/api/v3/NextPublicHolidaysWorldwide'
     };
 
-    // --- FALLBACK LOCAL DATA (In case of network/offline issues) ---
-    const FALLBACK_QUOTES = [
-      { quote: "The only true wisdom is in knowing you know nothing.", author: "Socrates" },
-      { quote: "It always seems impossible until it's done.", author: "Nelson Mandela" },
-      { quote: "Life is what happens when you're busy making other plans.", author: "John Lennon" }
-    ];
+    // --- FALLBACK LOCAL DATA ---
+    const FALLBACK_QUOTES = {
+      philosophy: [
+        { quote: "The only true wisdom is in knowing you know nothing.", author: "Socrates" },
+        { quote: "He who has a why to live can bear almost any how.", author: "Friedrich Nietzsche" }
+      ],
+      inspirational: [
+        { quote: "It always seems impossible until it's done.", author: "Nelson Mandela" },
+        { quote: "Life is what happens when you're busy making other plans.", author: "John Lennon" }
+      ],
+      technology: [
+        { quote: "Technology is best when it brings people together.", author: "Matt Mullenweg" },
+        { quote: "It has become appallingly obvious that our technology has exceeded our humanity.", author: "Albert Einstein" }
+      ],
+      history: [
+        { quote: "History is written by the victors.", author: "Winston Churchill" },
+        { quote: "Those who cannot remember the past are condemned to repeat it.", author: "George Santayana" }
+      ],
+      literature: [
+        { quote: "There is no friend as loyal as a book.", author: "Ernest Hemingway" },
+        { quote: "Words are, in my not-so-humble opinion, our most inexhaustible source of magic.", author: "J.K. Rowling" }
+      ],
+      sports: [
+        { quote: "You miss 100% of the shots you don't take.", author: "Wayne Gretzky" },
+        { quote: "I've failed over and over and over again in my life. And that is why I succeed.", author: "Michael Jordan" }
+      ]
+    };
 
     const FALLBACK_FACTS = [
       "Honey never spoils. Archaeologists have found 3,000-year-old edible honey in Egyptian tombs.",
       "A day on Venus is longer than a year on Venus.",
-      "Bananas are naturally slightly radioactive because they contain high levels of potassium."
+      "Bananas are naturally slightly radioactive because they contain high levels of potassium.",
+      "The shortest war in history lasted 38 minutes between Britain and Zanzibar in 1896."
     ];
 
     // --- DOM ELEMENTS ---
     const greetingHeadingEl = document.getElementById('greeting-heading');
     const quoteTextEl = document.getElementById('quote-text');
     const quoteAuthorEl = document.getElementById('quote-author');
+    const quoteCategoryLabelEl = document.getElementById('quote-category-label');
     const factTextEl = document.getElementById('fact-text');
+    const factCategoryLabelEl = document.getElementById('fact-category-label');
     const refreshBtn = document.getElementById('fetch-new-btn');
     const drawer = document.getElementById('settings-drawer');
     const backdrop = document.getElementById('drawer-backdrop');
@@ -174,30 +224,28 @@
     const closeDrawerBtn = document.getElementById('close-drawer-btn');
     const saveSettingsBtn = document.getElementById('save-settings-btn');
     const themeSelect = document.getElementById('theme-select');
+    const categorySelect = document.getElementById('category-select');
+    const factTopicSelect = document.getElementById('fact-topic-select');
     const greetingStyleSelect = document.getElementById('greeting-style-select');
     const toast = document.getElementById('toast');
+    const copyQuoteBtn = document.getElementById('copy-quote-btn');
+    const copyFactBtn = document.getElementById('copy-fact-btn');
 
     // --- TIME-OF-DAY GREETING LOGIC ---
     function updateTimeBasedGreeting() {
       const now = new Date();
       const hour = now.getHours();
-
       let greeting = "Hello & Welcome";
 
-      if (hour >= 5 && hour < 12) {
-        greeting = "Good Morning ☀️";
-      } else if (hour >= 12 && hour < 17) {
-        greeting = "Good Afternoon 🌤️";
-      } else if (hour >= 17 && hour < 22) {
-        greeting = "Good Evening 🌙";
-      } else {
-        greeting = "Good Night ✨";
-      }
+      if (hour >= 5 && hour < 12) greeting = "Good Morning ☀️";
+      else if (hour >= 12 && hour < 17) greeting = "Good Afternoon 🌤️";
+      else if (hour >= 17 && hour < 22) greeting = "Good Evening 🌙";
+      else greeting = "Good Night ✨";
 
       greetingHeadingEl.textContent = greeting;
     }
 
-    // --- OPTIONAL HOLIDAY/OBSERVANCE API GREETING ---
+    // --- HOLIDAY / OBSERVANCE API GREETING ---
     async function fetchHolidayGreeting() {
       try {
         const res = await fetch(API_SOURCES.publicHolidays);
@@ -205,18 +253,15 @@
         const holidays = await res.json();
         
         if (holidays && holidays.length > 0) {
-          const nearestHoliday = holidays[0];
-          greetingHeadingEl.textContent = `Happy ${nearestHoliday.localName}! 🎉`;
+          greetingHeadingEl.textContent = `Happy ${holidays[0].localName}! 🎉`;
         } else {
           updateTimeBasedGreeting();
         }
       } catch (err) {
-        console.warn("Using default time-of-day greeting:", err);
         updateTimeBasedGreeting();
       }
     }
 
-    // --- UPDATE GREETING BASED ON USER PREFERENCE ---
     function applyGreetingPreference() {
       const mode = greetingStyleSelect ? greetingStyleSelect.value : 'time-based';
       if (mode === 'holiday-api') {
@@ -226,19 +271,17 @@
       }
     }
 
-    // --- FETCH QUOTE VIA PUBLIC API ---
+    // --- FETCH QUOTE BASED ON SELECTED CATEGORY ---
     async function fetchQuote() {
       quoteTextEl.textContent = "Fetching quote...";
       quoteAuthorEl.textContent = "";
 
+      const selectedCategory = categorySelect.value || 'philosophy';
+      const selectedOptionText = categorySelect.options[categorySelect.selectedIndex].text.split('(')[0].trim();
+      quoteCategoryLabelEl.textContent = `Quote • ${selectedOptionText}`;
+
       try {
-        const category = document.getElementById('category-select').value;
-        let endpoint = API_SOURCES.dummyJson;
-
-        if (category === 'inspirational') {
-          endpoint = API_SOURCES.zenQuotes;
-        }
-
+        const endpoint = QUOTE_ENDPOINTS[selectedCategory] || QUOTE_ENDPOINTS.philosophy;
         const res = await fetch(endpoint);
         if (!res.ok) throw new Error("API request failed");
 
@@ -248,29 +291,54 @@
           // ZenQuotes structure
           quoteTextEl.textContent = `"${data[0].q}"`;
           quoteAuthorEl.textContent = `— ${data[0].a}`;
+        } else if (Array.isArray(data) && data[0]?.content) {
+          // Quotable structure (array return)
+          quoteTextEl.textContent = `"${data[0].content}"`;
+          quoteAuthorEl.textContent = `— ${data[0].author}`;
+        } else if (data.content) {
+          // Quotable single object return
+          quoteTextEl.textContent = `"${data.content}"`;
+          quoteAuthorEl.textContent = `— ${data.author}`;
         } else if (data.quote) {
           // DummyJSON structure
           quoteTextEl.textContent = `"${data.quote}"`;
           quoteAuthorEl.textContent = `— ${data.author}`;
+        } else {
+          throw new Error("Unknown response format");
         }
       } catch (err) {
-        console.warn("Using fallback quote data:", err);
-        const randomQuote = FALLBACK_QUOTES[Math.floor(Math.random() * FALLBACK_QUOTES.length)];
+        console.warn("Using fallback quote category:", err);
+        const categoryList = FALLBACK_QUOTES[selectedCategory] || FALLBACK_QUOTES.philosophy;
+        const randomQuote = categoryList[Math.floor(Math.random() * categoryList.length)];
         quoteTextEl.textContent = `"${randomQuote.quote}"`;
         quoteAuthorEl.textContent = `— ${randomQuote.author}`;
       }
     }
 
-    // --- FETCH FACT VIA PUBLIC API ---
+    // --- FETCH FACT BASED ON SELECTED TOPIC ---
     async function fetchFact() {
       factTextEl.textContent = "Fetching fact...";
 
+      const selectedTopic = factTopicSelect.value || 'useless';
+      const selectedOptionText = factTopicSelect.options[factTopicSelect.selectedIndex].text.split('(')[0].trim();
+      factCategoryLabelEl.textContent = `Fact • ${selectedOptionText}`;
+
       try {
-        const res = await fetch(API_SOURCES.uselessFacts);
+        const endpoint = FACT_ENDPOINTS[selectedTopic] || FACT_ENDPOINTS.useless;
+        const res = await fetch(endpoint);
         if (!res.ok) throw new Error("API request failed");
 
         const data = await res.json();
-        factTextEl.textContent = data.text;
+
+        if (data.text) {
+          // UselessFacts API
+          factTextEl.textContent = data.text;
+        } else if (data.text && data.number !== undefined) {
+          // Numbers API
+          factTextEl.textContent = data.text;
+        } else {
+          throw new Error("Unknown fact payload format");
+        }
       } catch (err) {
         console.warn("Using fallback fact data:", err);
         const randomFact = FALLBACK_FACTS[Math.floor(Math.random() * FALLBACK_FACTS.length)];
@@ -296,6 +364,15 @@
       backdrop.classList.remove('active');
     }
 
+    // --- COPY TO CLIPBOARD HELPERS ---
+    function copyToClipboard(text, label) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(`Copied ${label} to clipboard!`);
+      }).catch(() => {
+        showToast("Failed to copy text.");
+      });
+    }
+
     // --- INITIALIZATION & EVENT LISTENERS ---
     document.addEventListener('DOMContentLoaded', () => {
       loadNewContent();
@@ -314,19 +391,34 @@
       closeDrawerBtn.addEventListener('click', closeDrawer);
       backdrop.addEventListener('click', closeDrawer);
 
+      // Copy Buttons
+      copyQuoteBtn.addEventListener('click', () => {
+        const fullQuote = `${quoteTextEl.textContent} ${quoteAuthorEl.textContent}`;
+        copyToClipboard(fullQuote, 'quote');
+      });
+
+      copyFactBtn.addEventListener('click', () => {
+        copyToClipboard(factTextEl.textContent, 'fact');
+      });
+
       // Save Preferences
       saveSettingsBtn.addEventListener('click', () => {
         const selectedTheme = themeSelect.value;
         document.body.className = `${selectedTheme} min-h-screen font-sans antialiased`;
-        applyGreetingPreference();
+        loadNewContent();
         closeDrawer();
-        showToast("Preferences saved!");
+        showToast("Preferences & Topics updated!");
       });
 
       // Update Date & Time Display
-      const now = new Date();
-      document.getElementById('current-date').textContent = now.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
-      document.getElementById('current-time').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const updateClock = () => {
+        const now = new Date();
+        document.getElementById('current-date').textContent = now.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+        document.getElementById('current-time').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      };
+
+      updateClock();
+      setInterval(updateClock, 60000);
     });
 
     // Helper Toast Notification
