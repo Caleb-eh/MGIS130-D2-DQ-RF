@@ -160,8 +160,7 @@
 
   <!-- JAVASCRIPT INTEGRATION LOGIC -->
   <script>
-    // --- RELIABLE API ENDPOINT MAPPINGS BY SUBJECT/TOPIC ---
-    // Replaced dead Quotable API endpoints with high-availability CORS-friendly public APIs
+    // --- HIGH-AVAILABILITY HTTPS API ENDPOINTS BY CATEGORY ---
     const QUOTE_ENDPOINTS = {
       philosophy: [
         'https://dummyjson.com/quotes/random',
@@ -224,10 +223,43 @@
     };
 
     const FACT_ENDPOINTS = {
-      useless: 'https://uselessfacts.jsph.pl/api/v2/facts/random?language=en',
-      trivia: 'https://numbersapi.com/random/trivia?json',
-      date: 'https://numbersapi.com/random/date?json',
-      year: 'https://numbersapi.com/random/year?json'
+      useless: [
+        'https://uselessfacts.jsph.pl/api/v2/facts/random?language=en'
+      ],
+      trivia: [
+        'https://catfact.ninja/fact',
+        'https://uselessfacts.jsph.pl/api/v2/facts/random?language=en'
+      ],
+      date: [
+        'https://uselessfacts.jsph.pl/api/v2/facts/random?language=en'
+      ],
+      year: [
+        'https://dogapi.dog/api/v2/facts',
+        'https://uselessfacts.jsph.pl/api/v2/facts/random?language=en'
+      ]
+    };
+
+    const LOCAL_FACT_BACKUPS = {
+      useless: [
+        "A flock of crows is known as a murder.",
+        "Honey never spoils. Trace amounts of edible honey have been found in ancient Egyptian tombs.",
+        "Bananas are curved because they grow towards the sun against gravity."
+      ],
+      trivia: [
+        "Venus is the only planet in our solar system that spins clockwise.",
+        "The heart of a shrimp is located in its head.",
+        "An octopus has three hearts and blue blood."
+      ],
+      date: [
+        "In 1912, the Titanic sank on its maiden voyage across the Atlantic.",
+        "On July 20, 1969, humans first walked on the Moon during Apollo 11.",
+        "The Eiffel Tower was officially opened on March 31, 1889."
+      ],
+      year: [
+        "In 1969, ARPANET sent its first message, laying the groundwork for today's Internet.",
+        "In 1903, the Wright brothers achieved the first powered, sustained human flight.",
+        "In 1989, the Berlin Wall fell, marking a pivotal historical moment."
+      ]
     };
 
     const API_SOURCES = {
@@ -359,22 +391,40 @@
       const selectedOptionText = factTopicSelect.options[factTopicSelect.selectedIndex].text.split('(')[0].trim();
       factCategoryLabelEl.textContent = `Fact • ${selectedOptionText}`;
 
-      try {
-        const endpoint = FACT_ENDPOINTS[selectedTopic] || FACT_ENDPOINTS.useless;
-        const res = await fetch(endpoint);
-        if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+      const endpoints = FACT_ENDPOINTS[selectedTopic] || FACT_ENDPOINTS.useless;
 
-        const data = await res.json();
+      for (const endpoint of endpoints) {
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 4000);
 
-        if (data.text) {
-          factTextEl.textContent = data.text;
-        } else {
-          throw new Error("Unrecognized fact payload structure");
+          const res = await fetch(endpoint, { signal: controller.signal });
+          clearTimeout(timeoutId);
+
+          if (!res.ok) continue;
+
+          const data = await res.json();
+
+          // Handle varying JSON schemas safely across different fact APIs
+          if (data.text) {
+            factTextEl.textContent = data.text;
+            return;
+          } else if (data.fact) {
+            factTextEl.textContent = data.fact;
+            return;
+          } else if (data.data && Array.isArray(data.data) && data.data[0]?.attributes?.body) {
+            factTextEl.textContent = data.data[0].attributes.body;
+            return;
+          }
+        } catch (err) {
+          console.warn(`Fact endpoint failed (${endpoint}):`, err.message);
         }
-      } catch (err) {
-        console.error("Fact API Fetch Error:", err);
-        factTextEl.textContent = "Unable to load fact from API. Please check your network connection and try again.";
       }
+
+      // Fallback pool in case of network outages or throttling
+      const backupList = LOCAL_FACT_BACKUPS[selectedTopic] || LOCAL_FACT_BACKUPS.useless;
+      const randomFact = backupList[Math.floor(Math.random() * backupList.length)];
+      factTextEl.textContent = randomFact;
     }
 
     // --- MASTER REFRESH FUNCTION ---
