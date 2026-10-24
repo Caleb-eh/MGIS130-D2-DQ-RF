@@ -613,7 +613,7 @@
         </select>
       </div>
 
-      <button id="save-settings-btn" class="btn primary-btn w-full mt-20" type="button">
+      <button id="save-settings-btn" class="btn primary-btn w-full mt-6" type="button">
         Save Preferences
       </button>
     </form>
@@ -743,6 +743,25 @@
     const toast = document.getElementById('toast');
     const copyQuoteBtn = document.getElementById('copy-quote-btn');
     const copyFactBtn = document.getElementById('copy-fact-btn');
+    const currentDateEl = document.getElementById('current-date');
+    const currentTimeEl = document.getElementById('current-time');
+
+    // Date & Time Updates
+    function updateClock() {
+      const now = new Date();
+      if (currentDateEl) {
+        currentDateEl.textContent = now.toLocaleDateString(undefined, {
+          weekday: 'short', month: 'short', day: 'numeric'
+        });
+      }
+      if (currentTimeEl) {
+        currentTimeEl.textContent = now.toLocaleTimeString(undefined, {
+          hour: '2-digit', minute: '2-digit'
+        });
+      }
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
 
     // Time-based greeting
     function updateTimeBasedGreeting() {
@@ -827,7 +846,7 @@
       quoteAuthorEl.textContent = `— ${randomQuote.author}`;
     }
 
-    // Fact Fetcher
+    // Fact Fetcher matched with Topic
     async function fetchFact() {
       factTextEl.textContent = "Fetching fact...";
 
@@ -838,22 +857,37 @@
       const backupList = LOCAL_FACT_BACKUPS[selectedTopic] || LOCAL_FACT_BACKUPS.useless;
       const randomFact = backupList[Math.floor(Math.random() * backupList.length)];
 
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 2500);
+      // Choose endpoint based on topic selection
+      let apiUrl = '';
+      if (selectedTopic === 'useless') {
+        apiUrl = 'https://uselessfacts.jsph.pl/api/v2/facts/random?language=en';
+      } else if (selectedTopic === 'trivia') {
+        apiUrl = 'http://numbersapi.com/random/math?json';
+      } else if (selectedTopic === 'date') {
+        apiUrl = 'http://numbersapi.com/random/date?json';
+      } else if (selectedTopic === 'year') {
+        apiUrl = 'http://numbersapi.com/random/year?json';
+      }
 
-        const res = await fetch('https://uselessfacts.jsph.pl/api/v2/facts/random?language=en', { signal: controller.signal });
-        clearTimeout(timeoutId);
+      if (apiUrl) {
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 2500);
 
-        if (res.ok) {
-          const data = await res.json();
-          if (data && data.text) {
-            factTextEl.textContent = data.text;
-            return;
+          const res = await fetch(apiUrl, { signal: controller.signal });
+          clearTimeout(timeoutId);
+
+          if (res.ok) {
+            const data = await res.json();
+            const factContent = data.text || data.text || data.fact || data.text;
+            if (factContent) {
+              factTextEl.textContent = factContent;
+              return;
+            }
           }
+        } catch (err) {
+          console.warn("Fact API fetch failed, using local topic fallback.");
         }
-      } catch (err) {
-        console.warn("Fact API fetch failed, using local fallback.");
       }
 
       factTextEl.textContent = randomFact;
@@ -879,10 +913,12 @@
       const randomTopic = factTopics[Math.floor(Math.random() * factTopics.length)];
       factTopicSelect.value = randomTopic;
 
+      savePreferences();
       loadNewContent();
-      showToast("Randomized theme, quote, and fact!");
+      showToast("Surprise preferences applied!");
     }
 
+    // Drawer Management
     function openDrawer() {
       drawer.classList.add('open');
       backdrop.classList.add('active');
@@ -893,89 +929,109 @@
       backdrop.classList.remove('active');
     }
 
-    function copyToClipboard(text, label) {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(() => {
-          showToast(`Copied ${label} to clipboard!`);
-        }).catch(() => {
-          fallbackCopyText(text, label);
-        });
-      } else {
-        fallbackCopyText(text, label);
-      }
+    // Toast Notification helper
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2000);
     }
 
-    function fallbackCopyText(text, label) {
-      const textArea = document.createElement("textarea");
-      textArea.value = text;
-      document.body.appendChild(textArea);
-      textArea.select();
+    // Copy to Clipboard Helper
+    function copyToClipboard(text) {
+      if (!text) return;
+      const tempInput = document.createElement('textarea');
+      tempInput.value = text;
+      document.body.appendChild(tempInput);
+      tempInput.select();
       try {
         document.execCommand('copy');
-        showToast(`Copied ${label} to clipboard!`);
+        showToast("Copied to clipboard!");
       } catch (err) {
-        showToast("Failed to copy text.");
+        showToast("Failed to copy text");
       }
-      document.body.removeChild(textArea);
+      document.body.removeChild(tempInput);
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      loadNewContent();
-
-      refreshBtn.addEventListener('click', loadNewContent);
-
-      if (randomizeBtn) {
-        randomizeBtn.addEventListener('click', randomizeEverything);
-      }
-
-      document.addEventListener('keydown', (e) => {
-        if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
-
-        if (e.code === 'Space') {
-          e.preventDefault();
-          loadNewContent();
-        } else if (e.code === 'KeyR') {
-          e.preventDefault();
-          randomizeEverything();
-        }
-      });
-
-      openDrawerBtn.addEventListener('click', openDrawer);
-      closeDrawerBtn.addEventListener('click', closeDrawer);
-      backdrop.addEventListener('click', closeDrawer);
-
-      copyQuoteBtn.addEventListener('click', () => {
-        const fullQuote = `${quoteTextEl.textContent} ${quoteAuthorEl.textContent}`;
-        copyToClipboard(fullQuote, 'quote');
-      });
-
-      copyFactBtn.addEventListener('click', () => {
-        copyToClipboard(factTextEl.textContent, 'fact');
-      });
-
-      saveSettingsBtn.addEventListener('click', () => {
-        const selectedTheme = themeSelect.value;
-        document.body.className = `${selectedTheme} min-h-screen font-sans antialiased`;
-        loadNewContent();
-        closeDrawer();
-        showToast("Preferences & Topics updated!");
-      });
-
-      const updateClock = () => {
-        const now = new Date();
-        document.getElementById('current-date').textContent = now.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
-        document.getElementById('current-time').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    // Preference Persistence
+    function savePreferences() {
+      const prefs = {
+        userName: userNameInput.value,
+        theme: themeSelect.value,
+        category: categorySelect.value,
+        factTopic: factTopicSelect.value,
+        greetingStyle: greetingStyleSelect.value
       };
+      localStorage.setItem('dailySparkPrefs', JSON.stringify(prefs));
+    }
 
-      updateClock();
-      setInterval(updateClock, 60000);
+    function loadPreferences() {
+      const saved = localStorage.getItem('dailySparkPrefs');
+      if (saved) {
+        try {
+          const prefs = JSON.parse(saved);
+          if (prefs.userName !== undefined) userNameInput.value = prefs.userName;
+          if (prefs.theme) {
+            themeSelect.value = prefs.theme;
+            document.body.className = `${prefs.theme} min-h-screen font-sans antialiased`;
+          }
+          if (prefs.category) categorySelect.value = prefs.category;
+          if (prefs.factTopic) factTopicSelect.value = prefs.factTopic;
+          if (prefs.greetingStyle) greetingStyleSelect.value = prefs.greetingStyle;
+        } catch (e) {
+          console.error("Could not parse preferences", e);
+        }
+      }
+    }
+
+    // Event Listeners
+    openDrawerBtn.addEventListener('click', openDrawer);
+    closeDrawerBtn.addEventListener('click', closeDrawer);
+    backdrop.addEventListener('click', closeDrawer);
+
+    themeSelect.addEventListener('change', (e) => {
+      document.body.className = `${e.target.value} min-h-screen font-sans antialiased`;
     });
 
-    function showToast(msg) {
-      toast.textContent = msg;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 2500);
-    }
+    saveSettingsBtn.addEventListener('click', () => {
+      savePreferences();
+      closeDrawer();
+      loadNewContent();
+      showToast("Preferences saved!");
+    });
+
+    refreshBtn.addEventListener('click', loadNewContent);
+    randomizeBtn.addEventListener('click', randomizeEverything);
+
+    copyQuoteBtn.addEventListener('click', () => {
+      const quote = `${quoteTextEl.textContent} ${quoteAuthorEl.textContent}`;
+      copyToClipboard(quote);
+    });
+
+    copyFactBtn.addEventListener('click', () => {
+      copyToClipboard(factTextEl.textContent);
+    });
+
+    // Keyboard Shortcuts
+    document.addEventListener('keydown', (e) => {
+      // Don't trigger if user is typing in form inputs
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+
+      if (e.code === 'Space') {
+        e.preventDefault();
+        loadNewContent();
+      } else if (e.key === 'r' || e.key === 'R') {
+        e.preventDefault();
+        randomizeEverything();
+      }
+    });
+
+    // Initialize Application
+    window.addEventListener('DOMContentLoaded', () => {
+      loadPreferences();
+      loadNewContent();
+    });
   </script>
 </body>
 </html>
