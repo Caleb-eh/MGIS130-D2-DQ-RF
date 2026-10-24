@@ -95,18 +95,24 @@
     </div>
 
     <form id="settings-form" onsubmit="event.preventDefault();">
+      <!-- User Name Field -->
+      <div class="form-group">
+        <label for="user-name-input"><i class="fa-solid fa-user mr-2"></i>Your Name</label>
+        <input type="text" id="user-name-input" placeholder="Enter your name" class="w-full p-3 rounded-lg text-sm bg-black/40 border border-[var(--border-card)] text-[var(--text-main)] outline-none focus:border-[var(--accent)] transition-colors" />
+      </div>
+
       <!-- Theme Selection -->
       <div class="form-group">
         <label for="theme-select"><i class="fa-solid fa-palette mr-2"></i>App Visual Theme</label>
         <select id="theme-select">
-          <option value="theme-philosophy">Philosophy & Wisdom</option>
-          <option value="theme-inspirational">Inspirational & Life</option>
-          <option value="theme-technology">Technology & Science</option>
-          <option value="theme-history">History & Classics</option>
-          <option value="theme-literature">Literature & Poetry</option>
-          <option value="theme-sports">Athletics & Competition</option>
-          <option value="theme-forest">Emerald Forest</option>
-          <option value="theme-nordic">Nordic Frost</option>
+          <option value="theme-philosophy">Misty Mountain Peaks</option>
+          <option value="theme-inspirational">Golden Tropical Sunset</option>
+          <option value="theme-technology">Neon Cyber Circuit</option>
+          <option value="theme-history">Vintage Parchment & Quill</option>
+          <option value="theme-literature">Cozy Antique Library</option>
+          <option value="theme-sports">Night Stadium Lights</option>
+          <option value="theme-forest">Emerald Canopy Forest</option>
+          <option value="theme-nordic">Glacier Ice Frost</option>
         </select>
       </div>
 
@@ -177,6 +183,7 @@
 
     // --- DOM ELEMENTS ---
     const greetingHeadingEl = document.getElementById('greeting-heading');
+    const userNameInput = document.getElementById('user-name-input');
     const quoteTextEl = document.getElementById('quote-text');
     const quoteAuthorEl = document.getElementById('quote-author');
     const quoteCategoryLabelEl = document.getElementById('quote-category-label');
@@ -200,25 +207,30 @@
     function updateTimeBasedGreeting() {
       const now = new Date();
       const hour = now.getHours();
-      let greeting = "Hello & Welcome";
+      const userName = userNameInput?.value?.trim();
+      const nameSuffix = userName ? `, ${userName}` : '';
 
-      if (hour >= 5 && hour < 12) greeting = "Good Morning ☀️";
-      else if (hour >= 12 && hour < 17) greeting = "Good Afternoon 🌤️";
-      else if (hour >= 17 && hour < 22) greeting = "Good Evening 🌙";
-      else greeting = "Good Night ✨";
+      let timeGreeting = "Hello";
+      if (hour >= 5 && hour < 12) timeGreeting = "Good Morning ☀️";
+      else if (hour >= 12 && hour < 17) timeGreeting = "Good Afternoon 🌤️";
+      else if (hour >= 17 && hour < 22) timeGreeting = "Good Evening 🌙";
+      else timeGreeting = "Good Night ✨";
 
-      greetingHeadingEl.textContent = greeting;
+      greetingHeadingEl.textContent = `${timeGreeting}${nameSuffix}`;
     }
 
     // --- HOLIDAY / OBSERVANCE API GREETING ---
     async function fetchHolidayGreeting() {
+      const userName = userNameInput?.value?.trim();
+      const nameSuffix = userName ? `, ${userName}` : '';
+
       try {
         const res = await fetch(API_SOURCES.publicHolidays);
         if (!res.ok) throw new Error("Holiday API failed");
         const holidays = await res.json();
         
         if (holidays && holidays.length > 0) {
-          greetingHeadingEl.textContent = `Happy ${holidays[0].localName}! 🎉`;
+          greetingHeadingEl.textContent = `Happy ${holidays[0].localName}${nameSuffix}! 🎉`;
         } else {
           updateTimeBasedGreeting();
         }
@@ -253,19 +265,15 @@
         const data = await res.json();
 
         if (Array.isArray(data) && data[0]?.q) {
-          // ZenQuotes structure
           quoteTextEl.textContent = `"${data[0].q}"`;
           quoteAuthorEl.textContent = `— ${data[0].a}`;
         } else if (Array.isArray(data) && data[0]?.content) {
-          // Quotable array structure
           quoteTextEl.textContent = `"${data[0].content}"`;
           quoteAuthorEl.textContent = `— ${data[0].author}`;
         } else if (data.content) {
-          // Quotable single object
           quoteTextEl.textContent = `"${data.content}"`;
           quoteAuthorEl.textContent = `— ${data.author}`;
         } else if (data.quote) {
-          // DummyJSON structure
           quoteTextEl.textContent = `"${data.quote}"`;
           quoteAuthorEl.textContent = `— ${data.author}`;
         } else {
