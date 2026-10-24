@@ -18,7 +18,8 @@
   <main class="main-screen">
     <header class="top-nav">
       <div class="header-center">
-        <h1 class="greeting-heading">Daily Spark</h1>
+        <!-- DYNAMIC TIME-BASED GREETING -->
+        <h1 id="greeting-heading" class="greeting-heading">Daily Spark</h1>
         <div class="datetime-widget">
           <span id="current-date">Today</span>
           <span class="dot-separator">•</span>
@@ -119,6 +120,15 @@
         </select>
       </div>
 
+      <!-- Greeting Display Mode Option -->
+      <div class="form-group">
+        <label for="greeting-style-select">Greeting Mode</label>
+        <select id="greeting-style-select">
+          <option value="time-based">Time-of-Day Greeting (Morning/Afternoon/Evening)</option>
+          <option value="holiday-api">Today's Holiday / Observance (Calendarific API)</option>
+        </select>
+      </div>
+
       <button id="save-settings-btn" class="btn primary-btn w-full mt-20" type="button">
         Save Preferences
       </button>
@@ -134,7 +144,9 @@
     const API_SOURCES = {
       dummyJson: 'https://dummyjson.com/quotes/random',
       zenQuotes: 'https://api.allorigins.win/raw?url=https://zenquotes.io/api/random',
-      uselessFacts: 'https://uselessfacts.jsph.pl/api/v2/facts/random?language=en'
+      uselessFacts: 'https://uselessfacts.jsph.pl/api/v2/facts/random?language=en',
+      // Public Holidays API (No key required for general country holiday detection)
+      publicHolidays: 'https://date.nager.at/api/v3/NextPublicHolidaysWorldwide'
     };
 
     // --- FALLBACK LOCAL DATA (In case of network/offline issues) ---
@@ -151,6 +163,7 @@
     ];
 
     // --- DOM ELEMENTS ---
+    const greetingHeadingEl = document.getElementById('greeting-heading');
     const quoteTextEl = document.getElementById('quote-text');
     const quoteAuthorEl = document.getElementById('quote-author');
     const factTextEl = document.getElementById('fact-text');
@@ -161,7 +174,57 @@
     const closeDrawerBtn = document.getElementById('close-drawer-btn');
     const saveSettingsBtn = document.getElementById('save-settings-btn');
     const themeSelect = document.getElementById('theme-select');
+    const greetingStyleSelect = document.getElementById('greeting-style-select');
     const toast = document.getElementById('toast');
+
+    // --- TIME-OF-DAY GREETING LOGIC ---
+    function updateTimeBasedGreeting() {
+      const now = new Date();
+      const hour = now.getHours();
+
+      let greeting = "Hello & Welcome";
+
+      if (hour >= 5 && hour < 12) {
+        greeting = "Good Morning ☀️";
+      } else if (hour >= 12 && hour < 17) {
+        greeting = "Good Afternoon 🌤️";
+      } else if (hour >= 17 && hour < 22) {
+        greeting = "Good Evening 🌙";
+      } else {
+        greeting = "Good Night ✨";
+      }
+
+      greetingHeadingEl.textContent = greeting;
+    }
+
+    // --- OPTIONAL HOLIDAY/OBSERVANCE API GREETING ---
+    async function fetchHolidayGreeting() {
+      try {
+        const res = await fetch(API_SOURCES.publicHolidays);
+        if (!res.ok) throw new Error("Holiday API failed");
+        const holidays = await res.json();
+        
+        if (holidays && holidays.length > 0) {
+          const nearestHoliday = holidays[0];
+          greetingHeadingEl.textContent = `Happy ${nearestHoliday.localName}! 🎉`;
+        } else {
+          updateTimeBasedGreeting();
+        }
+      } catch (err) {
+        console.warn("Using default time-of-day greeting:", err);
+        updateTimeBasedGreeting();
+      }
+    }
+
+    // --- UPDATE GREETING BASED ON USER PREFERENCE ---
+    function applyGreetingPreference() {
+      const mode = greetingStyleSelect ? greetingStyleSelect.value : 'time-based';
+      if (mode === 'holiday-api') {
+        fetchHolidayGreeting();
+      } else {
+        updateTimeBasedGreeting();
+      }
+    }
 
     // --- FETCH QUOTE VIA PUBLIC API ---
     async function fetchQuote() {
@@ -217,6 +280,7 @@
 
     // --- MASTER REFRESH FUNCTION ---
     function loadNewContent() {
+      applyGreetingPreference();
       fetchQuote();
       fetchFact();
     }
@@ -254,6 +318,7 @@
       saveSettingsBtn.addEventListener('click', () => {
         const selectedTheme = themeSelect.value;
         document.body.className = `${selectedTheme} min-h-screen font-sans antialiased`;
+        applyGreetingPreference();
         closeDrawer();
         showToast("Preferences saved!");
       });
