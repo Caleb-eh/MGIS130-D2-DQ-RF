@@ -161,13 +161,66 @@
   <!-- JAVASCRIPT INTEGRATION LOGIC -->
   <script>
     // --- API ENDPOINT MAPPINGS BY SUBJECT/TOPIC ---
+    // Primary & secondary CORS-friendly endpoints per category
     const QUOTE_ENDPOINTS = {
-      philosophy: 'https://dummyjson.com/quotes/random',
-      inspirational: 'https://api.allorigins.win/raw?url=https://zenquotes.io/api/random',
-      technology: 'https://api.quotable.io/quotes/random?tags=technology',
-      history: 'https://api.quotable.io/quotes/random?tags=history',
-      literature: 'https://api.quotable.io/quotes/random?tags=literature',
-      sports: 'https://api.quotable.io/quotes/random?tags=sports'
+      philosophy: [
+        'https://dummyjson.com/quotes/random',
+        'https://api.quotable.io/quotes/random?tags=wisdom'
+      ],
+      inspirational: [
+        'https://api.quotable.io/quotes/random?tags=inspirational|motivational',
+        'https://dummyjson.com/quotes/random'
+      ],
+      technology: [
+        'https://api.quotable.io/quotes/random?tags=technology|science',
+        'https://dummyjson.com/quotes/random'
+      ],
+      history: [
+        'https://api.quotable.io/quotes/random?tags=history|famous-quotes',
+        'https://dummyjson.com/quotes/random'
+      ],
+      literature: [
+        'https://api.quotable.io/quotes/random?tags=literature|poetry',
+        'https://dummyjson.com/quotes/random'
+      ],
+      sports: [
+        'https://api.quotable.io/quotes/random?tags=sports|competition',
+        'https://dummyjson.com/quotes/random'
+      ]
+    };
+
+    // Emergency offline/fallback quote pool grouped by category
+    const LOCAL_QUOTE_BACKUPS = {
+      philosophy: [
+        { text: "The unexamined life is not worth living.", author: "Socrates" },
+        { text: "Happiness depends upon ourselves.", author: "Aristotle" },
+        { text: "He who has a why to live can bear almost any how.", author: "Friedrich Nietzsche" }
+      ],
+      inspirational: [
+        { text: "The best way to predict the future is to create it.", author: "Peter Drucker" },
+        { text: "Act as if what you do makes a difference. It does.", author: "William James" },
+        { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" }
+      ],
+      technology: [
+        { text: "Any sufficiently advanced technology is indistinguishable from magic.", author: "Arthur C. Clarke" },
+        { text: "Innovation distinguishes between a leader and a follower.", author: "Steve Jobs" },
+        { text: "Technology is best when it brings people together.", author: "Matt Mullenweg" }
+      ],
+      history: [
+        { text: "Those who cannot remember the past are condemned to repeat it.", author: "George Santayana" },
+        { text: "History will be kind to me for I intend to write it.", author: "Winston Churchill" },
+        { text: "The more you know about the past, the better prepared you are for the future.", author: "Theodore Roosevelt" }
+      ],
+      literature: [
+        { text: "A reader lives a thousand lives before he dies. The man who never reads lives only one.", author: "George R.R. Martin" },
+        { text: "It is never too late to be what you might have been.", author: "George Eliot" },
+        { text: "There is no friend as loyal as a book.", author: "Ernest Hemingway" }
+      ],
+      sports: [
+        { text: "You miss 100% of the shots you don't take.", author: "Wayne Gretzky" },
+        { text: "It's not whether you get knocked down, it's whether you get up.", author: "Vince Lombardi" },
+        { text: "Hard work beats talent when talent fails to work hard.", author: "Tim Notke" }
+      ]
     };
 
     const FACT_ENDPOINTS = {
@@ -248,7 +301,7 @@
       }
     }
 
-    // --- FETCH QUOTE DIRECTLY FROM API ---
+    // --- FETCH QUOTE DIRECTLY WITH API MULTI-STAGE FALLBACK ---
     async function fetchQuote() {
       quoteTextEl.textContent = "Fetching quote...";
       quoteAuthorEl.textContent = "";
@@ -257,33 +310,44 @@
       const selectedOptionText = categorySelect.options[categorySelect.selectedIndex].text.split('(')[0].trim();
       quoteCategoryLabelEl.textContent = `Quote • ${selectedOptionText}`;
 
-      try {
-        const endpoint = QUOTE_ENDPOINTS[selectedCategory] || QUOTE_ENDPOINTS.philosophy;
-        const res = await fetch(endpoint);
-        if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+      const endpoints = QUOTE_ENDPOINTS[selectedCategory] || QUOTE_ENDPOINTS.philosophy;
 
-        const data = await res.json();
+      // Try fetching from available primary and secondary API endpoints
+      for (const url of endpoints) {
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 4000); // 4 sec timeout
 
-        if (Array.isArray(data) && data[0]?.q) {
-          quoteTextEl.textContent = `"${data[0].q}"`;
-          quoteAuthorEl.textContent = `— ${data[0].a}`;
-        } else if (Array.isArray(data) && data[0]?.content) {
-          quoteTextEl.textContent = `"${data[0].content}"`;
-          quoteAuthorEl.textContent = `— ${data[0].author}`;
-        } else if (data.content) {
-          quoteTextEl.textContent = `"${data.content}"`;
-          quoteAuthorEl.textContent = `— ${data.author}`;
-        } else if (data.quote) {
-          quoteTextEl.textContent = `"${data.quote}"`;
-          quoteAuthorEl.textContent = `— ${data.author}`;
-        } else {
-          throw new Error("Unrecognized quote payload structure");
+          const res = await fetch(url, { signal: controller.signal });
+          clearTimeout(timeoutId);
+
+          if (!res.ok) continue;
+
+          const data = await res.json();
+
+          if (Array.isArray(data) && data[0]?.content) {
+            quoteTextEl.textContent = `"${data[0].content}"`;
+            quoteAuthorEl.textContent = `— ${data[0].author}`;
+            return;
+          } else if (data.content) {
+            quoteTextEl.textContent = `"${data.content}"`;
+            quoteAuthorEl.textContent = `— ${data.author}`;
+            return;
+          } else if (data.quote) {
+            quoteTextEl.textContent = `"${data.quote}"`;
+            quoteAuthorEl.textContent = `— ${data.author}`;
+            return;
+          }
+        } catch (err) {
+          console.warn(`Attempt failed for endpoint (${url}):`, err.message);
         }
-      } catch (err) {
-        console.error("Quote API Fetch Error:", err);
-        quoteTextEl.textContent = "Unable to load quote from API. Please check your network connection and try again.";
-        quoteAuthorEl.textContent = "— API Unavailable";
       }
+
+      // Emergency fallback if all network APIs fail
+      const backupList = LOCAL_QUOTE_BACKUPS[selectedCategory] || LOCAL_QUOTE_BACKUPS.philosophy;
+      const randomQuote = backupList[Math.floor(Math.random() * backupList.length)];
+      quoteTextEl.textContent = `"${randomQuote.text}"`;
+      quoteAuthorEl.textContent = `— ${randomQuote.author}`;
     }
 
     // --- FETCH FACT DIRECTLY FROM API ---
