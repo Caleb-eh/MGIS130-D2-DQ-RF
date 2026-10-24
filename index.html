@@ -100,12 +100,12 @@
         <label for="theme-select"><i class="fa-solid fa-palette mr-2"></i>App Visual Theme</label>
         <select id="theme-select">
           <option value="theme-philosophy">Philosophy & Wisdom</option>
-          <option value="theme-movie">Iconic Movies</option>
-          <option value="theme-athlete">Athletic Greatness</option>
-          <option value="theme-lyrics">Song Lyrics</option>
-          <option value="theme-cyberpunk">Cyberpunk Neon</option>
+          <option value="theme-inspirational">Inspirational & Life</option>
+          <option value="theme-technology">Technology & Science</option>
+          <option value="theme-history">History & Classics</option>
+          <option value="theme-literature">Literature & Poetry</option>
+          <option value="theme-sports">Athletics & Competition</option>
           <option value="theme-forest">Emerald Forest</option>
-          <option value="theme-sunset">Sunset Serenade</option>
           <option value="theme-nordic">Nordic Frost</option>
         </select>
       </div>
@@ -114,8 +114,8 @@
       <div class="form-group">
         <label for="category-select"><i class="fa-solid fa-quote-left mr-2"></i>Quote Subject</label>
         <select id="category-select">
-          <option value="philosophy">Wisdom & Philosophy (DummyJSON)</option>
-          <option value="inspirational">Inspirational & Life (ZenQuotes)</option>
+          <option value="philosophy">Wisdom & Philosophy (DummyJSON API)</option>
+          <option value="inspirational">Inspirational & Life (ZenQuotes API)</option>
           <option value="technology">Technology & Science (Quotable API)</option>
           <option value="history">Historical & Classics (Quotable API)</option>
           <option value="literature">Literature & Poetry (Quotable API)</option>
@@ -127,7 +127,7 @@
       <div class="form-group">
         <label for="fact-topic-select"><i class="fa-solid fa-lightbulb mr-2"></i>Fact Topic</label>
         <select id="fact-topic-select">
-          <option value="useless">General Trivia & Fun Facts (UselessFacts)</option>
+          <option value="useless">General Trivia & Fun Facts (UselessFacts API)</option>
           <option value="trivia">Math & Number Trivia (Numbers API)</option>
           <option value="date">Historical Events & Dates (Numbers API)</option>
           <option value="year">Year in History Trivia (Numbers API)</option>
@@ -166,49 +166,14 @@
 
     const FACT_ENDPOINTS = {
       useless: 'https://uselessfacts.jsph.pl/api/v2/facts/random?language=en',
-      trivia: 'http://numbersapi.com/random/trivia?json',
-      date: 'http://numbersapi.com/random/date?json',
-      year: 'http://numbersapi.com/random/year?json'
+      trivia: 'https://numbersapi.com/random/trivia?json',
+      date: 'https://numbersapi.com/random/date?json',
+      year: 'https://numbersapi.com/random/year?json'
     };
 
     const API_SOURCES = {
       publicHolidays: 'https://date.nager.at/api/v3/NextPublicHolidaysWorldwide'
     };
-
-    // --- FALLBACK LOCAL DATA ---
-    const FALLBACK_QUOTES = {
-      philosophy: [
-        { quote: "The only true wisdom is in knowing you know nothing.", author: "Socrates" },
-        { quote: "He who has a why to live can bear almost any how.", author: "Friedrich Nietzsche" }
-      ],
-      inspirational: [
-        { quote: "It always seems impossible until it's done.", author: "Nelson Mandela" },
-        { quote: "Life is what happens when you're busy making other plans.", author: "John Lennon" }
-      ],
-      technology: [
-        { quote: "Technology is best when it brings people together.", author: "Matt Mullenweg" },
-        { quote: "It has become appallingly obvious that our technology has exceeded our humanity.", author: "Albert Einstein" }
-      ],
-      history: [
-        { quote: "History is written by the victors.", author: "Winston Churchill" },
-        { quote: "Those who cannot remember the past are condemned to repeat it.", author: "George Santayana" }
-      ],
-      literature: [
-        { quote: "There is no friend as loyal as a book.", author: "Ernest Hemingway" },
-        { quote: "Words are, in my not-so-humble opinion, our most inexhaustible source of magic.", author: "J.K. Rowling" }
-      ],
-      sports: [
-        { quote: "You miss 100% of the shots you don't take.", author: "Wayne Gretzky" },
-        { quote: "I've failed over and over and over again in my life. And that is why I succeed.", author: "Michael Jordan" }
-      ]
-    };
-
-    const FALLBACK_FACTS = [
-      "Honey never spoils. Archaeologists have found 3,000-year-old edible honey in Egyptian tombs.",
-      "A day on Venus is longer than a year on Venus.",
-      "Bananas are naturally slightly radioactive because they contain high levels of potassium.",
-      "The shortest war in history lasted 38 minutes between Britain and Zanzibar in 1896."
-    ];
 
     // --- DOM ELEMENTS ---
     const greetingHeadingEl = document.getElementById('greeting-heading');
@@ -271,7 +236,7 @@
       }
     }
 
-    // --- FETCH QUOTE BASED ON SELECTED CATEGORY ---
+    // --- FETCH QUOTE DIRECTLY FROM API ---
     async function fetchQuote() {
       quoteTextEl.textContent = "Fetching quote...";
       quoteAuthorEl.textContent = "";
@@ -283,7 +248,7 @@
       try {
         const endpoint = QUOTE_ENDPOINTS[selectedCategory] || QUOTE_ENDPOINTS.philosophy;
         const res = await fetch(endpoint);
-        if (!res.ok) throw new Error("API request failed");
+        if (!res.ok) throw new Error(`HTTP error ${res.status}`);
 
         const data = await res.json();
 
@@ -292,11 +257,11 @@
           quoteTextEl.textContent = `"${data[0].q}"`;
           quoteAuthorEl.textContent = `— ${data[0].a}`;
         } else if (Array.isArray(data) && data[0]?.content) {
-          // Quotable structure (array return)
+          // Quotable array structure
           quoteTextEl.textContent = `"${data[0].content}"`;
           quoteAuthorEl.textContent = `— ${data[0].author}`;
         } else if (data.content) {
-          // Quotable single object return
+          // Quotable single object
           quoteTextEl.textContent = `"${data.content}"`;
           quoteAuthorEl.textContent = `— ${data.author}`;
         } else if (data.quote) {
@@ -304,18 +269,16 @@
           quoteTextEl.textContent = `"${data.quote}"`;
           quoteAuthorEl.textContent = `— ${data.author}`;
         } else {
-          throw new Error("Unknown response format");
+          throw new Error("Unrecognized quote payload structure");
         }
       } catch (err) {
-        console.warn("Using fallback quote category:", err);
-        const categoryList = FALLBACK_QUOTES[selectedCategory] || FALLBACK_QUOTES.philosophy;
-        const randomQuote = categoryList[Math.floor(Math.random() * categoryList.length)];
-        quoteTextEl.textContent = `"${randomQuote.quote}"`;
-        quoteAuthorEl.textContent = `— ${randomQuote.author}`;
+        console.error("Quote API Fetch Error:", err);
+        quoteTextEl.textContent = "Unable to load quote from API. Please check your network connection and try again.";
+        quoteAuthorEl.textContent = "— API Unavailable";
       }
     }
 
-    // --- FETCH FACT BASED ON SELECTED TOPIC ---
+    // --- FETCH FACT DIRECTLY FROM API ---
     async function fetchFact() {
       factTextEl.textContent = "Fetching fact...";
 
@@ -326,23 +289,18 @@
       try {
         const endpoint = FACT_ENDPOINTS[selectedTopic] || FACT_ENDPOINTS.useless;
         const res = await fetch(endpoint);
-        if (!res.ok) throw new Error("API request failed");
+        if (!res.ok) throw new Error(`HTTP error ${res.status}`);
 
         const data = await res.json();
 
         if (data.text) {
-          // UselessFacts API
-          factTextEl.textContent = data.text;
-        } else if (data.text && data.number !== undefined) {
-          // Numbers API
           factTextEl.textContent = data.text;
         } else {
-          throw new Error("Unknown fact payload format");
+          throw new Error("Unrecognized fact payload structure");
         }
       } catch (err) {
-        console.warn("Using fallback fact data:", err);
-        const randomFact = FALLBACK_FACTS[Math.floor(Math.random() * FALLBACK_FACTS.length)];
-        factTextEl.textContent = randomFact;
+        console.error("Fact API Fetch Error:", err);
+        factTextEl.textContent = "Unable to load fact from API. Please check your network connection and try again.";
       }
     }
 
