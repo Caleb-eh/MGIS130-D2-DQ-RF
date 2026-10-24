@@ -8,7 +8,467 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Global Reset & Base Layout */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      position: relative;
+      overflow-x: hidden;
+      color: var(--text-main, #ffffff);
+      background-color: var(--bg-primary, #0f172a);
+      transition: background-color 0.4s ease, color 0.4s ease;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    .bg-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-image: var(--bg-image, linear-gradient(135deg, #0f172a 0%, #1e293b 100%));
+      background-size: cover;
+      background-position: center;
+      z-index: -1;
+      transition: all 0.5s ease-in-out;
+      filter: brightness(0.65) blur(2px);
+      transform: scale(1.02);
+    }
+
+    /* THEMES */
+    body.theme-philosophy {
+      --bg-primary: #0b1329;
+      --bg-secondary: rgba(15, 23, 42, 0.85);
+      --bg-card: rgba(15, 23, 42, 0.82);
+      --border-card: rgba(251, 191, 36, 0.3);
+      --accent: #fbbf24;
+      --accent-hover: #f59e0b;
+      --text-main: #ffffff;
+      --text-muted: #cbd5e1;
+      --quote-color: #fef3c7;
+      --bg-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2000&auto=format&fit=crop');
+      --shadow-glow: rgba(251, 191, 36, 0.25);
+    }
+
+    body.theme-inspirational {
+      --bg-primary: #1c0a27;
+      --bg-secondary: rgba(45, 16, 58, 0.85);
+      --bg-card: rgba(35, 12, 48, 0.82);
+      --border-card: rgba(251, 146, 60, 0.35);
+      --accent: #fb923c;
+      --accent-hover: #f97316;
+      --text-main: #ffffff;
+      --text-muted: #fed7aa;
+      --quote-color: #ffedd5;
+      --bg-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2000&auto=format&fit=crop');
+      --shadow-glow: rgba(251, 146, 60, 0.3);
+    }
+
+    body.theme-technology {
+      --bg-primary: #030712;
+      --bg-secondary: rgba(17, 24, 39, 0.9);
+      --bg-card: rgba(15, 23, 42, 0.88);
+      --border-card: rgba(6, 182, 212, 0.4);
+      --accent: #06b6d4;
+      --accent-hover: #0891b2;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --quote-color: #cff4fc;
+      --bg-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2000&auto=format&fit=crop');
+      --shadow-glow: rgba(6, 182, 212, 0.35);
+    }
+
+    body.theme-history {
+      --bg-primary: #1c1917;
+      --bg-secondary: rgba(41, 37, 36, 0.88);
+      --bg-card: rgba(28, 25, 23, 0.85);
+      --border-card: rgba(217, 119, 6, 0.35);
+      --accent: #d97706;
+      --accent-hover: #b45309;
+      --text-main: #f5f5f4;
+      --text-muted: #d6d3d1;
+      --quote-color: #fef3c7;
+      --bg-image: url('https://images.unsplash.com/photo-1461360370896-922624d12aa1?q=80&w=2000&auto=format&fit=crop');
+      --shadow-glow: rgba(217, 119, 6, 0.3);
+    }
+
+    body.theme-literature {
+      --bg-primary: #1e1b4b;
+      --bg-secondary: rgba(30, 27, 75, 0.85);
+      --bg-card: rgba(24, 20, 68, 0.82);
+      --border-card: rgba(168, 85, 247, 0.35);
+      --accent: #a855f7;
+      --accent-hover: #9333ea;
+      --text-main: #ffffff;
+      --text-muted: #e9d5ff;
+      --quote-color: #f3e8ff;
+      --bg-image: url('https://images.unsplash.com/photo-1457369804613-52c61a468e7d?q=80&w=2000&auto=format&fit=crop');
+      --shadow-glow: rgba(168, 85, 247, 0.3);
+    }
+
+    body.theme-sports {
+      --bg-primary: #022c22;
+      --bg-secondary: rgba(6, 78, 59, 0.85);
+      --bg-card: rgba(4, 47, 38, 0.82);
+      --border-card: rgba(34, 197, 94, 0.35);
+      --accent: #22c55e;
+      --accent-hover: #16a34a;
+      --text-main: #ffffff;
+      --text-muted: #bbf7d0;
+      --quote-color: #dcfce7;
+      --bg-image: url('https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=2000&auto=format&fit=crop');
+      --shadow-glow: rgba(34, 197, 94, 0.3);
+    }
+
+    body.theme-forest {
+      --bg-primary: #052e16;
+      --bg-secondary: rgba(20, 83, 45, 0.85);
+      --bg-card: rgba(20, 83, 45, 0.8);
+      --border-card: rgba(74, 222, 128, 0.3);
+      --accent: #4ade80;
+      --accent-hover: #22c55e;
+      --text-main: #ffffff;
+      --text-muted: #dcfce7;
+      --quote-color: #f0fdf4;
+      --bg-image: url('https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=2000&auto=format&fit=crop');
+      --shadow-glow: rgba(74, 222, 128, 0.25);
+    }
+
+    body.theme-nordic {
+      --bg-primary: #0f172a;
+      --bg-secondary: rgba(30, 41, 59, 0.88);
+      --bg-card: rgba(15, 23, 42, 0.85);
+      --border-card: rgba(56, 189, 248, 0.3);
+      --accent: #38bdf8;
+      --accent-hover: #0284c7;
+      --text-main: #f8fafc;
+      --text-muted: #cbd5e1;
+      --quote-color: #e0f2fe;
+      --bg-image: url('https://images.unsplash.com/photo-1517411032315-54ef2cb783bb?q=80&w=2000&auto=format&fit=crop');
+      --shadow-glow: rgba(56, 189, 248, 0.25);
+    }
+
+    /* LAYOUT */
+    .main-screen {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1.5rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .greeting-heading {
+      font-size: 1.875rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: var(--accent);
+      text-shadow: 0 0 15px var(--shadow-glow);
+    }
+
+    .datetime-widget {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.2rem;
+    }
+
+    .dot-separator { opacity: 0.5; }
+    .tagline {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      opacity: 0.8;
+      margin-top: 0.15rem;
+    }
+
+    .hamburger-btn {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-card);
+      padding: 0.75rem;
+      border-radius: 0.75rem;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(8px);
+    }
+
+    .hamburger-btn:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 12px var(--shadow-glow);
+    }
+
+    .hamburger-btn .bar {
+      width: 22px;
+      height: 2px;
+      background-color: var(--text-main);
+      border-radius: 2px;
+    }
+
+    .content-wrapper {
+      margin: 2rem 0;
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .content-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 1.25rem;
+      padding: 1.75rem;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(12px);
+      transition: transform 0.2s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 12px 30px -5px var(--shadow-glow);
+    }
+
+    .card-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .card-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+    }
+
+    .icon-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1rem;
+      cursor: pointer;
+      padding: 0.35rem;
+      border-radius: 0.5rem;
+      transition: color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .icon-btn:hover {
+      color: var(--accent);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .quote-body {
+      font-size: 1.25rem;
+      line-height: 1.6;
+      font-weight: 500;
+      color: var(--quote-color);
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+
+    .author {
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-align: right;
+      color: var(--accent);
+    }
+
+    .fact-card {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: var(--text-main);
+    }
+
+    .actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 0.85rem 1.75rem;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+    }
+
+    .primary-btn {
+      background-color: var(--accent);
+      color: #000000;
+      box-shadow: 0 4px 14px var(--shadow-glow);
+    }
+
+    .primary-btn:hover {
+      background-color: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--shadow-glow);
+    }
+
+    .keyboard-hint {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      opacity: 0.7;
+    }
+
+    kbd {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 0.25rem;
+      padding: 0.1rem 0.4rem;
+      font-family: monospace;
+    }
+
+    /* DRAWER */
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 40;
+    }
+
+    .drawer-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      max-width: 380px;
+      height: 100%;
+      background: var(--bg-secondary);
+      border-left: 1px solid var(--border-card);
+      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+      padding: 2rem;
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      backdrop-filter: blur(16px);
+      overflow-y: auto;
+    }
+
+    .drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .drawer-header h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .close-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-main);
+      font-size: 1.75rem;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s ease;
+    }
+
+    .close-btn:hover { color: var(--accent); }
+
+    .form-group { margin-bottom: 1.5rem; }
+
+    .form-group label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text-main);
+    }
+
+    .form-group select {
+      width: 100%;
+      padding: 0.75rem;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border-card);
+      border-radius: 0.5rem;
+      color: var(--text-main);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .form-group select:focus { border-color: var(--accent); }
+
+    .toast-message {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--accent);
+      color: #000000;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      border-radius: 2rem;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 60;
+      pointer-events: none;
+    }
+
+    .toast-message.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  </style>
 </head>
 <body class="theme-philosophy min-h-screen font-sans antialiased">
 
@@ -124,12 +584,12 @@
       <div class="form-group">
         <label for="category-select"><i class="fa-solid fa-quote-left mr-2"></i>Quote Subject</label>
         <select id="category-select">
-          <option value="philosophy">Wisdom & Philosophy (DummyJSON API)</option>
-          <option value="inspirational">Inspirational & Life (ZenQuotes API)</option>
-          <option value="technology">Technology & Science (Quotable API)</option>
-          <option value="history">Historical & Classics (Quotable API)</option>
-          <option value="literature">Literature & Poetry (Quotable API)</option>
-          <option value="sports">Athletics & Competition (Quotable API)</option>
+          <option value="philosophy">Wisdom & Philosophy</option>
+          <option value="inspirational">Inspirational & Life</option>
+          <option value="technology">Technology & Science</option>
+          <option value="history">Historical & Classics</option>
+          <option value="literature">Literature & Poetry</option>
+          <option value="sports">Athletics & Competition</option>
         </select>
       </div>
 
@@ -137,10 +597,10 @@
       <div class="form-group">
         <label for="fact-topic-select"><i class="fa-solid fa-lightbulb mr-2"></i>Fact Topic</label>
         <select id="fact-topic-select">
-          <option value="useless">General Trivia & Fun Facts (UselessFacts API)</option>
-          <option value="trivia">Math & Number Trivia (Numbers API)</option>
-          <option value="date">Historical Events & Dates (Numbers API)</option>
-          <option value="year">Year in History Trivia (Numbers API)</option>
+          <option value="useless">General Trivia & Fun Facts</option>
+          <option value="trivia">Math & Number Trivia</option>
+          <option value="date">Historical Events & Dates</option>
+          <option value="year">Year in History Trivia</option>
         </select>
       </div>
 
@@ -149,7 +609,7 @@
         <label for="greeting-style-select"><i class="fa-solid fa-clock mr-2"></i>Greeting Header</label>
         <select id="greeting-style-select">
           <option value="time-based">Time-of-Day Greeting (Morning/Afternoon/Evening)</option>
-          <option value="holiday-api">Today's Holiday / Observance (Nager.Date API)</option>
+          <option value="holiday-api">Today's Holiday / Observance</option>
         </select>
       </div>
 
@@ -164,93 +624,70 @@
 
   <!-- JAVASCRIPT INTEGRATION LOGIC -->
   <script>
-    // --- HIGH-AVAILABILITY HTTPS API ENDPOINTS BY CATEGORY ---
-    const QUOTE_ENDPOINTS = {
-      philosophy: [
-        'https://dummyjson.com/quotes/random',
-        'https://api.adviceslip.com/advice'
-      ],
-      inspirational: [
-        'https://dummyjson.com/quotes/random',
-        'https://api.adviceslip.com/advice'
-      ],
-      technology: [
-        'https://dummyjson.com/quotes/random',
-        'https://api.adviceslip.com/advice'
-      ],
-      history: [
-        'https://dummyjson.com/quotes/random',
-        'https://api.adviceslip.com/advice'
-      ],
-      literature: [
-        'https://dummyjson.com/quotes/random',
-        'https://api.adviceslip.com/advice'
-      ],
-      sports: [
-        'https://dummyjson.com/quotes/random',
-        'https://api.adviceslip.com/advice'
-      ]
-    };
-
-    // Rich subject-specific database guaranteed to match every selected subject category
-    const LOCAL_QUOTE_BACKUPS = {
+    // Strict Subject-Specific Quote Repositories
+    const QUOTE_DATABASE = {
       philosophy: [
         { text: "The unexamined life is not worth living.", author: "Socrates" },
         { text: "Happiness depends upon ourselves.", author: "Aristotle" },
         { text: "He who has a why to live can bear almost any how.", author: "Friedrich Nietzsche" },
         { text: "We are what we repeatedly do. Excellence, then, is not an act, but a habit.", author: "Aristotle" },
-        { text: "The only true wisdom is in knowing you know nothing.", author: "Socrates" }
+        { text: "The only true wisdom is in knowing you know nothing.", author: "Socrates" },
+        { text: "Waste no more time arguing about what a good man should be. Be one.", author: "Marcus Aurelius" },
+        { text: "You have power over your mind - not outside events. Realize this, and you will find strength.", author: "Marcus Aurelius" },
+        { text: "Life must be understood backward. But it must be lived forward.", author: "Søren Kierkegaard" }
       ],
       inspirational: [
         { text: "The best way to predict the future is to create it.", author: "Peter Drucker" },
         { text: "Act as if what you do makes a difference. It does.", author: "William James" },
         { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
         { text: "You must be the change you wish to see in the world.", author: "Mahatma Gandhi" },
-        { text: "Your time is limited, so don't waste it living someone else's life.", author: "Steve Jobs" }
+        { text: "Your time is limited, so don't waste it living someone else's life.", author: "Steve Jobs" },
+        { text: "It always seems impossible until it's done.", author: "Nelson Mandela" },
+        { text: "Keep your face always toward the sunshine—and shadows will fall behind you.", author: "Walt Whitman" }
       ],
       technology: [
         { text: "Any sufficiently advanced technology is indistinguishable from magic.", author: "Arthur C. Clarke" },
         { text: "Innovation distinguishes between a leader and a follower.", author: "Steve Jobs" },
         { text: "Technology is best when it brings people together.", author: "Matt Mullenweg" },
         { text: "It's not a faith in technology. It's faith in people.", author: "Steve Jobs" },
-        { text: "The Web as I envisaged it, we have not seen it yet.", author: "Tim Berners-Lee" }
+        { text: "The Web as I envisaged it, we have not seen it yet.", author: "Tim Berners-Lee" },
+        { text: "Software is eating the world.", author: "Marc Andreessen" },
+        { text: "Computers are incredibly fast, accurate, and stupid. Human beings are incredibly slow, inaccurate, and brilliant. Together they are powerful beyond measure.", author: "Albert Einstein" }
       ],
       history: [
         { text: "Those who cannot remember the past are condemned to repeat it.", author: "George Santayana" },
         { text: "History will be kind to me for I intend to write it.", author: "Winston Churchill" },
         { text: "The more you know about the past, the better prepared you are for the future.", author: "Theodore Roosevelt" },
         { text: "History is a wheel, for the nature of man is fundamentally unchanging.", author: "George R.R. Martin" },
-        { text: "A people without the knowledge of their past history is like a tree without roots.", author: "Marcus Garvey" }
+        { text: "A people without the knowledge of their past history is like a tree without roots.", author: "Marcus Garvey" },
+        { text: "Study the past if you would define the future.", author: "Confucius" }
       ],
       literature: [
         { text: "A reader lives a thousand lives before he dies. The man who never reads lives only one.", author: "George R.R. Martin" },
         { text: "It is never too late to be what you might have been.", author: "George Eliot" },
         { text: "There is no friend as loyal as a book.", author: "Ernest Hemingway" },
         { text: "Words are, in my not-so-humble opinion, our most inexhaustible source of magic.", author: "J.K. Rowling" },
-        { text: "There is no agony like bearing an untold story inside you.", author: "Maya Angelou" }
+        { text: "There is no agony like bearing an untold story inside you.", author: "Maya Angelou" },
+        { text: "Not all those who wander are lost.", author: "J.R.R. Tolkien" }
       ],
       sports: [
         { text: "You miss 100% of the shots you don't take.", author: "Wayne Gretzky" },
         { text: "It's not whether you get knocked down, it's whether you get up.", author: "Vince Lombardi" },
         { text: "Hard work beats talent when talent fails to work hard.", author: "Tim Notke" },
         { text: "I've failed over and over and over again in my life. And that is why I succeed.", author: "Michael Jordan" },
-        { text: "The more difficult the victory, the greater the happiness in winning.", author: "Pelé" }
+        { text: "The more difficult the victory, the greater the happiness in winning.", author: "Pelé" },
+        { text: "Float like a butterfly, sting like a bee.", author: "Muhammad Ali" }
       ]
     };
 
-    const FACT_ENDPOINTS = {
-      useless: [
-        'https://uselessfacts.jsph.pl/api/v2/facts/random?language=en'
-      ],
-      trivia: [
-        'https://catfact.ninja/fact'
-      ],
-      date: [
-        'https://uselessfacts.jsph.pl/api/v2/facts/random?language=en'
-      ],
-      year: [
-        'https://dogapi.dog/api/v2/facts'
-      ]
+    // Category endpoint map with fallback strategy
+    const QUOTE_TAG_MAP = {
+      philosophy: 'philosophy,wisdom',
+      inspirational: 'inspirational,motivational',
+      technology: 'technology,science',
+      history: 'history,history-classics',
+      literature: 'literature,poetry',
+      sports: 'sports,competition'
     };
 
     const LOCAL_FACT_BACKUPS = {
@@ -284,11 +721,7 @@
       ]
     };
 
-    const API_SOURCES = {
-      publicHolidays: 'https://date.nager.at/api/v3/NextPublicHolidaysWorldwide'
-    };
-
-    // --- DOM ELEMENTS ---
+    // DOM Elements
     const greetingHeadingEl = document.getElementById('greeting-heading');
     const userNameInput = document.getElementById('user-name-input');
     const quoteTextEl = document.getElementById('quote-text');
@@ -311,7 +744,7 @@
     const copyQuoteBtn = document.getElementById('copy-quote-btn');
     const copyFactBtn = document.getElementById('copy-fact-btn');
 
-    // --- TIME-OF-DAY GREETING LOGIC ---
+    // Time-based greeting
     function updateTimeBasedGreeting() {
       const now = new Date();
       const hour = now.getHours();
@@ -327,13 +760,12 @@
       greetingHeadingEl.textContent = `${timeGreeting}${nameSuffix}`;
     }
 
-    // --- HOLIDAY / OBSERVANCE API GREETING ---
     async function fetchHolidayGreeting() {
       const userName = userNameInput?.value?.trim();
       const nameSuffix = userName ? `, ${userName}` : '';
 
       try {
-        const res = await fetch(API_SOURCES.publicHolidays);
+        const res = await fetch('https://date.nager.at/api/v3/NextPublicHolidaysWorldwide');
         if (!res.ok) throw new Error("Holiday API failed");
         const holidays = await res.json();
         
@@ -356,136 +788,101 @@
       }
     }
 
-    // --- FETCH QUOTE GUARANTEEING SUBJECT ACCURACY ---
+    // Strictly Subject-Accurate Quote Fetcher
     async function fetchQuote() {
       quoteTextEl.textContent = "Fetching quote...";
       quoteAuthorEl.textContent = "";
 
       const selectedCategory = categorySelect.value || 'philosophy';
-      const selectedOptionText = categorySelect.options[categorySelect.selectedIndex].text.split('(')[0].trim();
+      const selectedOptionText = categorySelect.options[categorySelect.selectedIndex].text.trim();
       quoteCategoryLabelEl.textContent = `Quote • ${selectedOptionText}`;
 
-      // Pick directly from subject curated bank to ensure 100% topic relevance
-      const backupList = LOCAL_QUOTE_BACKUPS[selectedCategory] || LOCAL_QUOTE_BACKUPS.philosophy;
-      const randomQuote = backupList[Math.floor(Math.random() * backupList.length)];
+      const tag = QUOTE_TAG_MAP[selectedCategory] || 'famous-quotes';
+      const apiUrl = `https://api.quotable.io/random?tags=${tag}`;
 
-      const endpoints = QUOTE_ENDPOINTS[selectedCategory] || QUOTE_ENDPOINTS.philosophy;
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2500);
 
-      // Attempt live API fetch with timeout
-      for (const url of endpoints) {
-        try {
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 3000);
+        const res = await fetch(apiUrl, { signal: controller.signal });
+        clearTimeout(timeoutId);
 
-          const res = await fetch(url, { signal: controller.signal });
-          clearTimeout(timeoutId);
-
-          if (!res.ok) continue;
-
+        if (res.ok) {
           const data = await res.json();
-
-          let fetchedText = null;
-          let fetchedAuthor = null;
-
-          if (data.quote) {
-            fetchedText = data.quote;
-            fetchedAuthor = data.author || 'Unknown';
-          } else if (data.slip && data.slip.advice) {
-            fetchedText = data.slip.advice;
-            fetchedAuthor = "Wisdom Insight";
-          }
-
-          if (fetchedText) {
-            quoteTextEl.textContent = `"${fetchedText}"`;
-            quoteAuthorEl.textContent = `— ${fetchedAuthor}`;
+          if (data && data.content) {
+            quoteTextEl.textContent = `"${data.content}"`;
+            quoteAuthorEl.textContent = `— ${data.author || 'Unknown'}`;
             return;
           }
-        } catch (err) {
-          console.warn(`Quote endpoint attempt failed:`, err.message);
         }
+      } catch (err) {
+        console.warn("API quote fetch failed/timed out, using category curated quote:", err.message);
       }
 
-      // Display curated subject-matched quote
+      // Fallback: Pick guaranteed subject-matched quote from local database
+      const categoryQuotes = QUOTE_DATABASE[selectedCategory] || QUOTE_DATABASE.philosophy;
+      const randomQuote = categoryQuotes[Math.floor(Math.random() * categoryQuotes.length)];
+
       quoteTextEl.textContent = `"${randomQuote.text}"`;
       quoteAuthorEl.textContent = `— ${randomQuote.author}`;
     }
 
-    // --- FETCH FACT GUARANTEEING TOPIC ACCURACY ---
+    // Fact Fetcher
     async function fetchFact() {
       factTextEl.textContent = "Fetching fact...";
 
       const selectedTopic = factTopicSelect.value || 'useless';
-      const selectedOptionText = factTopicSelect.options[factTopicSelect.selectedIndex].text.split('(')[0].trim();
+      const selectedOptionText = factTopicSelect.options[factTopicSelect.selectedIndex].text.trim();
       factCategoryLabelEl.textContent = `Fact • ${selectedOptionText}`;
 
       const backupList = LOCAL_FACT_BACKUPS[selectedTopic] || LOCAL_FACT_BACKUPS.useless;
       const randomFact = backupList[Math.floor(Math.random() * backupList.length)];
 
-      const endpoints = FACT_ENDPOINTS[selectedTopic] || FACT_ENDPOINTS.useless;
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2500);
 
-      for (const endpoint of endpoints) {
-        try {
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 3000);
+        const res = await fetch('https://uselessfacts.jsph.pl/api/v2/facts/random?language=en', { signal: controller.signal });
+        clearTimeout(timeoutId);
 
-          const res = await fetch(endpoint, { signal: controller.signal });
-          clearTimeout(timeoutId);
-
-          if (!res.ok) continue;
-
+        if (res.ok) {
           const data = await res.json();
-
-          let fetchedFact = null;
-          if (data.text) fetchedFact = data.text;
-          else if (data.fact) fetchedFact = data.fact;
-          else if (data.data && Array.isArray(data.data) && data.data[0]?.attributes?.body) {
-            fetchedFact = data.data[0].attributes.body;
-          }
-
-          if (fetchedFact) {
-            factTextEl.textContent = fetchedFact;
+          if (data && data.text) {
+            factTextEl.textContent = data.text;
             return;
           }
-        } catch (err) {
-          console.warn(`Fact endpoint attempt failed:`, err.message);
         }
+      } catch (err) {
+        console.warn("Fact API fetch failed, using local fallback.");
       }
 
-      // Display curated topic-matched fact
       factTextEl.textContent = randomFact;
     }
 
-    // --- MASTER REFRESH FUNCTION ---
     function loadNewContent() {
       applyGreetingPreference();
       fetchQuote();
       fetchFact();
     }
 
-    // --- RANDOMIZE EVERYTHING (THEMES, CATEGORIES, CONTENT) ---
     function randomizeEverything() {
-      // Pick random theme
       const themes = Array.from(themeSelect.options).map(opt => opt.value);
       const randomTheme = themes[Math.floor(Math.random() * themes.length)];
       themeSelect.value = randomTheme;
       document.body.className = `${randomTheme} min-h-screen font-sans antialiased`;
 
-      // Pick random quote subject
       const quoteCategories = Array.from(categorySelect.options).map(opt => opt.value);
       const randomCategory = quoteCategories[Math.floor(Math.random() * quoteCategories.length)];
       categorySelect.value = randomCategory;
 
-      // Pick random fact topic
       const factTopics = Array.from(factTopicSelect.options).map(opt => opt.value);
       const randomTopic = factTopics[Math.floor(Math.random() * factTopics.length)];
       factTopicSelect.value = randomTopic;
 
-      // Fetch new quote & fact with newly picked choices
       loadNewContent();
       showToast("Randomized theme, quote, and fact!");
     }
 
-    // --- DRAWER CONTROLS ---
     function openDrawer() {
       drawer.classList.add('open');
       backdrop.classList.add('active');
@@ -496,29 +893,42 @@
       backdrop.classList.remove('active');
     }
 
-    // --- COPY TO CLIPBOARD HELPERS ---
     function copyToClipboard(text, label) {
-      navigator.clipboard.writeText(text).then(() => {
-        showToast(`Copied ${label} to clipboard!`);
-      }).catch(() => {
-        showToast("Failed to copy text.");
-      });
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(`Copied ${label} to clipboard!`);
+        }).catch(() => {
+          fallbackCopyText(text, label);
+        });
+      } else {
+        fallbackCopyText(text, label);
+      }
     }
 
-    // --- INITIALIZATION & EVENT LISTENERS ---
+    function fallbackCopyText(text, label) {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        showToast(`Copied ${label} to clipboard!`);
+      } catch (err) {
+        showToast("Failed to copy text.");
+      }
+      document.body.removeChild(textArea);
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       loadNewContent();
 
-      // Refresh Button & Spacebar
       refreshBtn.addEventListener('click', loadNewContent);
 
-      // Randomize Button & Key Listener
       if (randomizeBtn) {
         randomizeBtn.addEventListener('click', randomizeEverything);
       }
 
       document.addEventListener('keydown', (e) => {
-        // Prevent keypresses when typing in input fields
         if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
 
         if (e.code === 'Space') {
@@ -530,12 +940,10 @@
         }
       });
 
-      // Drawer Events
       openDrawerBtn.addEventListener('click', openDrawer);
       closeDrawerBtn.addEventListener('click', closeDrawer);
       backdrop.addEventListener('click', closeDrawer);
 
-      // Copy Buttons
       copyQuoteBtn.addEventListener('click', () => {
         const fullQuote = `${quoteTextEl.textContent} ${quoteAuthorEl.textContent}`;
         copyToClipboard(fullQuote, 'quote');
@@ -545,7 +953,6 @@
         copyToClipboard(factTextEl.textContent, 'fact');
       });
 
-      // Save Preferences
       saveSettingsBtn.addEventListener('click', () => {
         const selectedTheme = themeSelect.value;
         document.body.className = `${selectedTheme} min-h-screen font-sans antialiased`;
@@ -554,7 +961,6 @@
         showToast("Preferences & Topics updated!");
       });
 
-      // Update Date & Time Display
       const updateClock = () => {
         const now = new Date();
         document.getElementById('current-date').textContent = now.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
@@ -565,7 +971,6 @@
       setInterval(updateClock, 60000);
     });
 
-    // Helper Toast Notification
     function showToast(msg) {
       toast.textContent = msg;
       toast.classList.add('show');
