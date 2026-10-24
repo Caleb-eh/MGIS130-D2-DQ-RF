@@ -160,36 +160,36 @@
 
   <!-- JAVASCRIPT INTEGRATION LOGIC -->
   <script>
-    // --- API ENDPOINT MAPPINGS BY SUBJECT/TOPIC ---
-    // Primary & secondary CORS-friendly endpoints per category
+    // --- RELIABLE API ENDPOINT MAPPINGS BY SUBJECT/TOPIC ---
+    // Replaced dead Quotable API endpoints with high-availability CORS-friendly public APIs
     const QUOTE_ENDPOINTS = {
       philosophy: [
         'https://dummyjson.com/quotes/random',
-        'https://api.quotable.io/quotes/random?tags=wisdom'
+        'https://api.adviceslip.com/advice'
       ],
       inspirational: [
-        'https://api.quotable.io/quotes/random?tags=inspirational|motivational',
-        'https://dummyjson.com/quotes/random'
+        'https://dummyjson.com/quotes/random',
+        'https://api.adviceslip.com/advice'
       ],
       technology: [
-        'https://api.quotable.io/quotes/random?tags=technology|science',
-        'https://dummyjson.com/quotes/random'
+        'https://dummyjson.com/quotes/random',
+        'https://api.adviceslip.com/advice'
       ],
       history: [
-        'https://api.quotable.io/quotes/random?tags=history|famous-quotes',
-        'https://dummyjson.com/quotes/random'
+        'https://dummyjson.com/quotes/random',
+        'https://api.adviceslip.com/advice'
       ],
       literature: [
-        'https://api.quotable.io/quotes/random?tags=literature|poetry',
-        'https://dummyjson.com/quotes/random'
+        'https://dummyjson.com/quotes/random',
+        'https://api.adviceslip.com/advice'
       ],
       sports: [
-        'https://api.quotable.io/quotes/random?tags=sports|competition',
-        'https://dummyjson.com/quotes/random'
+        'https://dummyjson.com/quotes/random',
+        'https://api.adviceslip.com/advice'
       ]
     };
 
-    // Emergency offline/fallback quote pool grouped by category
+    // Curated offline fallback pool ensuring no category ever fails
     const LOCAL_QUOTE_BACKUPS = {
       philosophy: [
         { text: "The unexamined life is not worth living.", author: "Socrates" },
@@ -301,7 +301,7 @@
       }
     }
 
-    // --- FETCH QUOTE DIRECTLY WITH API MULTI-STAGE FALLBACK ---
+    // --- FETCH QUOTE DIRECTLY WITH MULTI-STAGE PARSING ---
     async function fetchQuote() {
       quoteTextEl.textContent = "Fetching quote...";
       quoteAuthorEl.textContent = "";
@@ -325,17 +325,18 @@
 
           const data = await res.json();
 
-          if (Array.isArray(data) && data[0]?.content) {
-            quoteTextEl.textContent = `"${data[0].content}"`;
-            quoteAuthorEl.textContent = `— ${data[0].author}`;
+          // Standardize payload parsing across APIs (DummyJSON, AdviceSlip, etc.)
+          if (data.quote) {
+            quoteTextEl.textContent = `"${data.quote}"`;
+            quoteAuthorEl.textContent = `— ${data.author || 'Unknown'}`;
+            return;
+          } else if (data.slip && data.slip.advice) {
+            quoteTextEl.textContent = `"${data.slip.advice}"`;
+            quoteAuthorEl.textContent = `— Wisdom Insight`;
             return;
           } else if (data.content) {
             quoteTextEl.textContent = `"${data.content}"`;
-            quoteAuthorEl.textContent = `— ${data.author}`;
-            return;
-          } else if (data.quote) {
-            quoteTextEl.textContent = `"${data.quote}"`;
-            quoteAuthorEl.textContent = `— ${data.author}`;
+            quoteAuthorEl.textContent = `— ${data.author || 'Unknown'}`;
             return;
           }
         } catch (err) {
@@ -343,7 +344,7 @@
         }
       }
 
-      // Emergency fallback if all network APIs fail
+      // Seamless local backup fallback if remote services fail
       const backupList = LOCAL_QUOTE_BACKUPS[selectedCategory] || LOCAL_QUOTE_BACKUPS.philosophy;
       const randomQuote = backupList[Math.floor(Math.random() * backupList.length)];
       quoteTextEl.textContent = `"${randomQuote.text}"`;
